@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 
 namespace CommandHandling.Abstractions
 {
-    interface IHandleCommand
+    public interface IHandleCommand<in TCommand> where TCommand : Acommand
     {
+        Task Handle(TCommand command);
     }
 }
