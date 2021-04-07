@@ -1,13 +1,12 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DataAccess
+namespace CommandHandling.Abstractions
 {
-    class Class1
+    interface IHandleCommand
     {
-         public int MyProperty { get; set; }
     }
 }
