@@ -9,5 +9,6 @@ namespace DataAccess
     class ClassTest
     {
         public int ID { get; set; }
+        public string Name { get; set; }
     }
 }
