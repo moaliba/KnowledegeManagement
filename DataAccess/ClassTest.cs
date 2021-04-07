@@ -8,5 +8,6 @@ namespace DataAccess
 {
     class ClassTest
     {
+        public int ID { get; set; }
     }
 }
