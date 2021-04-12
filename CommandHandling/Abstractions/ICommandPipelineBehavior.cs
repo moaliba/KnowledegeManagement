@@ -6,6 +6,6 @@ namespace CommandHandling.Abstractions
 {
     public interface ICommandPipelineBehavior<Tcommand>where Tcommand:Acommand
     {
-        public Task Handle(Tcommand command, Func<Task> next, CancellationToken Token);
+        public Task Handle(Tcommand command, CancellationToken Token, Func<Task> next);
     }
 }
