@@ -1,23 +1,22 @@
 ﻿using DomainModel;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UseCases.RepositoryContracts;
+using UseCases.RepositoryInfrastractureContracts;
 
 namespace DataAccess.Repositories
 {
-    public class TeamRepository : ITeamRepository
+    public class TeamRepository : Repository, ITeamRepository
     {
-        public void Add(Team team)
+        public TeamRepository(IWriteDBContext dBContext) : base(dBContext)
         {
-            throw new NotImplementedException();
         }
 
-        public bool IsExist(string teamName)
+        public void Add(Team team)
         {
-            throw new NotImplementedException();
+            _dbContex.Teams.Add(team);
+            SaveChanges();
         }
+
+        public bool IsExist(string teamName) => _dbContex.Teams.FirstOrDefault(c => c.Title == teamName) != null;
     }
 }

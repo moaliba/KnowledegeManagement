@@ -20,7 +20,10 @@ namespace CommandHandlers.TeamHandlers
 
         public Task Handle(DefineTeamCommand command)
         {
-            teamRepository.Add(new DomainModel.Team() { TeamId = command.TeamId, Title = command.Title });
+            if (!teamRepository.IsExist(command.Title))
+                teamRepository.Add(new DomainModel.Team() { TeamId = command.TeamId, Title = command.Title });
+            else
+                throw new Exception("Team is already exist!!!");
             return Task.CompletedTask;
         }
     }
