@@ -5,8 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CommandHandling.MediatRAdopter
 {
@@ -14,7 +12,7 @@ namespace CommandHandling.MediatRAdopter
     {
 
         public static IServiceCollection AddCommandHandlersFromAssembly<T>(this IServiceCollection services)
-           => AddCommandHandlersFromAssembly(services, Assembly.GetAssembly(typeof(T)));
+        => AddCommandHandlersFromAssembly(services, Assembly.GetAssembly(typeof(T)));
 
         public static IServiceCollection AddCommandHandlersFromAssembly(this IServiceCollection services, Assembly assembly)
         {

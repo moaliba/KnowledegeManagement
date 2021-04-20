@@ -13,10 +13,10 @@ namespace DataAccess.Repositories
 
         public void Add(Team team)
         {
-            _dbContex.Teams.Add(team);
+            _dbContex.Team.Add(team);
             SaveChanges();
         }
 
-        public bool IsExist(string teamName) => _dbContex.Teams.FirstOrDefault(c => c.Title == teamName) != null;
+        public bool IsExist(string teamName) => _dbContex.Team.FirstOrDefault(c => c.Title == teamName) != null;
     }
 }

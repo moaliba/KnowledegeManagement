@@ -1,7 +1,10 @@
 using CommandHandlers.TeamHandlers;
+using CommandHandling.Abstractions;
 using CommandHandling.MediatRAdopter;
+using Commands.TeamCommands;
 using DataAccess.Repositories;
 using DataSource;
+using MediatR;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -31,13 +34,15 @@ namespace KnowledgeManagementAPI
             services.AddDbContext<WriteDBContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("KnowledgeManagementDBConnection")));
             services.AddDbContext<WriteDBContext>();
-            services.AddScoped<IWriteDBContext, WriteDBContext>(x=> x.GetService<WriteDBContext>());
+            services.AddScoped<IWriteDBContext, WriteDBContext>(x => x.GetService<WriteDBContext>());
             services.AddScoped<IUnitOfWork, WriteDBContext>(x => x.GetService<WriteDBContext>());
             ///////////////////////////////////////////////////////
             services.AddScoped<ITeamRepository, TeamRepository>();
-            services.AddScoped<ITeamRepository, TeamRepository>(x=> x.GetService<TeamRepository>());
+            //services.AddScoped<ITeamRepository, TeamRepository>(x => x.GetService<TeamRepository>());
             ///////////////////////////////////////////////////////
 
+            //services.AddScoped<IHandleCommand<DefineTeamCommand>, DefineTeamCommandHandler>();
+            //services.AddScoped<IRequestHandler<MediatRCommandEnvelope<DefineTeamCommand>, Unit>, MediatRHandlerAdopte<DefineTeamCommand>>();
 
             services.AddCommandHandlersFromAssembly<DefineTeamCommandHandler>();
 

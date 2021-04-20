@@ -11,6 +11,6 @@ namespace DataSource
             Database.EnsureCreated();
         }
 
-        public DbSet<Team> Teams { get; set; }
+        public DbSet<Team> Team { get; set; }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace CommandHandling.Abstractions
 {
-    interface ICommandBus
+    public interface ICommandBus
     {
         public Task Send<Tcommand>(Tcommand command) where Tcommand : Acommand;
     }
