@@ -30,5 +30,15 @@ namespace KnowledgeManagementAPI.Controllers
             await _CommandBus.Send<DefineTeamCommand>(new DefineTeamCommand(new Guid(), TeamDefinition.Title));
             return Ok();
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Get()
+        {
+            //if (TeamDefinition is null)
+                throw new ArgumentNullException("THIS IS TEST...");
+
+            //await _CommandBus.Send<DefineTeamCommand>(new DefineTeamCommand(new Guid(), TeamDefinition.Title));
+            //return Ok();
+        }
     }
 }
