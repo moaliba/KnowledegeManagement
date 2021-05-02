@@ -14,5 +14,9 @@ namespace UseCases.RepositoryContracts
         bool IsExist(string teamName);
 
         IEnumerable<Team> GetAllTeams();
+
+        void Delete(Team team);
+
+       Team Find(Guid id);
     }
 }

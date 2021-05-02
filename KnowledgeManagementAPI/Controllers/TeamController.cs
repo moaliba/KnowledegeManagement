@@ -41,5 +41,13 @@ namespace KnowledgeManagementAPI.Controllers
             return Ok(Response);
             //return Ok("THIS IS TEST...");
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(Guid id)
+        {
+            await _CommandBus.Send<DeleteTeamCommand>(new DeleteTeamCommand(id));        
+            return Ok();
+
+        }
     }
 }
