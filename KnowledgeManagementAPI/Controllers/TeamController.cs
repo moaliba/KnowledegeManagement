@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UseCases.RepositoryContracts;
 
 namespace KnowledgeManagementAPI.Controllers
 {
@@ -15,10 +16,12 @@ namespace KnowledgeManagementAPI.Controllers
     public class TeamController : ControllerBase
     {
         readonly ICommandBus _CommandBus;
+        readonly ITeamRepository teamRepository;
 
-        public TeamController(ICommandBus _CommandBus)
+        public TeamController(ICommandBus _CommandBus, ITeamRepository teamRepository)
         {
             this._CommandBus = _CommandBus;
+            this.teamRepository = teamRepository;
         }
 
         [HttpPost]
@@ -34,11 +37,9 @@ namespace KnowledgeManagementAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            //if (TeamDefinition is null)
-                throw new ArgumentNullException("THIS IS TEST...");
-
-            //await _CommandBus.Send<DefineTeamCommand>(new DefineTeamCommand(new Guid(), TeamDefinition.Title));
-            //return Ok();
+            var Response =  teamRepository.GetAllTeams();
+            return Ok(Response);
+            //return Ok("THIS IS TEST...");
         }
     }
 }
