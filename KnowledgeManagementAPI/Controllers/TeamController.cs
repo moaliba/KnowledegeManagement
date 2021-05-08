@@ -42,12 +42,30 @@ namespace KnowledgeManagementAPI.Controllers
             //return Ok("THIS IS TEST...");
         }
 
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(Guid id)
+        {
+            var Response = teamRepository.Find(id);
+            return Ok(Response);
+        }
+
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(Guid id)
         {
             await _CommandBus.Send<DeleteTeamCommand>(new DeleteTeamCommand(id));        
             return Ok();
 
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Put(Guid id, [FromBody] TeamDefinitionDTO input)
+        {
+            if (input is null)
+                throw new ArgumentNullException(nameof(input));
+
+            await _CommandBus.Send<ChangeTeamTitleCommand>(new ChangeTeamTitleCommand(id, input.Title));
+            return Ok();
         }
     }
 }

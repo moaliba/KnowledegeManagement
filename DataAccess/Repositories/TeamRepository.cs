@@ -39,5 +39,13 @@ namespace DataAccess.Repositories
             _dbContex.Team.Remove(team);
             _unitOfWork.SaveChanges();
         }
+
+        public void ChangeTeamTitle(Team team)
+        {
+            _dbContex.Team.Update(team);
+            _unitOfWork.SaveChanges();
+        }
+
+    
     }
 }

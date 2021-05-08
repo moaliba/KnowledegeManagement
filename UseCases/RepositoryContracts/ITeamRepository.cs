@@ -17,6 +17,9 @@ namespace UseCases.RepositoryContracts
 
         void Delete(Team team);
 
-       Team Find(Guid id);
+        Team Find(Guid id);
+
+        void ChangeTeamTitle(Team team);
     }
+     
 }
