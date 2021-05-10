@@ -5,5 +5,5 @@ using System.Collections.Generic;
 
 namespace ReadModels.Query.Team
 {
-    public record GetAllTeamsQuery(Guid Id) : Query<TeamViewModel>;
+    public record GetAllTeamsQuery(Guid Id) : Query<TeamViewModelOutPut>;
 }
