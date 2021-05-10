@@ -1,11 +1,22 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace DomainModel
 {
-    public class Team
+    public sealed class Team
     {
-        public Guid TeamId { get; set; }
+        [Key]
+        public Guid TeamId { get; }
 
-        public string Title { get; set; }
+        public string Title { get; }
+
+        public static Team Add(Guid TeamId, string Title)
+            => new(TeamId, Title);
+
+        Team(Guid TeamId, string Title)
+        {
+            this.TeamId = TeamId;
+            this.Title = Title;
+        }
     }
 }

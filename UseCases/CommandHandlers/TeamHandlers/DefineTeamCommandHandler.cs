@@ -1,9 +1,7 @@
 ﻿using CommandHandling.Abstractions;
 using Commands.TeamCommands;
+using DomainModel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using UseCases.RepositoryContracts;
 
@@ -21,7 +19,7 @@ namespace CommandHandlers.TeamHandlers
         public Task Handle(DefineTeamCommand command)
         {
             if (!teamRepository.IsExist(command.Title))
-                teamRepository.Add(new DomainModel.Team() { TeamId = command.TeamId, Title = command.Title });
+                teamRepository.Add(Team.Add(command.TeamId, command.Title));
             else
                 throw new Exception("Team is already exist!!!");
             return Task.CompletedTask;

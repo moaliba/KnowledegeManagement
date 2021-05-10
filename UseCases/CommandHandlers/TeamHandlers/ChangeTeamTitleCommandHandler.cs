@@ -1,9 +1,7 @@
 ﻿using CommandHandling.Abstractions;
 using Commands.TeamCommands;
+using DomainModel;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using UseCases.RepositoryContracts;
 
@@ -18,15 +16,14 @@ namespace UseCases.CommandHandlers.TeamHandlers
 
         public Task Handle(ChangeTeamTitleCommand command)
         {
-            var team = teamRepository.Find(command.Id);
+            Team team = teamRepository.Find(command.Id);
             if (team == null)
                 throw new Exception("Team does not found!!!");
             else if (teamRepository.IsExist(command.Title))
                 throw new Exception("Title is already exist!!!");
             else
             {
-                team.Title = command.Title;
-                teamRepository.ChangeTeamTitle(team);
+                teamRepository.ChangeTeamTitle(Team.Add(team.TeamId, command.Title));
             }
             
 

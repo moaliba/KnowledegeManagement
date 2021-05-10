@@ -35,16 +35,16 @@ namespace KnowledgeManagementAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get()
+        public IActionResult Get()
         {
-            var Response =  teamRepository.GetAllTeams();
+            var Response = teamRepository.GetAllTeams();
             return Ok(Response);
             //return Ok("THIS IS TEST...");
         }
 
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(Guid id)
+        public IActionResult Get(Guid id)
         {
             var Response = teamRepository.Find(id);
             return Ok(Response);
