@@ -14,6 +14,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using QueryHandling.MediatRAdopter;
+using ReadModels;
+using ReadModels.QueryHandler.TeamQueryHandler;
+using System;
 using UseCases.RepositoryContracts;
 using UseCases.RepositoryInfrastractureContracts;
 
@@ -33,7 +37,10 @@ namespace KnowledgeManagementAPI
         {
             services.AddDbContext<WriteDBContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("KnowledgeManagementDBConnection")));
+            services.AddDbContext<ReadDbContext>(options =>
+                    options.UseSqlServer(Configuration.GetConnectionString("KnowledgeManagementDBConnection")));
             services.AddDbContext<WriteDBContext>();
+            services.AddScoped<IReadDbContext, ReadDbContext>();
             services.AddScoped<IWriteDBContext, WriteDBContext>(x => x.GetService<WriteDBContext>());
             services.AddScoped<IUnitOfWork, WriteDBContext>(x => x.GetService<WriteDBContext>());
             ///////////////////////////////////////////////////////
@@ -45,6 +52,8 @@ namespace KnowledgeManagementAPI
             //services.AddScoped<IRequestHandler<MediatRCommandEnvelope<DefineTeamCommand>, Unit>, MediatRHandlerAdopte<DefineTeamCommand>>();
 
             services.AddCommandHandlersFromAssembly<DefineTeamCommandHandler>();
+            services.AddQueryHandlersFromAssembly<GetAllTeamsQueryhandler>();
+
             services.AddCors(options =>
             {
                 options.AddDefaultPolicy(
