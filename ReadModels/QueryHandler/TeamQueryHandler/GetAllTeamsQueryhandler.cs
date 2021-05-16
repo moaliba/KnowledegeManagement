@@ -1,4 +1,5 @@
-﻿using QueryHandling.Abstractions;
+﻿using Microsoft.EntityFrameworkCore;
+using QueryHandling.Abstractions;
 using ReadModels.Query.Team;
 using ReadModels.ViewModel.Team;
 using System.Collections.Generic;
@@ -25,8 +26,16 @@ namespace ReadModels.QueryHandler.TeamQueryHandler
                 TeamId = c.TeamId,
                 Title = c.Title
             }).AsEnumerable());
-            
-            return new TeamViewModelOutPut() { TeamViewModels = result };
+
+            //DbSet<DomainModel.Team> teams = _ReadContext.Team;
+            //var result = _ReadContext.Team.Select(c => new TeamViewModel()
+            //{
+            //    TeamId = c.TeamId,
+            //    Title = c.Title
+            //}).AsEnumerable();
+
+            var teamresult = new TeamViewModelOutPut() { TeamViewModels = result };
+            return teamresult;
         }
     }
 }

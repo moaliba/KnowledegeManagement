@@ -1,9 +1,10 @@
-﻿using System;
+﻿using QueryHandling.Abstractions;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace ReadModels.ViewModel.Team
 {
-    public class TeamViewModel
+    public class TeamViewModel : IAmAViewModel
     {
         [Key]
         public Guid TeamId { get; set; }

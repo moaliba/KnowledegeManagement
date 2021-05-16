@@ -20,7 +20,7 @@ namespace UseCases.CommandHandlers.TeamHandlers
         {
             var team = teamRepository.Find(command.Id);
             if (team == null)
-                throw new Exception("Team does not found!!!");
+                throw new Exception("Team is not found!!!");
             else
                 teamRepository.Delete(team);
 

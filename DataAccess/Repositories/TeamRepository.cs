@@ -7,6 +7,7 @@ using System.Linq;
 using UseCases.RepositoryContracts;
 using UseCases.RepositoryInfrastractureContracts;
 
+
 namespace DataAccess.Repositories
 {
     public class TeamRepository : Repository, ITeamRepository
@@ -19,30 +20,31 @@ namespace DataAccess.Repositories
 
         public void Add(Team team)
         {
-            _dbContex.Team.Add(team);
+            _dbContex.Teams.Add(team);
             //new WriteDBContext().SaveChanges();
             _unitOfWork.SaveChanges();
         }
 
-        public bool IsExist(string teamName) => _dbContex.Team.FirstOrDefault(c => c.Title == teamName) != null;
+        public bool IsExist(string teamName) => _dbContex.Teams.FirstOrDefault(c => c.Title == teamName) != null;
 
-        public IEnumerable<Team> GetAllTeams() => _dbContex.Team;
+        public IEnumerable<Team> GetAllTeams() => _dbContex.Teams;
 
 
         public Team Find(Guid id)
         {
-            return _dbContex.Team.Find(id);
+            return _dbContex.Teams.Find(id);
         }
 
         public void Delete(Team team)
         {
-            _dbContex.Team.Remove(team);
+            _dbContex.Teams.Remove(team);
             _unitOfWork.SaveChanges();
         }
 
         public void ChangeTeamTitle(Team team)
         {
-            _dbContex.Team.Update(team);
+            
+            _dbContex.Teams.Update(team);
             _unitOfWork.SaveChanges();
         }
 

@@ -15,6 +15,8 @@
     <ProjectReference Include="..\CommandHandling\CommandHandling.csproj" />
     <ProjectReference Include="..\DataAccess\DataAccess.csproj" />
     <ProjectReference Include="..\DataSource\DataSource.csproj" />
+    <ProjectReference Include="..\QueryHandling\QueryHandling.csproj" />
+    <ProjectReference Include="..\ReadModels\ReadModels.csproj" />
   </ItemGroup>
 
 </Project>

@@ -3,6 +3,9 @@ using Commands.TeamCommands;
 using KnowledgeManagementAPI.DTOs;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using QueryHandling.Abstractions;
+using ReadModels.Query.Team;
+using ReadModels.ViewModel.Team;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,12 +19,13 @@ namespace KnowledgeManagementAPI.Controllers
     public class TeamController : ControllerBase
     {
         readonly ICommandBus _CommandBus;
-        readonly ITeamRepository teamRepository;
+        readonly IQueryBus _QueryBus;
 
-        public TeamController(ICommandBus _CommandBus, ITeamRepository teamRepository)
+
+        public TeamController(ICommandBus _CommandBus, IQueryBus _QueryBus, ITeamRepository teamRepository)
         {
             this._CommandBus = _CommandBus;
-            this.teamRepository = teamRepository;
+            this._QueryBus = _QueryBus;
         }
 
         [HttpPost]
@@ -35,18 +39,20 @@ namespace KnowledgeManagementAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<ActionResult<TeamViewModelOutPut>> Get()
         {
-            var Response = teamRepository.GetAllTeams();
+            var Response = await _QueryBus.Send<TeamViewModelOutPut, GetAllTeamsQuery>(new GetAllTeamsQuery(Guid.NewGuid()));
+            //var Response = teamRepository.GetAllTeams();
             return Ok(Response);
             //return Ok("THIS IS TEST...");
         }
 
 
         [HttpGet("{id}")]
-        public IActionResult Get(Guid id)
+        public async Task<ActionResult<TeamViewModel>> Get(Guid id)
         {
-            var Response = teamRepository.Find(id);
+            var Response = await  _QueryBus.Send<TeamViewModel, GetTeamQuery>(new GetTeamQuery(id));
+          //var Response = teamRepository.Find(id);
             return Ok(Response);
         }
 

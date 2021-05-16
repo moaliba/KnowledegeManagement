@@ -3,8 +3,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace UseCases.RepositoryInfrastractureContracts
 {
-    public interface IWriteDBContext
+    public interface IWriteDBContext 
     {
-        public DbSet<Team> Team { get; set; }
+        public DbSet<Team> Teams { get; set; }
     }
 }

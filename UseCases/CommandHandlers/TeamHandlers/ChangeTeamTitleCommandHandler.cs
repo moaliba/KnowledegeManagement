@@ -18,12 +18,13 @@ namespace UseCases.CommandHandlers.TeamHandlers
         {
             Team team = teamRepository.Find(command.Id);
             if (team == null)
-                throw new Exception("Team does not found!!!");
+                throw new Exception("Team is not found!!!");
             else if (teamRepository.IsExist(command.Title))
-                throw new Exception("Title is already exist!!!");
+                throw new Exception("Title is already existed!!!");
             else
             {
-                teamRepository.ChangeTeamTitle(Team.Add(team.TeamId, command.Title));
+                team.Title = command.Title;
+                teamRepository.ChangeTeamTitle(team);
             }
             
 

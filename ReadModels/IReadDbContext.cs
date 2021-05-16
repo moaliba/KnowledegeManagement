@@ -5,6 +5,6 @@ namespace ReadModels
 {
     public interface IReadDbContext
     {
-        DbSet<Team> Teams { get; set; }
+       public DbSet<Team> Teams { get; set; }
     }
 }
