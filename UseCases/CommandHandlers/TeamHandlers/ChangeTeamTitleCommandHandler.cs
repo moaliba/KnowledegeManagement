@@ -24,7 +24,7 @@ namespace UseCases.CommandHandlers.TeamHandlers
             else
             {
                 team.Title = command.Title;
-                teamRepository.ChangeTeamTitle(team);
+                teamRepository.Update(team);
             }
             
 

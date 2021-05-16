@@ -19,7 +19,7 @@ namespace UseCases.RepositoryContracts
 
         Team Find(Guid id);
 
-        void ChangeTeamTitle(Team team);
+        void Update(Team team);
     }
      
 }
