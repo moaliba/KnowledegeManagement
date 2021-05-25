@@ -23,7 +23,7 @@ namespace ReadModels.QueryHandler.TeamQueryHandler
             {
                 TeamViewModel result = new TeamViewModel()
                 {
-                    TeamId = team.TeamId,
+                    Id = team.TeamId,
                     Title = team.Title
                 };
 

@@ -19,9 +19,9 @@ namespace CommandHandlers.TeamHandlers
         public Task Handle(DefineTeamCommand command)
         {
             if (!teamRepository.IsExist(command.Title))
-                teamRepository.Add(new Team(command.TeamId, command.Title));
+                teamRepository.Add(Team.Create(command.TeamId, command.Title));
             else
-                throw new Exception("Team is already existed!!!");
+                throw new Exception("Team already exists!!!");
             return Task.CompletedTask;
         }
     }

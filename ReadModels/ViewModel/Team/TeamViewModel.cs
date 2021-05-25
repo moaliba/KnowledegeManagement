@@ -7,7 +7,7 @@ namespace ReadModels.ViewModel.Team
     public class TeamViewModel : IAmAViewModel
     {
         [Key]
-        public Guid TeamId { get; set; }
+        public Guid Id { get; set; }
 
         public string Title { get; set; }
     }

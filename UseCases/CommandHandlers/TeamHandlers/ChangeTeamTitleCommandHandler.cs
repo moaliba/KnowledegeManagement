@@ -20,10 +20,11 @@ namespace UseCases.CommandHandlers.TeamHandlers
             if (team == null)
                 throw new Exception("Team is not found!!!");
             else if (teamRepository.IsExist(command.Title))
-                throw new Exception("Title is already existed!!!");
+                throw new Exception("Title  already exists!!!");
             else
             {
-                team.Title = command.Title;
+                team.Rename(command.Title);
+               // team.Title = command.Title;
                 teamRepository.Update(team);
             }
             
