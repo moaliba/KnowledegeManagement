@@ -1,6 +1,6 @@
 ﻿using DomainModel;
 using Microsoft.EntityFrameworkCore;
-using UseCases.RepositoryInfrastractureContracts;
+using DataAccess;
 
 namespace DataSource
 {

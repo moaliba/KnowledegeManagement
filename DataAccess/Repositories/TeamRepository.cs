@@ -1,11 +1,9 @@
-﻿using DataSource;
-using DomainModel;
+﻿using DomainModel;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using UseCases.RepositoryContracts;
-using UseCases.RepositoryInfrastractureContracts;
 
 
 namespace DataAccess.Repositories

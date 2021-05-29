@@ -2,6 +2,7 @@ using CommandHandlers.TeamHandlers;
 using CommandHandling.Abstractions;
 using CommandHandling.MediatRAdopter;
 using Commands.TeamCommands;
+using DataAccess;
 using DataAccess.Repositories;
 using DataSource;
 using MediatR;
@@ -19,7 +20,7 @@ using ReadModels;
 using ReadModels.QueryHandler.TeamQueryHandler;
 using System;
 using UseCases.RepositoryContracts;
-using UseCases.RepositoryInfrastractureContracts;
+
 
 namespace KnowledgeManagementAPI
 {

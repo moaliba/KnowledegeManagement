@@ -1,7 +1,7 @@
 ﻿using DomainModel;
 using Microsoft.EntityFrameworkCore;
 
-namespace UseCases.RepositoryInfrastractureContracts
+namespace DataAccess
 {
     public interface IWriteDBContext 
     {
