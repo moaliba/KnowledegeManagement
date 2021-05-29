@@ -32,11 +32,7 @@ namespace ReadModels.QueryHandler.TeamQueryHandler
             //.AsEnumerable());
 
 
-            var result = _ReadContext.Teams.Select(c => new TeamViewModel()
-            {
-                Id = c.TeamId,
-                Title = c.Title
-            })
+            var result = _ReadContext.TeamViewModels
             .Where(t => t.Title.Contains(query.Title ?? string.Empty))
             .Skip((query.PageNumber - 1) * query.PageSize)
             .Take(query.PageSize);
@@ -55,7 +51,7 @@ namespace ReadModels.QueryHandler.TeamQueryHandler
 
             
 
-            var totalRecords = await _ReadContext.Teams.Where(t => t.Title.Contains(query.Title ?? string.Empty)).CountAsync();
+            var totalRecords = await _ReadContext.TeamViewModels.Where(t => t.Title.Contains(query.Title ?? string.Empty)).CountAsync();
 
             //DbSet<DomainModel.Team> teams = _ReadContext.Team;
             //var result = _ReadContext.Team.Select(c => new TeamViewModel()

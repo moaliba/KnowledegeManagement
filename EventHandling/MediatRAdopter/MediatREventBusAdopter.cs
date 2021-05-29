@@ -1,5 +1,6 @@
 using EventHandling.Abstractions;
 using MediatR;
+using System;
 using System.Threading.Tasks;
 
 namespace MediatRAdopter.EventHandling
@@ -15,7 +16,9 @@ namespace MediatRAdopter.EventHandling
 
         public async Task Publish<TEvent>(TEvent Event) where TEvent : AnEvent
         {
-            await mediator.Publish(new MediatREventEnvelope<TEvent>(Event));
+            var e = Activator.CreateInstance(typeof(MediatREventEnvelope<>).MakeGenericType(Event.GetType()), new[] { Event });
+            await mediator.Publish(e);
+            //await mediator.Publish(new MediatREventEnvelope<TEvent>(Event));
         }
     }
 }

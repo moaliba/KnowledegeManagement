@@ -1,17 +1,17 @@
-﻿using DomainModel;
+﻿using DataAccess;
 using Microsoft.EntityFrameworkCore;
 using ReadModels;
-using System;
+using ReadModels.ViewModel.Team;
 
 namespace DataSource
 {
-    public class ReadDbContext : DbContext, IReadDbContext
+    public class ReadDbContext : DbContext, IReadDbContext, IUnitOfWork
     {
         public ReadDbContext(DbContextOptions<ReadDbContext> options) :base(options)
         {
             Database.EnsureCreated();
         }
 
-        public DbSet<Team> Teams { get; set; }
+        public DbSet<TeamViewModel> TeamViewModels { get; set; }
     }
 }

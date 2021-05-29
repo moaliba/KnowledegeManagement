@@ -18,19 +18,10 @@ namespace ReadModels.QueryHandler.TeamQueryHandler
         }
         public Task<TeamViewModel> Handle(GetTeamQuery query)
         {
-           var team= _dbcontext.Teams.Find(query.TeamId);
-            if(team !=null)
-            {
-                TeamViewModel result = new TeamViewModel()
-                {
-                    Id = team.TeamId,
-                    Title = team.Title
-                };
-
-                return Task.FromResult(result);
-            }
-            else
-                throw new Exception("Team is not found!!!");
+            TeamViewModel team = _dbcontext.TeamViewModels.Find(query.TeamId);
+            if (team != null)
+                return Task.FromResult(team);
+            throw new Exception("Team is not found!!!");
 
         }
     }

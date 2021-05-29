@@ -15,11 +15,11 @@ namespace ReadModels.Projectors
 
         public Task Handle(TeamDefined e)
         {
-            ////dbContext.ProvinceViewModels.Add(new ProvinceViewModel
-            ////{
-            ////    Id = e.id,
-            ////    Name = e.Name
-            ////});
+            dbContext.TeamViewModels.Add(new ViewModel.Team.TeamViewModel
+            {
+                Id = e.TeamId,
+                Title = e.Title
+            });
             //dbContext.SaveChanges()
             Console.WriteLine("PROVINCE ADDED PROJECTED!!!!!!!!!!!");
             return Task.CompletedTask;
