@@ -8,9 +8,9 @@ namespace CommandHandling.MediatRAdopter
 {
     public class MediatRPipelineBehaviorAdopter<Tcommand> : IPipelineBehavior<MediatRCommandEnvelope<Tcommand>, Unit> where Tcommand : Acommand
     {
-        public ICommandPipelineBehavior<Tcommand> OurPipeLine { get; private set; }
+        public ICommandStation<Tcommand> OurPipeLine { get; private set; }
 
-        public MediatRPipelineBehaviorAdopter(ICommandPipelineBehavior<Tcommand> OurPipeLine)
+        public MediatRPipelineBehaviorAdopter(ICommandStation<Tcommand> OurPipeLine)
         {
             this.OurPipeLine = OurPipeLine;
         }

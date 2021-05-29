@@ -7,9 +7,9 @@ namespace DomainModel
     public sealed class Team : AggregateRoot
     {
         [Key]
-        public Guid TeamId { get; set; }
+        public Guid TeamId { get; private set; }
 
-        public string Title { get; set; }
+        public string Title { get; private set; }
 
         public static Team Create(Guid TeamId, string Title)
             => new(TeamId, Title);

@@ -35,7 +35,7 @@ namespace KnowledgeManagementAPI.Controllers
             if (TeamDefinition is null)
                 throw new ArgumentNullException(nameof(TeamDefinition));
 
-            await _CommandBus.Send<DefineTeamCommand>(new DefineTeamCommand(new Guid(), TeamDefinition.Title));
+            await _CommandBus.Send(DefineTeamCommand.Create(Guid.NewGuid(), TeamDefinition.Title));
             return Ok();
         }
 

@@ -40,21 +40,23 @@ namespace KnowledgeManagementAPI
                     options.UseSqlServer(Configuration.GetConnectionString("KnowledgeManagementDBConnection")));
             services.AddDbContext<ReadDbContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("KnowledgeManagementDBConnection")));
-            services.AddDbContext<WriteDBContext>();
-            services.AddScoped<IReadDbContext, ReadDbContext>();
-            services.AddScoped<IWriteDBContext, WriteDBContext>(x => x.GetService<WriteDBContext>());
-            services.AddScoped<IUnitOfWork, WriteDBContext>(x => x.GetService<WriteDBContext>());
+            ////services.AddScoped<IReadDbContext, ReadDbContext>();
+            ////services.AddScoped<IWriteDBContext, WriteDBContext>(x => x.GetService<WriteDBContext>());
+            ////services.AddScoped<IUnitOfWork, WriteDBContext>(x => x.GetService<WriteDBContext>());
             ///////////////////////////////////////////////////////
-            services.AddScoped<ITeamRepository, TeamRepository>();
+            ////services.AddScoped<ITeamRepository, TeamRepository>();
             //services.AddScoped<ITeamRepository, TeamRepository>(x => x.GetService<TeamRepository>());
             ///////////////////////////////////////////////////////
 
             //services.AddScoped<IHandleCommand<DefineTeamCommand>, DefineTeamCommandHandler>();
             //services.AddScoped<IRequestHandler<MediatRCommandEnvelope<DefineTeamCommand>, Unit>, MediatRHandlerAdopte<DefineTeamCommand>>();
 
-            services.AddCommandHandlersFromAssembly<DefineTeamCommandHandler>();
-            services.AddQueryHandlersFromAssembly<GetAllTeamsQueryhandler>();
+            ////services.AddCommandHandlersFromAssembly<DefineTeamCommandHandler>();
+            ////services.AddQueryHandlersFromAssembly<GetAllTeamsQueryhandler>();
 
+            ////services.AddBehavior<DefineTeamCommand, LoggingStation<DefineTeamCommand>>();
+            ////services.AddScoped<Filters.UnitOfWorkFilter>();
+            services.AddApplicationServices();
             services.AddCors(options =>
             {
                 options.AddDefaultPolicy(

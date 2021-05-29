@@ -1,5 +1,5 @@
 ﻿using DomainModel;
-using Microsoft.EntityFrameworkCore;
+using EventHandling.Abstractions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,17 +10,19 @@ namespace DataAccess.Repositories
 {
     public class TeamRepository : Repository, ITeamRepository
     {
-        readonly IUnitOfWork _unitOfWork;
-        public TeamRepository(IWriteDBContext dBContext, IUnitOfWork unitOfWork) : base(dBContext)
+        public IEventBus eventBus { get; set; }
+
+        public TeamRepository(IWriteDBContext dBContext, IEventBus eventBus) : base(dBContext)
         {
-            this._unitOfWork = unitOfWork;
+            this.eventBus = eventBus;
         }
 
         public void Add(Team team)
         {
+            foreach (AnEvent e in team.Events)
+                eventBus.Publish(e);
+            team.ClearEvents();
             _dbContex.Teams.Add(team);
-            //new WriteDBContext().SaveChanges();
-            _unitOfWork.SaveChanges();
         }
 
         public bool IsExist(string teamName) => _dbContex.Teams.FirstOrDefault(c => c.Title == teamName) != null;
@@ -36,14 +38,11 @@ namespace DataAccess.Repositories
         public void Delete(Team team)
         {
             _dbContex.Teams.Remove(team);
-            _unitOfWork.SaveChanges();
         }
 
         public void Update(Team team)
         {
-            
-            _dbContex.Teams.Update(team);
-            _unitOfWork.SaveChanges();
+            //_dbContex.Teams.Update(team);
         }
 
     

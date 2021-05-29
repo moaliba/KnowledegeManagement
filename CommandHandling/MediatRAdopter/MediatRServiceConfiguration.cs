@@ -57,5 +57,48 @@ namespace CommandHandling.MediatRAdopter
                         as IRequestHandler<MediatRCommandEnvelope<TCommand>, Unit>;
             });
         }
+
+        public static IServiceCollection AddBehavior<TCommand, TBehavior>(this IServiceCollection services)
+            where TCommand : Acommand
+            where TBehavior : class, ICommandStation<TCommand>
+        => AddBehaviorType(typeof(TCommand), typeof(TBehavior), services);
+
+        public static IServiceCollection AddBehavior(this IServiceCollection services, Type behaviorType, Assembly assembly)
+        {
+            foreach (var cmd in assembly.GetTypes().Where(t => t.BaseType == typeof(Acommand)))
+            {
+                AddBehaviorType(cmd, behaviorType.MakeGenericType(cmd), services);
+            }
+
+            return services;
+        }
+
+        public static IServiceCollection AddBehaviorType(Type command, Type behavior, IServiceCollection services)
+        {
+            var mediatRPipelineType = typeof(IPipelineBehavior<,>)
+                                        .MakeGenericType(typeof(MediatRCommandEnvelope<>)
+                                        .MakeGenericType(command), typeof(Unit));
+
+
+            object WrapBehavior(IServiceProvider serviceProvider)
+                => ActivatorUtilities.CreateInstance(serviceProvider, typeof(MediatRPipelineBehaviorAdopter<>).MakeGenericType(command)
+                                                , new[] { ActivatorUtilities.CreateInstance(serviceProvider, behavior) });
+
+            services.AddTransient(mediatRPipelineType, WrapBehavior);
+            return services;
+        }
+
+        static bool IsBehavior(this Type @class)
+       => @class.IsClass && @class.GetInterfacesOfType(typeof(ICommandStation<>)).Any();
+
+        public static IServiceCollection AddAllBehaviors(this IServiceCollection services, Assembly assembly)
+        {
+            foreach (var behaviorType in assembly.GetTypes().Where(IsBehavior))
+            {
+                AddBehavior(services, behaviorType, assembly);
+            }
+
+            return services;
+        }
     }
 }
