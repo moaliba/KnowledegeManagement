@@ -1,9 +1,10 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using DomainEvents;
 
 namespace DomainModel
 {
-    public sealed class Team
+    public sealed class Team : AggregateRoot
     {
         [Key]
         public Guid TeamId { get; set; }
@@ -18,8 +19,13 @@ namespace DomainModel
 
          Team(Guid TeamId, string Title)
         {
-            this.TeamId = TeamId;
-            this.Title = Title;
+            RecordThat(new TeamDefined(TeamId, Title));
+        }
+
+        void On(TeamDefined e)
+        {
+            TeamId = e.TeamId;
+            Title = e.Title;
         }
 
         [Obsolete("For EF use")]

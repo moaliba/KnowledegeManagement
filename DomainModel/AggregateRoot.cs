@@ -11,7 +11,7 @@ namespace DomainModel
     {
        
 
-        readonly List<AnEvent> events=new();
+        List<AnEvent> events=new();
         public IEnumerable<AnEvent> Events => events;
 
         protected void RecordThat(AnEvent @event)
@@ -26,6 +26,9 @@ namespace DomainModel
             else
                 method.Invoke(this, new object[] { @event });
         }
+
+        public void ClearEvents()
+            => events = new();
 
     }
 }
