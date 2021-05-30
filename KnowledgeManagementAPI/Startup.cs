@@ -73,7 +73,9 @@ namespace KnowledgeManagementAPI
                 config.RespectBrowserAcceptHeader = true;
                 config.ReturnHttpNotAcceptable = true;
                 config.Filters.Add<Filters.UnitOfWorkFilter>();
-            }).AddXmlDataContractSerializerFormatters();
+            });
+                
+                //.AddXmlDataContractSerializerFormatters();
 
             services.AddSwaggerGen(c =>
             {

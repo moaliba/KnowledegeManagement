@@ -25,7 +25,7 @@ namespace DataAccess.Repositories
             dbContext.Teams.Add(team);
         }
 
-        public bool IsExist(string teamName) => dbContext.Teams.FirstOrDefault(c => c.Title == teamName) != null;
+        public bool DoesExist(string teamName) => dbContext.Teams.FirstOrDefault(c => c.Title == teamName) != null;
 
         public IEnumerable<Team> GetAllTeams() => dbContext.Teams;
 
@@ -37,12 +37,17 @@ namespace DataAccess.Repositories
 
         public void Delete(Team team)
         {
+            foreach (AnEvent e in team.Events)
+                eventBus.Publish(e);
+            team.ClearEvents();
             dbContext.Teams.Remove(team);
         }
 
         public void Update(Team team)
         {
-            //_dbContex.Teams.Update(team);
+            foreach (AnEvent e in team.Events)
+                eventBus.Publish(e);
+            team.ClearEvents();
         }
 
     
