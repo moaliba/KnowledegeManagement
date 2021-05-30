@@ -20,7 +20,7 @@ namespace ReadModels.Projectors
                 Id = e.TeamId,
                 Title = e.Title
             });
-            //dbContext.SaveChanges()
+            dbContext.SaveChanges();
             Console.WriteLine("PROVINCE ADDED PROJECTED!!!!!!!!!!!");
             return Task.CompletedTask;
         }

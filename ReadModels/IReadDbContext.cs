@@ -3,8 +3,10 @@ using ReadModels.ViewModel.Team;
 
 namespace ReadModels
 {
-    public interface IReadDbContext
+    public interface IReadDbContext 
     {
        public DbSet<TeamViewModel> TeamViewModels { get; set; }
+
+        int SaveChanges();
     }
 }

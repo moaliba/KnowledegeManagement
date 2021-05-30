@@ -1,13 +1,12 @@
 ﻿
-
 namespace DataAccess.Repositories
 {
     public class Repository
     {
-        protected readonly IWriteDBContext _dbContex;
+        protected readonly IWriteDBContext dbContext;
 
         public Repository(IWriteDBContext DBContex)
-         => _dbContex = DBContex;
+         => dbContext = DBContex;
 
         public void SaveChanges()
         {

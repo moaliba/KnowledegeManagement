@@ -22,22 +22,22 @@ namespace DataAccess.Repositories
             foreach (AnEvent e in team.Events)
                 eventBus.Publish(e);
             team.ClearEvents();
-            _dbContex.Teams.Add(team);
+            dbContext.Teams.Add(team);
         }
 
-        public bool IsExist(string teamName) => _dbContex.Teams.FirstOrDefault(c => c.Title == teamName) != null;
+        public bool IsExist(string teamName) => dbContext.Teams.FirstOrDefault(c => c.Title == teamName) != null;
 
-        public IEnumerable<Team> GetAllTeams() => _dbContex.Teams;
+        public IEnumerable<Team> GetAllTeams() => dbContext.Teams;
 
 
         public Team Find(Guid id)
         {
-            return _dbContex.Teams.Find(id);
+            return dbContext.Teams.Find(id);
         }
 
         public void Delete(Team team)
         {
-            _dbContex.Teams.Remove(team);
+            dbContext.Teams.Remove(team);
         }
 
         public void Update(Team team)

@@ -1,11 +1,10 @@
-﻿using DataAccess;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using ReadModels;
 using ReadModels.ViewModel.Team;
 
 namespace DataSource
 {
-    public class ReadDbContext : DbContext, IReadDbContext, IUnitOfWork
+    public class ReadDbContext : DbContext, IReadDbContext
     {
         public ReadDbContext(DbContextOptions<ReadDbContext> options) :base(options)
         {

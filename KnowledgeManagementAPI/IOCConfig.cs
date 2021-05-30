@@ -21,7 +21,7 @@ namespace KnowledgeManagementAPI
         public static void AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped<IReadDbContext, ReadDbContext>();
-
+             
             services.AddScoped<IWriteDBContext, WriteDBContext>(x => x.GetService<WriteDBContext>());
             services.AddScoped<IUnitOfWork, WriteDBContext>(x => x.GetService<WriteDBContext>());
 
@@ -31,6 +31,8 @@ namespace KnowledgeManagementAPI
 
             services.AddBehavior<DefineTeamCommand, LoggingStation<DefineTeamCommand>>();
             services.AddScoped<Filters.UnitOfWorkFilter>();
+
+
             //EventHandling.MediatRAdopter.MediatRServiceConfiguration.WrapEventHandler<ProvinceAddedProjector, ProvinceAdded>(services);
             //services.AddEventHandlersFromAssembly<ProvinceAddedProjector>();
         }
