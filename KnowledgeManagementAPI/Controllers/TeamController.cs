@@ -23,7 +23,7 @@ namespace KnowledgeManagementAPI.Controllers
         readonly IQueryBus _QueryBus;
 
 
-        public TeamController(ICommandBus _CommandBus, IQueryBus _QueryBus, ITeamRepository teamRepository)
+        public TeamController(ICommandBus _CommandBus, IQueryBus _QueryBus)
         {
             this._CommandBus = _CommandBus;
             this._QueryBus = _QueryBus;
@@ -43,9 +43,6 @@ namespace KnowledgeManagementAPI.Controllers
         public async Task<IActionResult> Get([FromQuery] TeamFilterDTO TeamFilter)
         {
             var Response = await _QueryBus.Send<TeamViewModelList, GetAllTeamsQuery>(new GetAllTeamsQuery(Guid.NewGuid(), TeamFilter.PageNumber, TeamFilter.PageSize,TeamFilter.Title,TeamFilter.SortOrder));
-            //var Response = teamRepository.GetAllTeams();
-            //  return Ok(Response);
-            // return Ok(JsonConvert.SerializeObject(Response.TeamViewModels));
             return Ok(JsonConvert.SerializeObject(new PagedResponse<IEnumerable<TeamViewModel>>(Response.TeamViewModels, Response.TotalCount)));
             //return Ok("THIS IS TEST...");
         }
@@ -54,8 +51,6 @@ namespace KnowledgeManagementAPI.Controllers
         public async Task<ActionResult<TeamViewModel>> Get(Guid id)
         {
             var Response = await  _QueryBus.Send<TeamViewModel, GetTeamQuery>(new GetTeamQuery(id));
-            //var Response = teamRepository.Find(id);
-           // JsonConvert.SerializeObject(Response);
             return Ok(JsonConvert.SerializeObject(Response));
         }
 

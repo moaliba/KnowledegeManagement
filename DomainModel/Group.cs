@@ -7,7 +7,7 @@ namespace DomainModel
     {
         public string Title { get; private set; }
 
-        public Group(Guid id, Guid adminId, string title) : base(id)
+        Group(Guid id, Guid adminId, string title) : base(id)
         {
             RecordThat(new GroupCreated(id, title));
             RecordThat(new GroupMemberSetAsGroupAdmin(id, adminId));
