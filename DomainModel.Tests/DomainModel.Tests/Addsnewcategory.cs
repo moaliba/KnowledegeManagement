@@ -1,17 +1,21 @@
 ﻿using Xunit;
 using FluentAssertions;
-using KnowledgeManagement;
+using System;
+using DomainModel;
 
 namespace KnowledgeManagement
 {
     public class AddsnewcategorySpec
     {
-        [Fact]
-        public void Addsnewcategory()
+        [Theory]
+        [InlineData("Programming")]
+        [InlineData("Cooking")]
+        public void AddsNewCategory(string title)
         {
-            var category = Category.Definecategory("1", "Programming");
+            Guid id = Guid.NewGuid();
+            var category = Category.DefineCategory(id, title);
             category.Events.Should().ContainEquivalentOf(
-                    new Categorydefined("1", "Programming")
+                    new CategoryDefined(id, title)
                 );
         }
     }
