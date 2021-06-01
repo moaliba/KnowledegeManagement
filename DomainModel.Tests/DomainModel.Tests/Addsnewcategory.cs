@@ -2,6 +2,7 @@
 using FluentAssertions;
 using System;
 using DomainModel;
+using DomainEvents.Category;
 
 namespace KnowledgeManagement
 {
@@ -15,7 +16,7 @@ namespace KnowledgeManagement
             Guid id = Guid.NewGuid();
             var category = Category.DefineCategory(id, title);
             category.Events.Should().ContainEquivalentOf(
-                    new CategoryDefined(id, title)
+                    new Categorydefined(id, title)
                 );
         }
     }
