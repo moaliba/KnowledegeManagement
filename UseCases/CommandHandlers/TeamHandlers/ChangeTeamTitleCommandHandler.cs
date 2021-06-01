@@ -10,22 +10,21 @@ namespace UseCases.CommandHandlers.TeamHandlers
     class ChangeTeamTitleCommandHandler : IHandleCommand<ChangeTeamTitleCommand>
     {
 
-        readonly ITeamRepository teamRepository;
+        readonly ITeamRepository Teams;
         public ChangeTeamTitleCommandHandler(ITeamRepository teamRepository)
-       => this.teamRepository = teamRepository;
+       => this.Teams = teamRepository;
 
         public Task Handle(ChangeTeamTitleCommand command)
         {
-            Team team = teamRepository.Find(command.Id);
+            Team team = Teams.Find(command.Id);
             if (team == null)
                 throw new Exception("Team is not found!!!");
-            else if (teamRepository.IsExist(command.Title))
+            else if (Teams.DoesExist(command.Title))
                 throw new Exception("Title  already exists!!!");
             else
             {
                 team.Rename(command.Title);
-               // team.Title = command.Title;
-                teamRepository.Update(team);
+                Teams.Update(team);
             }
             
 

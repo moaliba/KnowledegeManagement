@@ -50,7 +50,6 @@ namespace KnowledgeManagementAPI.Controllers
             //return Ok("THIS IS TEST...");
         }
 
-
         [HttpGet("{id}")]
         public async Task<ActionResult<TeamViewModel>> Get(Guid id)
         {
@@ -65,7 +64,6 @@ namespace KnowledgeManagementAPI.Controllers
         {
             await _CommandBus.Send<DeleteTeamCommand>(new DeleteTeamCommand(id));        
             return Ok();
-
         }
 
         [HttpPut("{id}")]

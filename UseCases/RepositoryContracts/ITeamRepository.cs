@@ -11,7 +11,7 @@ namespace UseCases.RepositoryContracts
     {
         void Add(Team team);
 
-        bool IsExist(string teamName);
+        bool DoesExist(string teamName);
 
         IEnumerable<Team> GetAllTeams();
 

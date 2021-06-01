@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 using DomainEvents;
+using DomainEvents.Team;
 
 namespace DomainModel
 {
@@ -14,13 +15,17 @@ namespace DomainModel
         public static Team Create(Guid TeamId, string Title)
             => new(TeamId, Title);
 
-        //public static Team DefineTeam(Guid teamId, string title)
-        //=> new(teamId, title);
+        [Obsolete("For EF use")]
+        Team() { }
 
-        Team(Guid teamId, string title) : base(teamId)
-        {
-            RecordThat(new TeamDefined(teamId, title));
-        }
+        Team(Guid TeamId, string Title)
+            =>  RecordThat(new TeamDefined(TeamId, Title));
+
+        public void Rename(string Title)
+            => RecordThat(new TeamTitleChanged(TeamId, Title));
+
+        public void Remove()
+            => RecordThat(new TeamDeleted(TeamId));
 
         void On(TeamDefined e)
         {
@@ -28,20 +33,18 @@ namespace DomainModel
             Title = e.Title;
         }
 
-        [Obsolete("For EF use")]
-        Team() { }
-
-
-        public void Rename(string title)
+        void On(TeamTitleChanged e)
         {
-            this.Title = title;
+            TeamId = e.TeamId;
+            Title = e.Title;
+        }
+
+        void On(TeamDeleted e)
+        {
+            TeamId = e.TeamId;
         }
 
 
-        //void On(TeamDefined @event)
-        //{
-        //    TeamId = @event.TeamId;
-        //    Title = @event.Title;
-        //}
+
     }
 }

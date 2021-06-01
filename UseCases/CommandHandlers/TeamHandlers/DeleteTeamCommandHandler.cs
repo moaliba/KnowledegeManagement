@@ -11,19 +11,21 @@ namespace UseCases.CommandHandlers.TeamHandlers
 {
     class DeleteTeamCommandHandler : IHandleCommand<DeleteTeamCommand>
     {
-        readonly ITeamRepository teamRepository;
+        readonly ITeamRepository Teams;
 
         public DeleteTeamCommandHandler(ITeamRepository teamRepository)
-        => this.teamRepository = teamRepository;
+        => this.Teams = teamRepository;
        
         public  Task Handle(DeleteTeamCommand command)
         {
-            var team = teamRepository.Find(command.Id);
+            var team = Teams.Find(command.Id);
             if (team == null)
                 throw new Exception("Team is not found!!!");
             else
-                teamRepository.Delete(team);
-
+            {
+                team.Remove();
+                Teams.Delete(team);
+            }
             return Task.CompletedTask;
         }
     }
