@@ -32,7 +32,6 @@ namespace ReadModels.Projectors
             if(team == null)
                 throw new Exception("Team is not found!!!");
             team.Title = e.Title;
-            dbContext.SaveChanges();
             return Task.CompletedTask;
         }
 
@@ -42,7 +41,6 @@ namespace ReadModels.Projectors
             if (team == null)
                 throw new Exception("Team is not found!!!");
             dbContext.TeamViewModels.Remove(team);
-            dbContext.SaveChanges();
             return Task.CompletedTask;
         }
     }
