@@ -17,9 +17,9 @@ namespace DomainModel
         //public static Team DefineTeam(Guid teamId, string title)
         //=> new(teamId, title);
 
-         Team(Guid TeamId, string Title)
+        Team(Guid teamId, string title) : base(teamId)
         {
-            RecordThat(new TeamDefined(TeamId, Title));
+            RecordThat(new TeamDefined(teamId, title));
         }
 
         void On(TeamDefined e)

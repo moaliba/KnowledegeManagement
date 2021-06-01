@@ -58,44 +58,44 @@ namespace CommandHandling.MediatRAdopter
             });
         }
 
-        public static IServiceCollection AddBehavior<TCommand, TBehavior>(this IServiceCollection services)
+        public static IServiceCollection AddStation<TCommand, TStation>(this IServiceCollection services)
             where TCommand : Acommand
-            where TBehavior : class, ICommandStation<TCommand>
-        => AddBehaviorType(typeof(TCommand), typeof(TBehavior), services);
+            where TStation : class, ICommandStation<TCommand>
+        => AddStationType(typeof(TCommand), typeof(TStation), services);
 
-        public static IServiceCollection AddBehavior(this IServiceCollection services, Type behaviorType, Assembly assembly)
+        public static IServiceCollection AddStation(this IServiceCollection services, Type stationType, Assembly assembly)
         {
             foreach (var cmd in assembly.GetTypes().Where(t => t.BaseType == typeof(Acommand)))
             {
-                AddBehaviorType(cmd, behaviorType.MakeGenericType(cmd), services);
+                AddStationType(cmd, stationType.MakeGenericType(cmd), services);
             }
 
             return services;
         }
 
-        public static IServiceCollection AddBehaviorType(Type command, Type behavior, IServiceCollection services)
+        public static IServiceCollection AddStationType(Type command, Type station, IServiceCollection services)
         {
             var mediatRPipelineType = typeof(IPipelineBehavior<,>)
                                         .MakeGenericType(typeof(MediatRCommandEnvelope<>)
                                         .MakeGenericType(command), typeof(Unit));
 
 
-            object WrapBehavior(IServiceProvider serviceProvider)
+            object WrapStation(IServiceProvider serviceProvider)
                 => ActivatorUtilities.CreateInstance(serviceProvider, typeof(MediatRPipelineBehaviorAdopter<>).MakeGenericType(command)
-                                                , new[] { ActivatorUtilities.CreateInstance(serviceProvider, behavior) });
+                                                , new[] { ActivatorUtilities.CreateInstance(serviceProvider, station) });
 
-            services.AddTransient(mediatRPipelineType, WrapBehavior);
+            services.AddTransient(mediatRPipelineType, WrapStation);
             return services;
         }
 
-        static bool IsBehavior(this Type @class)
+        static bool IsStation(this Type @class)
        => @class.IsClass && @class.GetInterfacesOfType(typeof(ICommandStation<>)).Any();
 
-        public static IServiceCollection AddAllBehaviors(this IServiceCollection services, Assembly assembly)
+        public static IServiceCollection AddAllStations(this IServiceCollection services, Assembly assembly)
         {
-            foreach (var behaviorType in assembly.GetTypes().Where(IsBehavior))
+            foreach (var stationType in assembly.GetTypes().Where(IsStation))
             {
-                AddBehavior(services, behaviorType, assembly);
+                AddStation(services, stationType, assembly);
             }
 
             return services;

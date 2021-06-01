@@ -36,9 +36,7 @@ namespace KnowledgeManagementAPI
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<WriteDBContext>(options =>
-                    options.UseSqlServer(Configuration.GetConnectionString("KnowledgeManagementDBConnection")));
-            services.AddDbContext<ReadDbContext>(options =>
+            services.AddDbContext<ReadAndWriteDbContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("KnowledgeManagementDBConnection")));
             ////services.AddScoped<IReadDbContext, ReadDbContext>();
             ////services.AddScoped<IWriteDBContext, WriteDBContext>(x => x.GetService<WriteDBContext>());

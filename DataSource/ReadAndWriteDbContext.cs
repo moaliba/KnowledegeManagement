@@ -2,12 +2,14 @@
 using Microsoft.EntityFrameworkCore;
 using DataAccess;
 using DataSource.Mapping;
+using ReadModels;
+using ReadModels.ViewModel.Team;
 
 namespace DataSource
 {
-    public class WriteDBContext : DbContext, IWriteDBContext, IUnitOfWork
+    public class ReadAndWriteDbContext : DbContext, IWriteDbContext, IUnitOfWork, IReadDbContext
     {
-        public WriteDBContext(DbContextOptions<WriteDBContext> options) : base(options)
+        public ReadAndWriteDbContext(DbContextOptions<ReadAndWriteDbContext> options) : base(options)
         {
             Database.EnsureCreated();
         }
@@ -16,8 +18,11 @@ namespace DataSource
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfiguration(new TeamMapping());
+            modelBuilder.ApplyConfiguration(new GroupMapping());
         }
 
+        public DbSet<Group> Groups { get; set; }
         public DbSet<Team> Teams { get; set; }
+        public DbSet<TeamViewModel> TeamViewModels { get; set; }
     }
 }

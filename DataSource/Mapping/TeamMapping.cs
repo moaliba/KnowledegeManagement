@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DataSource.Mapping
 {
-    public class TeamMapping : EntityTypeConfig<Team>
+    public class TeamMapping : AggregateRootTypeConfig<Team>
     {
         protected override void Config(EntityTypeBuilder<Team> builder)
         {

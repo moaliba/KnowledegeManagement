@@ -6,7 +6,5 @@ namespace ReadModels
     public interface IReadDbContext 
     {
        public DbSet<TeamViewModel> TeamViewModels { get; set; }
-
-        int SaveChanges();
     }
 }

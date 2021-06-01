@@ -12,7 +12,7 @@ namespace DataAccess.Repositories
     {
         public IEventBus eventBus { get; set; }
 
-        public TeamRepository(IWriteDBContext dBContext, IEventBus eventBus) : base(dBContext)
+        public TeamRepository(IWriteDbContext dBContext, IEventBus eventBus) : base(dBContext)
         {
             this.eventBus = eventBus;
         }

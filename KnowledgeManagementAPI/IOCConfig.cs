@@ -20,16 +20,15 @@ namespace KnowledgeManagementAPI
     {
         public static void AddApplicationServices(this IServiceCollection services)
         {
-            services.AddScoped<IReadDbContext, ReadDbContext>();
-             
-            services.AddScoped<IWriteDBContext, WriteDBContext>(x => x.GetService<WriteDBContext>());
-            services.AddScoped<IUnitOfWork, WriteDBContext>(x => x.GetService<WriteDBContext>());
+            services.AddScoped<ReadAndWriteDbContext>();
+            services.AddScoped<IWriteDbContext>(x => x.GetService<ReadAndWriteDbContext>());
+            services.AddScoped<IReadDbContext>(x=>x.GetService<ReadAndWriteDbContext>());
+            services.AddScoped<IUnitOfWork>(x => x.GetService<ReadAndWriteDbContext>());
 
             services.AddTransient<ITeamRepository, TeamRepository>();
 
             services.AddMessageHandlers();
-
-            services.AddBehavior<DefineTeamCommand, LoggingStation<DefineTeamCommand>>();
+            services.AddStation<DefineTeamCommand, LoggingStation<DefineTeamCommand>>();
             services.AddScoped<Filters.UnitOfWorkFilter>();
 
 

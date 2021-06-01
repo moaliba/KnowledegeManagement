@@ -23,7 +23,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EventHandling", "EventHandl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "QueryHandling", "QueryHandling\QueryHandling.csproj", "{6BFA6D20-0422-4BEB-98C9-9AA290B05F2B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KnowledgeManagementAPI", "KnowledgeManagementAPI\KnowledgeManagementAPI.csproj", "{B4291C71-8BC8-42F2-B745-E299EF8DDD4F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "KnowledgeManagementAPI", "KnowledgeManagementAPI\KnowledgeManagementAPI.csproj", "{B4291C71-8BC8-42F2-B745-E299EF8DDD4F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DomainModel.Tests", "DomainModel.Tests\DomainModel.Tests\DomainModel.Tests.csproj", "{0D673573-3B2B-4646-8675-E5073308883F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -71,6 +73,10 @@ Global
 		{B4291C71-8BC8-42F2-B745-E299EF8DDD4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4291C71-8BC8-42F2-B745-E299EF8DDD4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4291C71-8BC8-42F2-B745-E299EF8DDD4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D673573-3B2B-4646-8675-E5073308883F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D673573-3B2B-4646-8675-E5073308883F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D673573-3B2B-4646-8675-E5073308883F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D673573-3B2B-4646-8675-E5073308883F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
