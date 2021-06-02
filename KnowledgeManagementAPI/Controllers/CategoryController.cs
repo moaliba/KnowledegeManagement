@@ -4,6 +4,11 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using Commands.CategoryCommands;
+using QueryHandling.Abstractions;
+using ReadModels.ViewModel;
+using ReadModels.Query.Category;
+using Newtonsoft.Json;
+using System.Collections.Generic;
 
 namespace KnowledgeManagementAPI.Controllers
 {
@@ -12,9 +17,11 @@ namespace KnowledgeManagementAPI.Controllers
     public class CategoryController : Controller
     {
         readonly ICommandBus commandBus;
-        public CategoryController(ICommandBus commandBus)
+        readonly IQueryBus queryBus;
+        public CategoryController(ICommandBus commandBus, IQueryBus queryBus)
         {
             this.commandBus = commandBus;
+            this.queryBus = queryBus;
         }
 
         [HttpPost]
@@ -33,6 +40,21 @@ namespace KnowledgeManagementAPI.Controllers
                 throw new ArgumentNullException(nameof(CategoryChangeTitle));
             await commandBus.Send(ChangeCategoryTitleCommand.Create(CategoryChangeTitle.CategoryId, CategoryChangeTitle.Title));
             return Ok();
+        }
+
+        [HttpGet("id")]
+        public async Task<ActionResult<CategoryViewModel>> Get(Guid Id)
+        {
+            var Response = await queryBus.Send<CategoryViewModel, GetCategoryQuery>(new GetCategoryQuery(Id));
+            return Ok(JsonConvert.SerializeObject(Response));
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Get([FromBody] GetCategoryListDTO categoryList)
+        {
+            var Response = await queryBus.Send<CategoryViewModelList, GetCategoryListQuery>(new GetCategoryListQuery(
+                    Guid.NewGuid(), categoryList.PageNumber, categoryList.PageSize, categoryList.TeamTitle, categoryList.SortOrder));
+            return Ok(JsonConvert.SerializeObject(new PagedResponse<IEnumerable<CategoryViewModel>>(Response.CategoryViewModels, Response.TotalCount)));
         }
     }
 }
