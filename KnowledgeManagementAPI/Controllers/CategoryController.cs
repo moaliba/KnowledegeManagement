@@ -50,10 +50,10 @@ namespace KnowledgeManagementAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromBody] GetCategoryListDTO categoryList)
+        public async Task<IActionResult> Get([FromQuery] GetCategoryListDTO categoryList)
         {
             var Response = await queryBus.Send<CategoryViewModelList, GetCategoryListQuery>(new GetCategoryListQuery(
-                    Guid.NewGuid(), categoryList.PageNumber, categoryList.PageSize, categoryList.TeamTitle, categoryList.SortOrder));
+                    Guid.NewGuid(), categoryList.PageNumber, categoryList.PageSize, categoryList.CategoryTitle, categoryList.SortOrder));
             return Ok(JsonConvert.SerializeObject(new PagedResponse<IEnumerable<CategoryViewModel>>(Response.CategoryViewModels, Response.TotalCount)));
         }
     }
