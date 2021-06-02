@@ -21,11 +21,13 @@ namespace DataSource
             modelBuilder.ApplyConfiguration(new TeamMapping());
             modelBuilder.ApplyConfiguration(new GroupMapping());
             modelBuilder.ApplyConfiguration(new CategoryMapping());
+            modelBuilder.ApplyConfiguration(new TagMapping());
         }
 
         public DbSet<Group> Groups { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<Tag> Tags { get; set; }
         public DbSet<TeamViewModel> TeamViewModels { get; set; }
         public DbSet<CategoryViewModel> CategoryViewModels { get; set; }
     }

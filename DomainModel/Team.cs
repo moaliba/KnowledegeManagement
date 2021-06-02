@@ -7,41 +7,42 @@ namespace DomainModel
 {
     public sealed class Team : AggregateRoot
     {
-        [Key]
-        public Guid TeamId { get; private set; }
+        //[Key]
+        //public Guid TeamId { get; private set; }
 
         public string Title { get; private set; }
-
-        [Obsolete("For EF use")]
-        Team() { }
-
-        public Team(Guid TeamId, string Title) : base(TeamId)
-           => RecordThat(new TeamDefined(TeamId, Title));
 
         public static Team Create(Guid TeamId, string Title)
             => new(TeamId, Title);
 
+        [Obsolete("For EF use")]
+        Team() { }
+
+        Team(Guid Id, string Title) : base(Id)
+            =>  RecordThat(new TeamDefined(Id, Title));
+
         public void Rename(string Title)
-            => RecordThat(new TeamTitleChanged(TeamId, Title));
+            => RecordThat(new TeamTitleChanged(Id, Title));
 
         public void Remove()
-            => RecordThat(new TeamDeleted(TeamId));
+            => RecordThat(new TeamDeleted(Id));
 
         void On(TeamDefined e)
         {
-            TeamId = e.TeamId;
             Title = e.Title;
         }
 
         void On(TeamTitleChanged e)
         {
-            TeamId = e.TeamId;
             Title = e.Title;
         }
 
         void On(TeamDeleted e)
         {
-            TeamId = e.TeamId;
+           
         }
+
+
+
     }
 }
