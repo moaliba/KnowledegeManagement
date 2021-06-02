@@ -10,7 +10,7 @@ namespace ReadModels.ViewModel.Tag
         [Key]
         public Guid Id { get; set; }
         public string  Title { get; set; }
-        public Guid CategoryId { get; set; }
+        public Guid? CategoryId { get; set; }
         public string CategoryName { get; set; }
         public Guid UserId { get; set; }
         public bool IsActive { get; set; } = true;

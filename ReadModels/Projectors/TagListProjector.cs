@@ -22,6 +22,7 @@ namespace ReadModels.Projectors
             {
                 Id = e.Id,
                 Title=e.Title,
+                CategoryId=e.CategoryId,
                 CategoryName= CategoryName,
                 UserId=Guid.NewGuid()
             });
