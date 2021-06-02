@@ -12,7 +12,7 @@ namespace UseCases.CommandHandlers.TeamHandlers
 
         readonly ITeamRepository Teams;
         public ChangeTeamTitleCommandHandler(ITeamRepository teamRepository)
-       => this.Teams = teamRepository;
+       => Teams = teamRepository;
 
         public Task Handle(ChangeTeamTitleCommand command)
         {

@@ -10,6 +10,8 @@ namespace UseCases.RepositoryContracts
     public interface ITagRepository
     {
         void Add(Tag tag);
-        bool DoesExist(string title,Guid? categoryId);
+        bool DoesExistInCategory(string title,Guid? categoryId);
+        void Update(Tag tag);
+        Tag Find(Guid id);
     }
 }

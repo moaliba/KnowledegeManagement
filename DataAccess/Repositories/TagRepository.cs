@@ -1,4 +1,5 @@
 ﻿using DomainModel;
+using EventHandling.Abstractions;
 using System;
 using System.Linq;
 using UseCases.RepositoryContracts;
@@ -7,22 +8,31 @@ namespace DataAccess.Repositories
 {
     public class TagRepository : Repository, ITagRepository
     {
-        public TagRepository(IWriteDbContext dbContext ) :base(dbContext)
-        {
 
-        }
+        readonly IEventBus EventBus;
+        public TagRepository(IWriteDbContext dbContext, IEventBus eventbus) :base(dbContext)
+        =>EventBus = eventbus;
+       
         public void Add(Tag tag)
         {
-
+            foreach (AnEvent e in tag.Events)
+                EventBus.Publish(e);
+            tag.ClearEvents();
             dbContext.Tags.Add(tag);
         }
 
-        public bool DoesExist(string title, Guid? categoryId)
+        public void Update(Tag tag)
+        {
+            foreach (AnEvent e in tag.Events)
+                EventBus.Publish(e);
+            tag.ClearEvents();
+        }
+
+        public bool DoesExistInCategory(string title, Guid? categoryId)
         => dbContext.Tags.FirstOrDefault(t => t.Title == title && t.CategoryId==categoryId) != null;
 
-        public bool DoesExist(string title)
-        {
-            throw new NotImplementedException();
-        }
+        public Tag Find(Guid id)
+        =>  dbContext.Tags.Find(id);
+       
     }
 }

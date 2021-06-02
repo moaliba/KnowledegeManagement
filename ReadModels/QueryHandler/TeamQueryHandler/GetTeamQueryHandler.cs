@@ -13,9 +13,8 @@ namespace ReadModels.QueryHandler.TeamQueryHandler
     {
         readonly IReadDbContext _dbcontext;
         public GetTeamQueryHandler(IReadDbContext _dbcontext)
-        {
-            this._dbcontext = _dbcontext;
-        }
+        =>  this._dbcontext = _dbcontext;
+        
         public Task<TeamViewModel> Handle(GetTeamQuery query)
         {
             TeamViewModel team = _dbcontext.TeamViewModels.Find(query.TeamId);
