@@ -12,14 +12,14 @@ namespace DomainModel
 
         public string Title { get; private set; }
 
-        public static Team Create(Guid TeamId, string Title)
-            => new(TeamId, Title);
-
         [Obsolete("For EF use")]
         Team() { }
 
-        Team(Guid TeamId, string Title)
-            =>  RecordThat(new TeamDefined(TeamId, Title));
+        public Team(Guid TeamId, string Title) : base(TeamId)
+           => RecordThat(new TeamDefined(TeamId, Title));
+
+        public static Team Create(Guid TeamId, string Title)
+            => new(TeamId, Title);
 
         public void Rename(string Title)
             => RecordThat(new TeamTitleChanged(TeamId, Title));
@@ -43,8 +43,5 @@ namespace DomainModel
         {
             TeamId = e.TeamId;
         }
-
-
-
     }
 }

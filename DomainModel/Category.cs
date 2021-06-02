@@ -13,12 +13,18 @@ namespace DomainModel
         public static Category DefineCategory(Guid id, string title)
         => new(id, title);
 
+        public void ReName(Guid Id, string Title)
+            => RecordThat(new CategoryTitleChanged(Id, Title));
+
         [Obsolete]
         Category()
         {
         }
 
         void On(Categorydefined e)
-        => Title = e.title;
+        => Title = e.CategoryTitle;
+
+        void On(CategoryTitleChanged e)
+        => Title = e.CategoryTitle;
     }
 }

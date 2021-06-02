@@ -4,6 +4,7 @@ using DataAccess;
 using DataSource.Mapping;
 using ReadModels;
 using ReadModels.ViewModel.Team;
+using ReadModels.ViewModel;
 
 namespace DataSource
 {
@@ -26,5 +27,6 @@ namespace DataSource
         public DbSet<Team> Teams { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<TeamViewModel> TeamViewModels { get; set; }
+        public DbSet<CategoryViewModel> CategoryViewModels { get; set; }
     }
 }
