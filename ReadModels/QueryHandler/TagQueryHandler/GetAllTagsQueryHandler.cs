@@ -17,7 +17,7 @@ namespace ReadModels.QueryHandler.TagQueryHandler
         public async Task<TagViewModelList> Handle(GetAllTagsQuery query)
         {
             var result = dbContext.TagViewModels
-            .Where(t => t.Title.Contains(query.Title ?? string.Empty) && t.IsActive==true)
+            .Where(t => t.Title.Contains(query.Title ?? string.Empty) && t.IsActive==true && t.CategoryId==query.CategoryId)
             .Skip((query.PageNumber - 1) * query.PageSize)
             .Take(query.PageSize);
 
@@ -28,6 +28,12 @@ namespace ReadModels.QueryHandler.TagQueryHandler
                     break;
                 case "Title_desc":
                     result = result.OrderByDescending(t => t.Title);
+                    break;
+                case "Category":
+                    result = result.OrderBy(t => t.CategoryId);
+                    break;
+                case "Category_desc":
+                    result = result.OrderByDescending(t => t.CategoryId);
                     break;
                 default:
                     break;
