@@ -26,6 +26,8 @@ namespace KnowledgeManagementAPI
             services.AddScoped<IUnitOfWork>(x => x.GetService<ReadAndWriteDbContext>());
 
             services.AddTransient<ITeamRepository, TeamRepository>();
+            services.AddTransient<ICategoryRepository, CategoryRepository>();
+            services.AddTransient<ITagRepository, TagRepository>();
 
             services.AddMessageHandlers();
             services.AddStation<DefineTeamCommand, LoggingStation<DefineTeamCommand>>();

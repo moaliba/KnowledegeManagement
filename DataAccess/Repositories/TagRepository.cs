@@ -17,7 +17,7 @@ namespace DataAccess.Repositories
             dbContext.Tags.Add(tag);
         }
 
-        public bool DoesExist(string title, Guid categoryId)
+        public bool DoesExist(string title, Guid? categoryId)
         => dbContext.Tags.FirstOrDefault(t => t.Title == title && t.CategoryId==categoryId) != null;
 
         public bool DoesExist(string title)

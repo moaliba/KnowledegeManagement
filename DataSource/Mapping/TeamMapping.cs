@@ -7,7 +7,7 @@ namespace DataSource.Mapping
     {
         protected override void Config(EntityTypeBuilder<Team> builder)
         {
-            builder.HasKey(p => p.TeamId);
+          //  builder.HasKey(p => p.TeamId);
         }
     }
 }

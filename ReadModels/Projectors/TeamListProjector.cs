@@ -17,7 +17,7 @@ namespace ReadModels.Projectors
 
         public Task Handle(TeamDefined e)
         {
-            dbContext.TeamViewModels.Add(new ViewModel.Team.TeamViewModel
+            dbContext.TeamViewModels.Add(new TeamViewModel
             {
                 Id = e.TeamId,
                 Title = e.Title
