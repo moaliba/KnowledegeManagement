@@ -12,9 +12,9 @@ using System.Collections.Generic;
 
 namespace KnowledgeManagementAPI.Controllers
 {
-    [Route("api/controller")]
+    [Route("api/[controller]")]
     [ApiController]
-    public class CategoryController : Controller
+    public class CategoryController : ControllerBase
     {
         readonly ICommandBus commandBus;
         readonly IQueryBus queryBus;
