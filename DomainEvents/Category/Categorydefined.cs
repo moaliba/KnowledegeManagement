@@ -3,5 +3,5 @@ using System;
 
 namespace DomainEvents.Category
 {
-    public record Categorydefined(Guid id, string title): AnEvent(id);
+    public record Categorydefined(Guid CategoryId, string CategoryTitle): AnEvent(CategoryId);
 }
