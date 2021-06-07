@@ -38,7 +38,7 @@ namespace ReadModels.QueryHandler.Category
                     break;
             }
 
-            var totalRecords = await dbContext.CategoryViewModels.Where(t => t.CategoryTitle.Contains(query.CategoryTitle ?? string.Empty)).CountAsync();
+            var totalRecords = await dbContext.CategoryViewModels.CountAsync(t => t.CategoryTitle.Contains(query.CategoryTitle ?? string.Empty));
 
             var CategoryResult = new CategoryViewModelList() { CategoryViewModels = result.AsEnumerable(), TotalCount = totalRecords };
             return CategoryResult;
