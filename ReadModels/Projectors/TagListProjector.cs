@@ -10,8 +10,8 @@ namespace ReadModels.Projectors
     {
         readonly IReadDbContext dbContext;
 
-        public TagListProjector(IReadDbContext dbContex)
-        => this.dbContext = dbContex;
+        public TagListProjector(IReadDbContext dbContext)
+        => this.dbContext= dbContext;
        
         public Task Handle(TagDefined e)
         {

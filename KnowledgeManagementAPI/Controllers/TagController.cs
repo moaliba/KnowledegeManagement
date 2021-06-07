@@ -30,7 +30,6 @@ namespace KnowledgeManagementAPI.Controllers
         {
             if (defineTagDTO is null)
                 throw new ArgumentNullException(nameof(defineTagDTO));
-
             await CommandBus.Send(DefineTagCommand.Create(Guid.NewGuid(), defineTagDTO.Title, defineTagDTO.CategoryId));
             return Ok();
         }
