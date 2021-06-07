@@ -47,7 +47,7 @@ namespace KnowledgeManagementAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] TagFilterDTO TagFilter)
         {
-            var Response = await QueryBus.Send<TagViewModelList, GetAllTagsQuery>(new GetAllTagsQuery(Guid.NewGuid(), TagFilter.PageNumber, TagFilter.PageSize, TagFilter.Title, TagFilter.SortOrder));
+            var Response = await QueryBus.Send<TagViewModelList, GetAllTagsQuery>(new GetAllTagsQuery( TagFilter.PageNumber, TagFilter.PageSize,TagFilter.CategoryId, TagFilter.Title, TagFilter.SortOrder));
             return Ok(JsonConvert.SerializeObject(new PagedResponse<IEnumerable<TagViewModel>>(Response.TagViewModels, Response.TotalCount)));
             //return Ok("THIS IS TEST...");
         }

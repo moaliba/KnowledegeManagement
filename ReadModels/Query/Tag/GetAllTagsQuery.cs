@@ -8,6 +8,6 @@ using System.Threading.Tasks;
 
 namespace ReadModels.Query.Tag
 {
-    public record GetAllTagsQuery(Guid Id, int PageNumber, int PageSize, string Title, string SortOrder) : Query<TagViewModelList>;
+    public record GetAllTagsQuery( int PageNumber, int PageSize, Guid? CategoryId, string Title, string SortOrder) : Query<TagViewModelList>;
     
 }
