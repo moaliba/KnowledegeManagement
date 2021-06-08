@@ -8,7 +8,6 @@ using QueryHandling.Abstractions;
 using ReadModels.ViewModel;
 using ReadModels.Query.Category;
 using Newtonsoft.Json;
-using System.Collections.Generic;
 using ReadModels;
 
 namespace KnowledgeManagementAPI.Controllers

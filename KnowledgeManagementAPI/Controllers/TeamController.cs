@@ -1,7 +1,6 @@
 ﻿using CommandHandling.Abstractions;
 using Commands.TeamCommands;
 using KnowledgeManagementAPI.DTOs;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using QueryHandling.Abstractions;
@@ -9,10 +8,7 @@ using ReadModels;
 using ReadModels.Query.Team;
 using ReadModels.ViewModel.Team;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using UseCases.RepositoryContracts;
 
 namespace KnowledgeManagementAPI.Controllers
 {

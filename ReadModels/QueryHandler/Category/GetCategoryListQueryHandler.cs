@@ -1,11 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using QueryHandling.Abstractions;
+﻿using QueryHandling.Abstractions;
 using ReadModels.Query.Category;
 using ReadModels.ViewModel;
-using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ReadModels.QueryHandler.Category

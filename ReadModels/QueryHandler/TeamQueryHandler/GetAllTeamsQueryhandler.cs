@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using QueryHandling.Abstractions;
+﻿using QueryHandling.Abstractions;
 using ReadModels.Query.Team;
 using ReadModels.ViewModel.Team;
 using System.Linq;

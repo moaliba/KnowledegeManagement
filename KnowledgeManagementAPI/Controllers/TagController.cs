@@ -1,6 +1,5 @@
 ﻿using CommandHandling.Abstractions;
 using KnowledgeManagementAPI.DTOs;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using QueryHandling.Abstractions;
@@ -8,8 +7,6 @@ using ReadModels;
 using ReadModels.Query.Tag;
 using ReadModels.ViewModel.Tag;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using UseCases.Commands.TagCommands;
 

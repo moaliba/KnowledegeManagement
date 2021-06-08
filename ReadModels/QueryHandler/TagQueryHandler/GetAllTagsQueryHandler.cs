@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using QueryHandling.Abstractions;
+﻿using QueryHandling.Abstractions;
 using ReadModels.Query.Tag;
 using ReadModels.ViewModel.Tag;
 using System.Linq;

@@ -2,9 +2,6 @@
 using ReadModels.Query.Team;
 using ReadModels.ViewModel.Team;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ReadModels.QueryHandler.TeamQueryHandler
