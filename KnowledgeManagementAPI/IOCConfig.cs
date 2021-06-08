@@ -28,6 +28,7 @@ namespace KnowledgeManagementAPI
             services.AddTransient<ITeamRepository, TeamRepository>();
             services.AddTransient<ICategoryRepository, CategoryRepository>();
             services.AddTransient<ITagRepository, TagRepository>();
+            services.AddTransient<IPostRepository, PostRepository>();
 
             services.AddMessageHandlers();
             services.AddStation<DefineTeamCommand, LoggingStation<DefineTeamCommand>>();
