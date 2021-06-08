@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace ReadModels.QueryHandler.Category
 {
-    public class GetCategoryListQueryHandler : IHandleQuery<GetCategoryListQuery, CategoryViewModelList>
+    public class GetCategoryListQueryHandler : IHandleQuery<GetCategoryListQuery, PagedViewModel<CategoryViewModel>>
     {
         private readonly IReadDbContext dbContext;
 
@@ -19,29 +19,35 @@ namespace ReadModels.QueryHandler.Category
             this.dbContext = dbContext;
         }
 
-        public async Task<CategoryViewModelList> Handle(GetCategoryListQuery query)
+        public  Task<PagedViewModel<CategoryViewModel>> Handle(GetCategoryListQuery query)
         {
-            var result = dbContext.CategoryViewModels
-            .Where(t => t.CategoryTitle.Contains(query.CategoryTitle ?? string.Empty))
-            .Skip((query.PageNumber - 1) * query.PageSize)
-            .Take(query.PageSize);
+            var TotalItems = dbContext.CategoryViewModels
+            .Where(t => t.CategoryTitle.Contains(query.CategoryTitle ?? string.Empty));
+            //.Skip((query.PageNumber - 1) * query.PageSize)
+            //.Take(query.PageSize);
 
             switch (query.SortOrder)
             {
-                case "CategoryTitle":
-                    result = result.OrderBy(t => t.CategoryTitle);
+                case "Title":
+                    TotalItems = TotalItems.OrderBy(t => t.CategoryTitle);
                     break;
-                case "CategoryTitle_desc":
-                    result = result.OrderByDescending(t => t.CategoryTitle);
+                case "Title_desc":
+                    TotalItems = TotalItems.OrderByDescending(t => t.CategoryTitle);
                     break;
                 default:
                     break;
             }
 
-            var totalRecords = await dbContext.CategoryViewModels.CountAsync(t => t.CategoryTitle.Contains(query.CategoryTitle ?? string.Empty));
+            var totalRecords = TotalItems.Count();
+            var result = PagingUtility.Paginate(query.PageNumber, query.PageSize, TotalItems);
+            return Task.FromResult(result);
 
-            var CategoryResult = new CategoryViewModelList() { CategoryViewModels = result.AsEnumerable(), TotalCount = totalRecords };
-            return CategoryResult;
+            //  var totalRecords = await dbContext.CategoryViewModels.CountAsync(t => t.CategoryTitle.Contains(query.CategoryTitle ?? string.Empty));
+
+            //var CategoryResult = new CategoryViewModelList() { CategoryViewModels = result.AsEnumerable(), TotalCount = totalRecords };
+            //return CategoryResult;
         }
+
+       
     }
 }

@@ -4,5 +4,5 @@ using System;
 
 namespace ReadModels.Query.Category
 {
-    public record GetCategoryListQuery(Guid Id, int PageNumber, int PageSize, string CategoryTitle, string SortOrder) : Query<CategoryViewModelList>;
+    public record GetCategoryListQuery(Guid Id, int PageNumber, int PageSize, string CategoryTitle, string SortOrder) : Query<PagedViewModel<CategoryViewModel>>;
 }

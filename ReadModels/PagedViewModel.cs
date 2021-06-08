@@ -7,19 +7,21 @@ namespace ReadModels
 {
     public  class PagedViewModel<T> : IAmAViewModel
     {
-        public PageCounter Counter { get; }
-        public IQueryable<T> ItemsInThePage { get; }
+        public PagingInfo PagingInfo { get; }
         public IEnumerable<T> Data { get; }
-        public PagedViewModel(PageCounter counter, IQueryable<T> allItems)
+
+        //public IQueryable<T> ItemsInThePage { get; }
+
+        public PagedViewModel(PagingInfo info, IQueryable<T> allItems)
         {
-            Counter = counter ?? throw new ArgumentNullException(nameof(counter));
+            PagingInfo = info ?? throw new ArgumentNullException(nameof(info));
 
             Data = null == allItems
                            ? Array.Empty<T>().AsEnumerable()
-                           : SlicePage(allItems, Counter).AsEnumerable();
+                           : SlicePage(allItems, PagingInfo).AsEnumerable();
         }
 
-        IQueryable<T> SlicePage(IQueryable<T> allItems, PageCounter page)
-        => allItems.Skip((int)(page.Size * (page.Number - 1))).Take(page.Size);
+        IQueryable<T> SlicePage(IQueryable<T> allItems, PagingInfo page)
+        => allItems.Skip((int)(page.PageSize * (page.PageNumber - 1))).Take(page.PageSize);
     }
 }

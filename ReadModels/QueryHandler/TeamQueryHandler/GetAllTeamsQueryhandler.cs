@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace ReadModels.QueryHandler.TeamQueryHandler
 {
-    public class GetAllTeamsQueryhandler : IHandleQuery<GetAllTeamsQuery, TeamViewModelList>
+    public class GetAllTeamsQueryhandler : IHandleQuery<GetAllTeamsQuery, PagedViewModel<TeamViewModel>>
     {
         readonly IReadDbContext _ReadContext;
 
@@ -16,30 +16,27 @@ namespace ReadModels.QueryHandler.TeamQueryHandler
             this._ReadContext = _ReadContext;
         }
 
-        public async Task<TeamViewModelList> Handle(GetAllTeamsQuery query)
+        public  Task<PagedViewModel<TeamViewModel>> Handle(GetAllTeamsQuery query)
         {
-           
-            var result = _ReadContext.TeamViewModels
-            .Where(t => t.Title.Contains(query.Title ?? string.Empty))
-            .Skip((query.PageNumber - 1) * query.PageSize)
-            .Take(query.PageSize);
 
+            var TotalItems = _ReadContext.TeamViewModels
+            .Where(t => t.Title.Contains(query.Title ?? string.Empty));
+           
             switch (query.SortOrder)
             {
                 case "Title":
-                    result= result.OrderBy(t => t.Title);
+                    TotalItems = TotalItems.OrderBy(t => t.Title);
                     break;
                 case "Title_desc":
-                    result = result.OrderByDescending(t => t.Title);
+                    TotalItems = TotalItems.OrderByDescending(t => t.Title);
                     break;
                 default:
                     break;
             }
 
-            var totalRecords = await _ReadContext.TeamViewModels.Where(t => t.Title.Contains(query.Title ?? string.Empty)).CountAsync();
-
-            var teamresult = new TeamViewModelList() { TeamViewModels = result.AsEnumerable() , TotalCount=totalRecords };
-            return teamresult;
+            var totalRecords = TotalItems.Count();
+            var result = PagingUtility.Paginate(query.PageNumber, query.PageSize, TotalItems);
+            return Task.FromResult(result);
         }
 
 

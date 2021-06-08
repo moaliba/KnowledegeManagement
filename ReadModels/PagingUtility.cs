@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace ReadModels
 {
-    public class PagingUtility<T>
+    public class PagingUtility
     {
-        public static PagedViewModel<T> Paginate(int pageNumber,int pageSize, IQueryable<T> allItems)
+        public static PagedViewModel<T> Paginate<T>(int pageNumber,int pageSize, IQueryable<T> allItems)
         {
-            var counter = new PageCounter(pageNumber
+            var info = new PagingInfo(pageNumber
                                , pageSize
                                , allItems?.Count() ?? 0);
 
-            var vm = new PagedViewModel<T>(counter, allItems);
+            var vm = new PagedViewModel<T>(info, allItems);
             return vm;
         }
     }

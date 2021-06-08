@@ -10,7 +10,8 @@ namespace KnowledgeManagementAPI.DTOs
         public string Title { get; set; }
         public Guid? CategoryId { get; set; }
 
-        public TagFilterDTO() : base()
-        => this.PageSize = 10;
+        // if it is neeeded to set default values for this model
+      //  public TagFilterDTO() : base()
+      //   => this.PageSize = 10;
     }
 }
