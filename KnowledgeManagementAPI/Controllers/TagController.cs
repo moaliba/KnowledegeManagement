@@ -1,14 +1,12 @@
 ﻿using CommandHandling.Abstractions;
 using KnowledgeManagementAPI.DTOs;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using QueryHandling.Abstractions;
+using ReadModels;
 using ReadModels.Query.Tag;
 using ReadModels.ViewModel.Tag;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using UseCases.Commands.TagCommands;
 
@@ -46,9 +44,9 @@ namespace KnowledgeManagementAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] TagFilterDTO TagFilter)
         {
-            var Response = await QueryBus.Send<TagViewModelList, GetAllTagsQuery>(new GetAllTagsQuery( TagFilter.PageNumber, TagFilter.PageSize,TagFilter.CategoryId, TagFilter.Title, TagFilter.SortOrder));
-            return Ok(JsonConvert.SerializeObject(new PagedResponse<IEnumerable<TagViewModel>>(Response.TagViewModels, Response.TotalCount)));
-            //return Ok("THIS IS TEST...");
+            var Response = await QueryBus.Send<PagedViewModel<TagViewModel>, GetAllTagsQuery>(new GetAllTagsQuery( TagFilter.PageNumber, TagFilter.PageSize,TagFilter.CategoryId, TagFilter.Title, TagFilter.SortOrder));
+           // return Ok(JsonConvert.SerializeObject(new PagedResponse<IEnumerable<TagViewModel>>(Response.TagViewModels, Response.TotalCount)));
+            return Ok(JsonConvert.SerializeObject(Response));
         }
 
         [HttpGet("{id}")]

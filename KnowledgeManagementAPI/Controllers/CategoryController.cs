@@ -8,7 +8,7 @@ using QueryHandling.Abstractions;
 using ReadModels.ViewModel;
 using ReadModels.Query.Category;
 using Newtonsoft.Json;
-using System.Collections.Generic;
+using ReadModels;
 
 namespace KnowledgeManagementAPI.Controllers
 {
@@ -52,9 +52,10 @@ namespace KnowledgeManagementAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] GetCategoryListDTO categoryList)
         {
-            var Response = await queryBus.Send<CategoryViewModelList, GetCategoryListQuery>(new GetCategoryListQuery(
+            var Response = await queryBus.Send<PagedViewModel<CategoryViewModel>, GetCategoryListQuery>(new GetCategoryListQuery(
                     Guid.NewGuid(), categoryList.PageNumber, categoryList.PageSize, categoryList.CategoryTitle, categoryList.SortOrder));
-            return Ok(JsonConvert.SerializeObject(new PagedResponse<IEnumerable<CategoryViewModel>>(Response.CategoryViewModels, Response.TotalCount)));
+            return Ok(JsonConvert.SerializeObject(Response));
+            //  return Ok(JsonConvert.SerializeObject(new PagedResponse<IEnumerable<CategoryViewModel>>(Response.CategoryViewModels, Response.TotalCount)));
         }
     }
 }

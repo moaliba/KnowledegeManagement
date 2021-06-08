@@ -1,17 +1,14 @@
 ﻿using CommandHandling.Abstractions;
 using Commands.TeamCommands;
 using KnowledgeManagementAPI.DTOs;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using QueryHandling.Abstractions;
+using ReadModels;
 using ReadModels.Query.Team;
 using ReadModels.ViewModel.Team;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using UseCases.RepositoryContracts;
 
 namespace KnowledgeManagementAPI.Controllers
 {
@@ -42,9 +39,8 @@ namespace KnowledgeManagementAPI.Controllers
         [HttpGet]
         public async Task<IActionResult> Get([FromQuery] TeamFilterDTO TeamFilter)
         {
-            var Response = await _QueryBus.Send<TeamViewModelList, GetAllTeamsQuery>(new GetAllTeamsQuery(Guid.NewGuid(), TeamFilter.PageNumber, TeamFilter.PageSize,TeamFilter.Title,TeamFilter.SortOrder));
-            return Ok(JsonConvert.SerializeObject(new PagedResponse<IEnumerable<TeamViewModel>>(Response.TeamViewModels, Response.TotalCount)));
-            //return Ok("THIS IS TEST...");
+            var Response = await _QueryBus.Send<PagedViewModel<TeamViewModel>, GetAllTeamsQuery>(new GetAllTeamsQuery(Guid.NewGuid(), TeamFilter.PageNumber, TeamFilter.PageSize,TeamFilter.Title,TeamFilter.SortOrder));
+            return Ok(JsonConvert.SerializeObject(Response));
         }
 
         [HttpGet("{id}")]

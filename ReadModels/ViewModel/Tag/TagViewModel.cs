@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ReadModels.ViewModel.Tag
 {
-    public class TagViewModel : IAmAViewModel
+    public class TagViewModel : IAmAViewModel  // PagedViewModel<TagViewModel>,
     {
         [Key]
         public Guid Id { get; set; }
