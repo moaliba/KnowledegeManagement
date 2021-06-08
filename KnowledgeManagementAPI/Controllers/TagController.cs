@@ -26,21 +26,29 @@ namespace KnowledgeManagementAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] DefineTagDTO[] defineTagDTO )
+        public async Task<IActionResult> Post([FromBody] DefineTagDTO tagDTO)
         {
-            if (defineTagDTO is null || defineTagDTO.Length==0)
-                throw new ArgumentNullException(nameof(defineTagDTO));
-
-            List<Task> listOfTasks = new();
-
-            foreach (var tagDTO in defineTagDTO)
-            {
-                listOfTasks.Add( CommandBus.Send(DefineTagCommand.Create(Guid.NewGuid(), tagDTO.Title, tagDTO.CategoryId)));
-            }
-
-            await Task.WhenAll(listOfTasks);
+            if (tagDTO is null)
+                throw new ArgumentNullException(nameof(tagDTO));
+            await CommandBus.Send(DefineTagCommand.Create(Guid.NewGuid(), tagDTO.Title, tagDTO.CategoryId));       
             return Ok();
         }
+
+        //public async Task<IActionResult> Post([FromBody] DefineTagDTO[] defineTagDTO)
+        //{
+        //    if (defineTagDTO is null || defineTagDTO.Length == 0)
+        //        throw new ArgumentNullException(nameof(defineTagDTO));
+
+        //    List<Task> listOfTasks = new();
+
+        //    foreach (var tagDTO in defineTagDTO)
+        //    {
+        //        listOfTasks.Add(CommandBus.Send(DefineTagCommand.Create(Guid.NewGuid(), tagDTO.Title, tagDTO.CategoryId)));
+        //    }
+
+        //    await Task.WhenAll(listOfTasks);
+        //    return Ok();
+        //}
 
         [HttpPut]
         public async Task<IActionResult> Put(Guid id,[FromBody] ChangeStatusDTO changeStatusDTO)
