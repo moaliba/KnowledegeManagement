@@ -33,7 +33,7 @@ namespace KnowledgeManagementAPI.Controllers
             return Ok();
         }
 
-        [HttpPut("id")]
+        [HttpPut("{id}")]
         public async Task<ActionResult> Put([FromBody] CategoryChangeTitleDTO CategoryChangeTitle)
         {
             if (CategoryChangeTitle == null)
@@ -42,7 +42,7 @@ namespace KnowledgeManagementAPI.Controllers
             return Ok();
         }
 
-        [HttpGet("id")]
+        [HttpGet("{id}")]
         public async Task<ActionResult<CategoryViewModel>> Get(Guid Id)
         {
             var Response = await queryBus.Send<CategoryViewModel, GetCategoryQuery>(new GetCategoryQuery(Id));
