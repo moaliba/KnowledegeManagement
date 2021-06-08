@@ -7,6 +7,7 @@ using ReadModels;
 using ReadModels.Query.Tag;
 using ReadModels.ViewModel.Tag;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UseCases.Commands.TagCommands;
 
@@ -21,14 +22,23 @@ namespace KnowledgeManagementAPI.Controllers
         public TagController(ICommandBus commandBus, IQueryBus queryBus)
         {
             CommandBus = commandBus;
-            QueryBus = queryBus;
+            QueryBus = queryBus;       
         }
+
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] DefineTagDTO defineTagDTO )
+        public async Task<IActionResult> Post([FromBody] DefineTagDTO[] defineTagDTO )
         {
-            if (defineTagDTO is null)
+            if (defineTagDTO is null || defineTagDTO.Length==0)
                 throw new ArgumentNullException(nameof(defineTagDTO));
-            await CommandBus.Send(DefineTagCommand.Create(Guid.NewGuid(), defineTagDTO.Title, defineTagDTO.CategoryId));
+
+            List<Task> listOfTasks = new();
+
+            foreach (var tagDTO in defineTagDTO)
+            {
+                listOfTasks.Add( CommandBus.Send(DefineTagCommand.Create(Guid.NewGuid(), tagDTO.Title, tagDTO.CategoryId)));
+            }
+
+            await Task.WhenAll(listOfTasks);
             return Ok();
         }
 
