@@ -31,7 +31,7 @@ namespace KnowledgeManagementAPI.Controllers
         {
             if (tagDTO is null)
                 throw new ArgumentNullException(nameof(tagDTO));
-            await CommandBus.Send(DefineTagCommand.Create(Guid.NewGuid(), tagDTO.Title, tagDTO.CategoryId));       
+            await CommandBus.Send(DefineTagCommand.Create(Guid.NewGuid(), tagDTO.Title, tagDTO.CategoryId, false));       
             return Ok();
         }
 
