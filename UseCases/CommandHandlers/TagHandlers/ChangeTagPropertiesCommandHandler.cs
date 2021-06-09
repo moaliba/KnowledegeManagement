@@ -1,25 +1,29 @@
 ﻿using CommandHandling.Abstractions;
 using DomainModel;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-using UseCases.Commands.TagCommands;
+using UseCases.CommandHandlers.TagCommands;
 using UseCases.RepositoryContracts;
 
 namespace UseCases.CommandHandlers.TagHandlers
 {
-    public class ChangeTagStatusCommandHandler : IHandleCommand<ChangeTagStatusCommand>
+    public class ChangeTagPropertiesCommandHandler: IHandleCommand<ChangeTagPropertiesCommand>
     {
         readonly ITagRepository Tags;
-        public ChangeTagStatusCommandHandler(ITagRepository tags)
+        public ChangeTagPropertiesCommandHandler(ITagRepository tags)
         => Tags = tags;
 
-        public Task Handle(ChangeTagStatusCommand command)
+
+        public Task Handle(ChangeTagPropertiesCommand command)
         {
             Tag tag = Tags.Find(command.Id);
             if (tag == null)
                 throw new Exception("Tag is not found!!!");
-            
-            tag.ChangeTagStatus(command.Id,command.isActive);
+
+            tag.ChangeTagProperties(command.Id, command.Title,command.CategoryId,command.IsActive);
             Tags.Update(tag);
             return Task.CompletedTask;
         }

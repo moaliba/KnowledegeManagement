@@ -9,6 +9,7 @@ using ReadModels.ViewModel.Tag;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using UseCases.CommandHandlers.TagCommands;
 using UseCases.Commands.TagCommands;
 
 namespace KnowledgeManagementAPI.Controllers
@@ -51,11 +52,13 @@ namespace KnowledgeManagementAPI.Controllers
         //}
 
         [HttpPut]
-        public async Task<IActionResult> Put(Guid id,[FromBody] ChangeStatusDTO changeStatusDTO)
+        public async Task<IActionResult> Put(Guid id,[FromBody] ChangeTagPropertiesDTO changeTagPropertiesDTO)
         {
-            if (changeStatusDTO is null)
-                throw new ArgumentNullException(nameof(changeStatusDTO));
-            await CommandBus.Send(new ChangeTagStatusCommand(id, changeStatusDTO.Status));
+            if (id == Guid.Empty)
+                throw new ArgumentNullException($"{nameof(id)}", $"{nameof(id)} cannot be null or empty.");
+            if (changeTagPropertiesDTO is null)
+                throw new ArgumentNullException(nameof(changeTagPropertiesDTO));
+            await CommandBus.Send(ChangeTagPropertiesCommand.Create(id,changeTagPropertiesDTO.Title,changeTagPropertiesDTO.CategoryId,changeTagPropertiesDTO.IsActive));
             return Ok();
         }
 
@@ -63,15 +66,38 @@ namespace KnowledgeManagementAPI.Controllers
         public async Task<IActionResult> Get([FromQuery] TagFilterDTO TagFilter)
         {
             var Response = await QueryBus.Send<PagedViewModel<TagViewModel>, GetAllTagsQuery>(new GetAllTagsQuery( TagFilter.PageNumber, TagFilter.PageSize,TagFilter.CategoryId, TagFilter.Title, TagFilter.SortOrder));
-           // return Ok(JsonConvert.SerializeObject(new PagedResponse<IEnumerable<TagViewModel>>(Response.TagViewModels, Response.TotalCount)));
             return Ok(JsonConvert.SerializeObject(Response));
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<TagViewModel>> Get(Guid id)
         {
+            if (id == Guid.Empty)
+                throw new ArgumentNullException($"{nameof(id)}", $"{nameof(id)} cannot be null or empty.");
             var Response = await QueryBus.Send<TagViewModel, GetTagQuery>(new GetTagQuery(id));
             return Ok(JsonConvert.SerializeObject(Response));
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(Guid id)
+        {
+            if (id == Guid.Empty)
+                throw new ArgumentNullException($"{nameof(id)}", $"{nameof(id)} cannot be null or empty.");
+            await CommandBus.Send<DeleteTagCommand>(new DeleteTagCommand(id));
+            return Ok();
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> Patch(Guid id, [FromBody] ChangeStatusDTO changeStatusDTO)
+        {
+            if (id == Guid.Empty) 
+                throw new ArgumentNullException($"{nameof(id)}", $"{nameof(id)} cannot be null or empty.");
+            if (changeStatusDTO is null)
+                throw new ArgumentNullException(nameof(changeStatusDTO));
+            await CommandBus.Send(new ChangeTagStatusCommand(id, changeStatusDTO.IsActive));
+            return Ok();
+        }
+
+
     }
 }

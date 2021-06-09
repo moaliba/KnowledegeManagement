@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ReadModels.Projectors
 {
-    public class TagListProjector : IHandleEvent<TagDefined> , IHandleEvent<TagStatusChanged> ,IHandleEvent<TagDeleted>
+    public class TagListProjector : IHandleEvent<TagDefined> , IHandleEvent<TagStatusChanged> ,IHandleEvent<TagDeleted> ,IHandleEvent<TagPropertiesChanged>
     {
         readonly IReadDbContext dbContext;
 
@@ -35,7 +35,7 @@ namespace ReadModels.Projectors
            TagViewModel tagViewModel= dbContext.TagViewModels.Find(e.Id); 
             if(tagViewModel ==null)
                 throw new Exception("Team is not found!!!");
-            tagViewModel.IsActive = e.Status;
+            tagViewModel.IsActive = e.IsActive;
 
             return Task.CompletedTask;
         }
@@ -46,6 +46,28 @@ namespace ReadModels.Projectors
             if (tag == null)
                 throw new Exception("Team is not found!!!");
             dbContext.TagViewModels.Remove(tag);
+            return Task.CompletedTask;
+        }
+
+        public Task Handle(TagPropertiesChanged e)
+        {
+
+            TagViewModel tagViewModel = dbContext.TagViewModels.Find(e.Id);
+            if (tagViewModel == null)
+                throw new Exception("Team is not found!!!");
+          
+            if (tagViewModel.CategoryId !=e.CategoryId)
+            {
+                var Category = dbContext.CategoryViewModels.Find(e.CategoryId);
+                string CategoryName = Category != null ? Category.CategoryTitle : string.Empty;
+
+                tagViewModel.CategoryId = e.CategoryId;
+                tagViewModel.CategoryName = CategoryName;
+            }
+               
+            tagViewModel.Title = e.Title;          
+            tagViewModel.IsActive = e.IsActive;
+
             return Task.CompletedTask;
         }
     }
