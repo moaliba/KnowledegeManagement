@@ -26,7 +26,7 @@ namespace UseCases.Reactors
             for (int i = 0; i < tagList.Length ; i++)
             {
                 if (!Tags.DoesExistInCategory(tagList[i], e.CategoryId))
-                    CommandBus.Send(DefineTagCommand.Create(Guid.NewGuid(), tagList[i], e.CategoryId));
+                    CommandBus.Send(DefineTagCommand.Create(Guid.NewGuid(), tagList[i], e.CategoryId, true));
             }
             return Task.CompletedTask;
           

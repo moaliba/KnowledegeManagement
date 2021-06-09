@@ -1,7 +1,6 @@
 ﻿using System;
 using DomainEvents.Tag;
 
-
 namespace DomainModel
 {
     public class Tag : AggregateRoot
@@ -15,11 +14,11 @@ namespace DomainModel
         [Obsolete]
         Tag(){ }
 
-        public static Tag DefineTag(Guid id, string title, Guid? categoryId)
-        => new(id,title,categoryId);
+        public static Tag DefineTag(Guid id, string title, Guid? categoryId, bool DefinedFormPost)
+        => new(id,title,categoryId, DefinedFormPost);
        
-        Tag(Guid id, string title, Guid? categoryId) :base(id)
-        =>  RecordThat(new TagDefined(id, title, categoryId));
+        Tag(Guid id, string title, Guid? categoryId, bool DefinedFormPost) :base(id)
+        =>  RecordThat(new TagDefined(id, title, categoryId, DefinedFormPost));
 
         public void ChangeTagStatus(Guid id,bool status)
         => RecordThat(new TagStatusChanged(id,status));

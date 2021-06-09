@@ -1,7 +1,9 @@
 ﻿using DomainEvents.Post;
 using EventHandling.Abstractions;
 using ReadModels.ViewModel.Post;
+using ReadModels.ViewModel.Tag;
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace ReadModels.Projectors.Post
@@ -26,6 +28,17 @@ namespace ReadModels.Projectors.Post
                 UserID = e.UserId,
                 RegisterDate = DateTime.Now
             });
+
+            string Posttags = e.Tags;
+            string[] tagList = Posttags.Split(new char[] { ',' });
+            for (int i = 0; i < tagList.Length; i++)
+            {
+                TagViewModel tag = readDbContext.TagViewModels.FirstOrDefault(c => c.Title == tagList[i] && c.CategoryId == e.CategoryId);
+                tag.UsedCount += 1;
+                if (tag != null)
+                    readDbContext.TagViewModels.Update(tag);
+            }
+
             return Task.CompletedTask;
         }
     }
