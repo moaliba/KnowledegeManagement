@@ -21,8 +21,10 @@ namespace DomainModel
         Tag(Guid id, string title, Guid? categoryId) :base(id)
         =>  RecordThat(new TagDefined(id, title, categoryId));
 
-        public void ChangeTagStatus(Guid id,bool status)
-        => RecordThat(new TagStatusChanged(id,status));
+        public void ChangeTagStatus(Guid id,bool isActive)
+        => RecordThat(new TagStatusChanged(id, isActive));
+        public void ChangeTagProperties(Guid id, string title, Guid? categoryId, bool isActive)
+        => RecordThat(new TagPropertiesChanged(id,title,categoryId,isActive));
 
         public void Remove()
             => RecordThat(new TagDeleted(Id));
@@ -33,9 +35,15 @@ namespace DomainModel
             CategoryId = e.CategoryId;
         }
 
+        void On(TagPropertiesChanged e)
+        {
+            Title = e.Title;
+            CategoryId = CategoryId;
+            IsActive = e.IsActive;
+        }
         void On(TagStatusChanged e)
         {
-            IsActive = e.Status;
+            IsActive = e.IsActive;
         }
 
         void On(TagDeleted e) { }

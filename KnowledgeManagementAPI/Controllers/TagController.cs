@@ -9,6 +9,7 @@ using ReadModels.ViewModel.Tag;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using UseCases.CommandHandlers.TagCommands;
 using UseCases.Commands.TagCommands;
 
 namespace KnowledgeManagementAPI.Controllers
@@ -51,11 +52,11 @@ namespace KnowledgeManagementAPI.Controllers
         //}
 
         [HttpPut]
-        public async Task<IActionResult> Put(Guid id,[FromBody] ChangeStatusDTO changeStatusDTO)
+        public async Task<IActionResult> Put(Guid id,[FromBody] ChangeTagPropertiesDTO changeTagPropertiesDTO)
         {
-            if (changeStatusDTO is null)
-                throw new ArgumentNullException(nameof(changeStatusDTO));
-            await CommandBus.Send(new ChangeTagStatusCommand(id, changeStatusDTO.Status));
+            if (changeTagPropertiesDTO is null)
+                throw new ArgumentNullException(nameof(changeTagPropertiesDTO));
+            await CommandBus.Send(ChangeTagPropertiesCommand.Create(id,changeTagPropertiesDTO.Title,changeTagPropertiesDTO.CategoryId,changeTagPropertiesDTO.IsActive));
             return Ok();
         }
 
@@ -73,5 +74,14 @@ namespace KnowledgeManagementAPI.Controllers
             var Response = await QueryBus.Send<TagViewModel, GetTagQuery>(new GetTagQuery(id));
             return Ok(JsonConvert.SerializeObject(Response));
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(Guid id)
+        {
+            await CommandBus.Send<DeleteTagCommand>(new DeleteTagCommand(id));
+            return Ok();
+        }
+
+
     }
 }

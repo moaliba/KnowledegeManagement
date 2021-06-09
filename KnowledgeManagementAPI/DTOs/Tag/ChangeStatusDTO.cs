@@ -3,6 +3,6 @@ namespace KnowledgeManagementAPI.DTOs
 {
     public class ChangeStatusDTO
     {
-        public bool Status { get; set; }
+        public bool IsActive { get; set; }
     }
 }

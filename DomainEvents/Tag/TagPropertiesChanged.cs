@@ -7,6 +7,6 @@ using System.Threading.Tasks;
 
 namespace DomainEvents.Tag
 {
-    public record TagStatusChanged(Guid Id,bool IsActive) : AnEvent(Id);
-    
+    public record TagPropertiesChanged(Guid Id,string Title, Guid? CategoryId,bool IsActive) : AnEvent(Id);
+   
 }
