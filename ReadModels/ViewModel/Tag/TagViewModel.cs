@@ -14,5 +14,6 @@ namespace ReadModels.ViewModel.Tag
         public string CategoryName { get; set; }
         public Guid UserId { get; set; }
         public bool IsActive { get; set; } = true;
+        public int UsedCount { get; set; } = 0;
     }
 }

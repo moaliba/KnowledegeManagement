@@ -29,7 +29,7 @@ namespace UseCases.Reactors
                     CommandBus.Send(DefineTagCommand.Create(Guid.NewGuid(), tagList[i], e.CategoryId));
             }
             return Task.CompletedTask;
-          //  throw new NotImplementedException();
+          
         }
     }
 }
