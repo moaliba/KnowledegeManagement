@@ -13,5 +13,6 @@ namespace UseCases.RepositoryContracts
         bool DoesExistInCategory(string title,Guid? categoryId);
         void Update(Tag tag);
         Tag Find(Guid id);
+        void Delete(Tag tag);
     }
 }

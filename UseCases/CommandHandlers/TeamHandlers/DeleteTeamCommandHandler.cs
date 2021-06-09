@@ -15,17 +15,14 @@ namespace UseCases.CommandHandlers.TeamHandlers
 
         public DeleteTeamCommandHandler(ITeamRepository teamRepository)
         => this.Teams = teamRepository;
-       
-        public  Task Handle(DeleteTeamCommand command)
+
+        public Task Handle(DeleteTeamCommand command)
         {
             var team = Teams.Find(command.Id);
             if (team == null)
                 throw new Exception("Team is not found!!!");
-            else
-            {
-                team.Remove();
-                Teams.Delete(team);
-            }
+            team.Remove();
+            Teams.Delete(team);
             return Task.CompletedTask;
         }
     }

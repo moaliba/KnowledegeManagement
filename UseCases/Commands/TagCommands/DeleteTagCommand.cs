@@ -4,6 +4,6 @@ using System;
 
 namespace UseCases.Commands.TagCommands
 {
-    public record ChangeTagStatusCommand(Guid Id,bool Status) : Acommand(Id);
-   
+    public record DeleteTagCommand(Guid Id) : Acommand(Id);
+    
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace ReadModels.Projectors
 {
-    public class TagListProjector : IHandleEvent<TagDefined> , IHandleEvent<TagStatusChanged>
+    public class TagListProjector : IHandleEvent<TagDefined> , IHandleEvent<TagStatusChanged> ,IHandleEvent<TagDeleted>
     {
         readonly IReadDbContext dbContext;
 
@@ -37,6 +37,15 @@ namespace ReadModels.Projectors
                 throw new Exception("Team is not found!!!");
             tagViewModel.IsActive = e.Status;
 
+            return Task.CompletedTask;
+        }
+
+        public Task Handle(TagDeleted e)
+        {
+            TagViewModel tag = dbContext.TagViewModels.Find(e.Id);
+            if (tag == null)
+                throw new Exception("Team is not found!!!");
+            dbContext.TagViewModels.Remove(tag);
             return Task.CompletedTask;
         }
     }

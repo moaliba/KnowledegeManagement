@@ -24,6 +24,9 @@ namespace DomainModel
         public void ChangeTagStatus(Guid id,bool status)
         => RecordThat(new TagStatusChanged(id,status));
 
+        public void Remove()
+            => RecordThat(new TagDeleted(Id));
+
         void On(TagDefined e)
         {
             Title = e.Title;
@@ -34,5 +37,8 @@ namespace DomainModel
         {
             IsActive = e.Status;
         }
+
+        void On(TagDeleted e) { }
+       
     }
 }

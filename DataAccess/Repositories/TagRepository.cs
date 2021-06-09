@@ -33,6 +33,13 @@ namespace DataAccess.Repositories
 
         public Tag Find(Guid id)
         =>  dbContext.Tags.Find(id);
-       
+
+        public void Delete(Tag tag)
+        {
+            foreach (AnEvent e in tag.Events)
+                EventBus.Publish(e);
+            tag.ClearEvents();
+            dbContext.Tags.Remove(tag);
+        }
     }
 }

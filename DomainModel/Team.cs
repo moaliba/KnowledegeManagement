@@ -37,10 +37,8 @@ namespace DomainModel
             Title = e.Title;
         }
 
-        void On(TeamDeleted e)
-        {
-           
-        }
+        void On(TeamDeleted e) { }
+        
 
 
 
