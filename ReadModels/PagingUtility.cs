@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using ReadModels.ViewModel;
+using System.Linq;
 
 namespace ReadModels
 {
@@ -6,9 +7,9 @@ namespace ReadModels
     {
         public static PagedViewModel<T> Paginate<T>(int pageNumber,int pageSize, IQueryable<T> allItems)
         {
-            var info = new PagingInfo(pageNumber
+            var info =  new PagingInfo(pageNumber
                                , pageSize
-                               , allItems?.Count() ?? 0);
+                               , allItems?.Count() ?? 0) ;
 
             var vm = new PagedViewModel<T>(info, allItems);
             return vm;

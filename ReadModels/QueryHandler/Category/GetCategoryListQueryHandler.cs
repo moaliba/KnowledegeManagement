@@ -18,19 +18,18 @@ namespace ReadModels.QueryHandler.Category
         public  Task<PagedViewModel<CategoryViewModel>> Handle(GetCategoryListQuery query)
         {
             var TotalItems = dbContext.CategoryViewModels
-            .Where(t => t.CategoryTitle.Contains(query.CategoryTitle ?? string.Empty));
-            //.Skip((query.PageNumber - 1) * query.PageSize)
-            //.Take(query.PageSize);
+            .Where(t => t.CategoryTitle.StartsWith(query.CategoryTitle ?? string.Empty));
 
             switch (query.SortOrder)
             {
-                case "Title":
+                case "title":
                     TotalItems = TotalItems.OrderBy(t => t.CategoryTitle);
                     break;
-                case "Title_desc":
+                case "title_desc":
                     TotalItems = TotalItems.OrderByDescending(t => t.CategoryTitle);
                     break;
                 default:
+                    TotalItems = TotalItems.OrderBy(t => t.InsertDate);
                     break;
             }
 
@@ -38,10 +37,6 @@ namespace ReadModels.QueryHandler.Category
             var result = PagingUtility.Paginate(query.PageNumber, query.PageSize, TotalItems);
             return Task.FromResult(result);
 
-            //  var totalRecords = await dbContext.CategoryViewModels.CountAsync(t => t.CategoryTitle.Contains(query.CategoryTitle ?? string.Empty));
-
-            //var CategoryResult = new CategoryViewModelList() { CategoryViewModels = result.AsEnumerable(), TotalCount = totalRecords };
-            //return CategoryResult;
         }
 
        

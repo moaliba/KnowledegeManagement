@@ -5,7 +5,7 @@ namespace KnowledgeManagementAPI.DTOs.Category
     {
         public string CategoryTitle { get; set; }
 
-        public GetCategoryListDTO() : base()
-        => PageSize = 10;
+        //public GetCategoryListDTO() : base()
+        //=> PageSize = 10;
     }
 }

@@ -25,6 +25,7 @@ namespace ReadModels.Projectors
                 CategoryId = e.CategoryId,
                 CategoryName = CategoryName,
                 UserId = Guid.NewGuid(),
+                IsActive=e.IsActive,
                 UsedCount = e.DefinedFormPost ? 1 : 0
             });
 

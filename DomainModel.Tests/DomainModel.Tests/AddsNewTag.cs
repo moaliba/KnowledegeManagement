@@ -16,9 +16,9 @@ namespace KnowledgeManagement
         {
             var id = Guid.NewGuid();
             var categoryId = Guid.NewGuid();
-            var tag = Tag.DefineTag(id, title, categoryId);
+            var tag = Tag.DefineTag(id, title, categoryId,true,false);
             tag.Events.Should().ContainEquivalentOf(
-                    new TagDefined(id, title, categoryId)
+                    new TagDefined(id, title, categoryId, true, false)
               );
         }
     }

@@ -5,12 +5,12 @@ namespace KnowledgeManagementAPI.DTOs
     {
         const int maxPageSize = 200;
         public int PageNumber { get; set; } = 1;
-        private int _pageSize = 20;
+        private int? _pageSize;
         public int PageSize
         {
             get
             {
-                return _pageSize;
+                return _pageSize??0;
             }
             set
             {
@@ -20,10 +20,6 @@ namespace KnowledgeManagementAPI.DTOs
 
         public string SortOrder { get; set; }
 
-        //public FilterModelBase()
-        //{
-        //    this.PageNumber = 1;
-        //    this.PageSize = 20;
-        //}
+       // public FilterModelBase() => SortOrder = !string.IsNullOrEmpty(SortOrder) ? SortOrder.ToLower() : string.Empty;
     }
 }

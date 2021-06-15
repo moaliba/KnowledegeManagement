@@ -27,7 +27,7 @@ namespace UseCases.CommandHandlers.TagHandlers
                     throw new Exception("Category does not exist");
             if (Tags.DoesExistInCategory(command.Title,command.CategoryId))
                 throw new Exception("Tag already exists in this category");
-            Tags.Add(Tag.DefineTag(command.Id, command.Title, command.CategoryId, command.DefinedFormPost));
+            Tags.Add(Tag.DefineTag(command.Id, command.Title, command.CategoryId,command.IsActive, command.DefinedFormPost));
             return Task.CompletedTask;
         }
     }

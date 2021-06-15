@@ -15,7 +15,7 @@ namespace ReadModels
             PageNumber = number;
             PageSize = size;
             TotalCount = totalCount;
-            TotalPageCount = (int)Math.Ceiling(totalCount / (double)size);
+            TotalPageCount =size !=0 ? (int)Math.Ceiling(totalCount / (double)size) : 1;
         }
     }
 }

@@ -39,5 +39,7 @@ namespace DataSource
         public DbSet<CategoryViewModel> CategoryViewModels { get; set; }
         public DbSet<TagViewModel> TagViewModels { get; set; }
         public DbSet<PostViewModel> PostViewModels { get; set; }
+
+       
     }
 }

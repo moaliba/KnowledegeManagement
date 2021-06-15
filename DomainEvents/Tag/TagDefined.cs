@@ -4,5 +4,5 @@ using System;
 
 namespace DomainEvents.Tag
 {
-    public record TagDefined(Guid Id, string Title, Guid? CategoryId, bool DefinedFormPost) : AnEvent(Id);
+    public record TagDefined(Guid Id, string Title, Guid? CategoryId,bool IsActive, bool DefinedFormPost) : AnEvent(Id);
 }
