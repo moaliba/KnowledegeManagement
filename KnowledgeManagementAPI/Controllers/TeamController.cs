@@ -6,6 +6,7 @@ using Newtonsoft.Json;
 using QueryHandling.Abstractions;
 using ReadModels;
 using ReadModels.Query.Team;
+using ReadModels.ViewModel;
 using ReadModels.ViewModel.Team;
 using System;
 using System.Threading.Tasks;

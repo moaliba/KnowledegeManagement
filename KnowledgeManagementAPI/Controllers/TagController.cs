@@ -3,14 +3,14 @@ using KnowledgeManagementAPI.DTOs;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using QueryHandling.Abstractions;
-using ReadModels;
 using ReadModels.Query.Tag;
+using ReadModels.ViewModel;
 using ReadModels.ViewModel.Tag;
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using UseCases.CommandHandlers.TagCommands;
 using UseCases.Commands.TagCommands;
+using KnowledgeManagementAPI.Filters;
 
 namespace KnowledgeManagementAPI.Controllers
 {
@@ -27,45 +27,42 @@ namespace KnowledgeManagementAPI.Controllers
         }
 
         [HttpPost]
+        [PersianConvertorFilter("tagDTO")]
         public async Task<IActionResult> Post([FromBody] DefineTagDTO tagDTO)
         {
             if (tagDTO is null)
                 throw new ArgumentNullException(nameof(tagDTO));
-            await CommandBus.Send(DefineTagCommand.Create(Guid.NewGuid(), tagDTO.Title, tagDTO.CategoryId, false));       
+            await CommandBus.Send(DefineTagCommand.Create(Guid.NewGuid(), tagDTO.Title, tagDTO.CategoryId,tagDTO.IsActive, false));       
             return Ok();
         }
 
-        //public async Task<IActionResult> Post([FromBody] DefineTagDTO[] defineTagDTO)
-        //{
-        //    if (defineTagDTO is null || defineTagDTO.Length == 0)
-        //        throw new ArgumentNullException(nameof(defineTagDTO));
 
-        //    List<Task> listOfTasks = new();
-
-        //    foreach (var tagDTO in defineTagDTO)
-        //    {
-        //        listOfTasks.Add(CommandBus.Send(DefineTagCommand.Create(Guid.NewGuid(), tagDTO.Title, tagDTO.CategoryId)));
-        //    }
-
-        //    await Task.WhenAll(listOfTasks);
-        //    return Ok();
-        //}
-
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Put(Guid id,[FromBody] ChangeTagPropertiesDTO changeTagPropertiesDTO)
         {
             if (id == Guid.Empty)
                 throw new ArgumentNullException($"{nameof(id)}", $"{nameof(id)} cannot be null or empty.");
             if (changeTagPropertiesDTO is null)
                 throw new ArgumentNullException(nameof(changeTagPropertiesDTO));
-            await CommandBus.Send(ChangeTagPropertiesCommand.Create(id,changeTagPropertiesDTO.Title,changeTagPropertiesDTO.CategoryId,changeTagPropertiesDTO.IsActive));
+            await CommandBus.Send(ChangeTagPropertiesCommand.Create(id,changeTagPropertiesDTO.Title.ToPersianString(),changeTagPropertiesDTO.CategoryId,changeTagPropertiesDTO.IsActive));
             return Ok();
         }
 
         [HttpGet]
+        [ActionName("GetByAdmin")]
+        [Route("GetByAdmin")]
+        [PersianConvertorFilter("TagFilter")]
+        public async Task<IActionResult> GetByAdmin([FromQuery] TagFilterDTO TagFilter)
+        {
+            var Response = await QueryBus.Send<PagedViewModel<TagViewModel>, GetAllTagsQuery>(new GetAllTagsQuery( TagFilter.PageNumber, TagFilter.PageSize,TagFilter.CategoryId, TagFilter.Title, TagFilter.SortOrder.NormalizedInput()));
+            return Ok(JsonConvert.SerializeObject(Response));
+        }
+
+        [HttpGet]
+        [PersianConvertorFilter("TagFilter")]
         public async Task<IActionResult> Get([FromQuery] TagFilterDTO TagFilter)
         {
-            var Response = await QueryBus.Send<PagedViewModel<TagViewModel>, GetAllTagsQuery>(new GetAllTagsQuery( TagFilter.PageNumber, TagFilter.PageSize,TagFilter.CategoryId, TagFilter.Title, TagFilter.SortOrder));
+            var Response = await QueryBus.Send<PagedViewModel<UserTagViewModel>, GetTagsByUserQuery>(new GetTagsByUserQuery(TagFilter.PageNumber, TagFilter.PageSize, TagFilter.CategoryId, TagFilter.Title));
             return Ok(JsonConvert.SerializeObject(Response));
         }
 

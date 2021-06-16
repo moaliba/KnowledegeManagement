@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace KnowledgeManagementAPI.DTOs.Post
 {
-    public class PostDTO
+    public class PostDTO 
     {
         public Guid CategoryId { get; set; }
 

@@ -10,5 +10,6 @@ namespace ReadModels.ViewModel
         public Guid CategoryId { get; set; }
 
         public string CategoryTitle { get; set; }
+        public DateTime InsertDate { get; set; } = DateTime.Now;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using QueryHandling.Abstractions;
+using ReadModels.ViewModel;
 using ReadModels.ViewModel.Tag;
 using System;
 

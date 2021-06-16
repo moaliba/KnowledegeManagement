@@ -1,5 +1,6 @@
 ﻿using QueryHandling.Abstractions;
 using ReadModels.Query.Team;
+using ReadModels.ViewModel;
 using ReadModels.ViewModel.Team;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,10 +24,10 @@ namespace ReadModels.QueryHandler.TeamQueryHandler
            
             switch (query.SortOrder)
             {
-                case "Title":
+                case "title":
                     TotalItems = TotalItems.OrderBy(t => t.Title);
                     break;
-                case "Title_desc":
+                case "title_desc":
                     TotalItems = TotalItems.OrderByDescending(t => t.Title);
                     break;
                 default:

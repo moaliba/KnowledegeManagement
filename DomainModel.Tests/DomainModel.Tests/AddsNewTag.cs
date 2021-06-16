@@ -10,15 +10,15 @@ namespace KnowledgeManagement
     public class AddsnewtagSpec
     {
         [Theory]
-        [InlineData("C#", true)]
-        [InlineData("React", false)]
-        public void Addsnewtag(string title, bool DefinedFromPost)
+        [InlineData("C#")]
+        [InlineData("React")]
+        public void Addsnewtag(string title)
         {
             var id = Guid.NewGuid();
             var categoryId = Guid.NewGuid();
-            var tag = Tag.DefineTag(id, title, categoryId, DefinedFromPost);
+            var tag = Tag.DefineTag(id, title, categoryId,true,false);
             tag.Events.Should().ContainEquivalentOf(
-                    new TagDefined(id, title, categoryId, DefinedFromPost)
+                    new TagDefined(id, title, categoryId, true, false)
               );
         }
     }

@@ -14,11 +14,11 @@ namespace DomainModel
         [Obsolete]
         Tag(){ }
 
-        public static Tag DefineTag(Guid id, string title, Guid? categoryId, bool DefinedFromPost)
-        => new(id,title,categoryId, DefinedFromPost);
+        public static Tag DefineTag(Guid id, string title, Guid? categoryId,bool isActive, bool DefinedFormPost)
+        => new(id,title,categoryId,isActive, DefinedFormPost);
        
-        Tag(Guid id, string title, Guid? categoryId, bool DefinedFormPost) :base(id)
-        =>  RecordThat(new TagDefined(id, title, categoryId, DefinedFormPost));
+        Tag(Guid id, string title, Guid? categoryId, bool isActive, bool DefinedFormPost) :base(id)
+        =>  RecordThat(new TagDefined(id, title, categoryId,isActive, DefinedFormPost));
 
         public void ChangeTagStatus(Guid id,bool isActive)
         => RecordThat(new TagStatusChanged(id, isActive));

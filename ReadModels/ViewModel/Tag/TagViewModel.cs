@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ReadModels.ViewModel.Tag
 {
-    public class TagViewModel : IAmAViewModel  // PagedViewModel<TagViewModel>,
+    public class TagViewModel : IAmAViewModel  
     {
         [Key]
         public Guid Id { get; set; }
@@ -15,5 +15,6 @@ namespace ReadModels.ViewModel.Tag
         public Guid UserId { get; set; }
         public bool IsActive { get; set; } = true;
         public int UsedCount { get; set; } = 0;
+        public DateTime InsertDate { get; set; } = DateTime.Now;
     }
 }

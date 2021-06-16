@@ -9,6 +9,7 @@ using ReadModels.ViewModel;
 using ReadModels.Query.Category;
 using Newtonsoft.Json;
 using ReadModels;
+using KnowledgeManagementAPI.Filters;
 
 namespace KnowledgeManagementAPI.Controllers
 {
@@ -25,6 +26,7 @@ namespace KnowledgeManagementAPI.Controllers
         }
 
         [HttpPost]
+        [PersianConvertorFilter("CategoryDefinition")]
         public async Task<ActionResult> Post([FromBody] CategoryDefinitionDTO CategoryDefinition)
         {
             if (CategoryDefinition == null)
@@ -34,6 +36,7 @@ namespace KnowledgeManagementAPI.Controllers
         }
 
         [HttpPut("{id}")]
+        [PersianConvertorFilter("CategoryChangeTitle")]
         public async Task<ActionResult> Put([FromBody] CategoryChangeTitleDTO CategoryChangeTitle)
         {
             if (CategoryChangeTitle == null)
@@ -50,10 +53,11 @@ namespace KnowledgeManagementAPI.Controllers
         }
 
         [HttpGet]
+        [PersianConvertorFilter("categoryList")]
         public async Task<IActionResult> Get([FromQuery] GetCategoryListDTO categoryList)
         {
             var Response = await queryBus.Send<PagedViewModel<CategoryViewModel>, GetCategoryListQuery>(new GetCategoryListQuery(
-                    Guid.NewGuid(), categoryList.PageNumber, categoryList.PageSize, categoryList.CategoryTitle, categoryList.SortOrder));
+                    Guid.NewGuid(), categoryList.PageNumber, categoryList.PageSize, categoryList.CategoryTitle, categoryList.SortOrder.NormalizedInput()));
             return Ok(JsonConvert.SerializeObject(Response));
             //  return Ok(JsonConvert.SerializeObject(new PagedResponse<IEnumerable<CategoryViewModel>>(Response.CategoryViewModels, Response.TotalCount)));
         }

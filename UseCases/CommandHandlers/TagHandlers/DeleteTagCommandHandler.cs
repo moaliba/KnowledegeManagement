@@ -17,7 +17,7 @@ namespace UseCases.CommandHandlers.TagHandlers
         {
             var Tag = Tags.Find(command.Id);
             if (Tag == null)
-                throw new Exception("Team is not found!!!");
+                throw new Exception("Tag is not found!!!");
             Tag.Remove();
             Tags.Delete(Tag);
             return Task.CompletedTask;
