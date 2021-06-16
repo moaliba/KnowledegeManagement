@@ -1,15 +1,12 @@
 ﻿using CommandHandling.Abstractions;
 using KnowledgeManagementAPI.DTOs.Post;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using QueryHandling.Abstractions;
-using ReadModels;
 using ReadModels.Query.Post;
+using ReadModels.ViewModel;
 using ReadModels.ViewModel.Post;
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using UseCases.Commands.Post;
 

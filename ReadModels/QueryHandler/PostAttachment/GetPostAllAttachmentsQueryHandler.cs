@@ -1,5 +1,6 @@
 ﻿using QueryHandling.Abstractions;
 using ReadModels.Query.PostAttachment;
+using ReadModels.ViewModel;
 using ReadModels.ViewModel.PostAttachment;
 using System.Linq;
 using System.Threading.Tasks;

@@ -4,6 +4,7 @@ using ReadModels.ViewModel.Post;
 using System.Linq;
 using System.Threading.Tasks;
 using LinqKit;
+using ReadModels.ViewModel;
 
 namespace ReadModels.QueryHandler.Post
 {
