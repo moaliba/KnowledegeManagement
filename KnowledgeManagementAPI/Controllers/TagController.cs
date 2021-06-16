@@ -81,7 +81,10 @@ namespace KnowledgeManagementAPI.Controllers
             if (id == Guid.Empty)
                 throw new ArgumentNullException($"{nameof(id)}", $"{nameof(id)} cannot be null or empty.");
             await CommandBus.Send<DeleteTagCommand>(new DeleteTagCommand(id));
+        
             return Ok();
+            
+
         }
 
         [HttpPatch("{id}")]

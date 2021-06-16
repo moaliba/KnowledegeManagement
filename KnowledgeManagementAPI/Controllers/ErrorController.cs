@@ -3,9 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using UseCases.Exceptions;
 
 namespace KnowledgeManagementAPI.Controllers
 {
@@ -24,20 +22,42 @@ namespace KnowledgeManagementAPI.Controllers
             }
 
             var context = HttpContext.Features.Get<IExceptionHandlerFeature>();
-            //var exception = context.Error;
-            //var code = 500;
-            //if (exception is MyNotFoundException) code = 404; // Not Found
-            //else if (exception is MyUnauthException) code = 401; // Unauthorized
-            //else if (exception is MyException) code = 400; // Bad Request
+
+            var responseStatusCode = context.Error.GetType();
+            var exception = context.Error;
+            var code = 500;
+            if (exception is NotFoundException) code = StatusCodes.Status404NotFound; // Not Found
+            else if (exception is BadRequestException) code = StatusCodes.Status400BadRequest; // Bad Request
+
 
             return Problem(
                 detail: context.Error.StackTrace,
-                title: context.Error.Message);
+                statusCode: code,
+                title: context.Error.Message); 
         }
 
         [Route("/error")]
-        public IActionResult Error()
-            => Problem();
+        public IActionResult Error([FromServices] IWebHostEnvironment webHostEnvironment)
+        {
+            if (webHostEnvironment.EnvironmentName != "Development")
+            {
+                throw new InvalidOperationException(
+                    "This shouldn't be invoked in non-development environments.");
+            }
+
+            var context = HttpContext.Features.Get<IExceptionHandlerFeature>();
+
+            var responseStatusCode = context.Error.GetType();
+            var exception = context.Error;
+            var code = 500;
+            if (exception is NotFoundException) code = StatusCodes.Status404NotFound; // Not Found
+            else if (exception is BadRequestException) code = StatusCodes.Status400BadRequest; // Bad Request
+
+
+            return Problem(
+                statusCode: code,
+                title: context.Error.Message);
+        }
 
        
     }

@@ -75,6 +75,7 @@ namespace KnowledgeManagementAPI
                 config.RespectBrowserAcceptHeader = true;
                 config.ReturnHttpNotAcceptable = true;
                 config.Filters.Add<Filters.UnitOfWorkFilter>();
+               // config.Filters.Add(new HttpResponseExceptionFilter());
             });
 
             //.AddXmlDataContractSerializerFormatters();
@@ -93,7 +94,19 @@ namespace KnowledgeManagementAPI
                                      // app.UseDeveloperExceptionPage();
                 app.UseExceptionHandler("/error-local-development");
             else
+            {
                 app.UseExceptionHandler("/error");
+                app.UseHsts();
+            }
+
+            //app.UseExceptionHandler(c => c.Run(async context =>
+            //{
+            //    var exception = context.Features
+            //        .Get<IExceptionHandlerPathFeature>()
+            //        .Error;
+            //    var response = new { error = exception.Message , code=context.Response.StatusCode};
+            //    await context.Response.WriteAsJsonAsync(response);
+            //}));
 
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "KnowledgeManagementAPI v1"));
@@ -105,14 +118,7 @@ namespace KnowledgeManagementAPI
             app.UseCors();
             app.UseAuthorization();
 
-            //app.UseExceptionHandler(c => c.Run(async context =>
-            //{
-            //    var exception = context.Features
-            //        .Get<IExceptionHandlerPathFeature>()
-            //        .Error;
-            //    var response = new { error = exception.Message };
-            //    await context.Response.WriteAsJsonAsync(response);
-            //}));
+           
 
             app.UseEndpoints(endpoints =>
             {
