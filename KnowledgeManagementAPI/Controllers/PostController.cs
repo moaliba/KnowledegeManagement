@@ -2,6 +2,11 @@
 using KnowledgeManagementAPI.DTOs.Post;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using QueryHandling.Abstractions;
+using ReadModels;
+using ReadModels.Query.Post;
+using ReadModels.ViewModel.Post;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,10 +20,12 @@ namespace KnowledgeManagementAPI.Controllers
     public class PostController : ControllerBase
     {
         private readonly ICommandBus commandBus;
+        private readonly IQueryBus queryBus;
 
-        public PostController(ICommandBus commandBus)
+        public PostController(ICommandBus commandBus, IQueryBus queryBus)
         {
             this.commandBus = commandBus;
+            this.queryBus = queryBus;
         }
 
         [HttpPost]
@@ -26,8 +33,21 @@ namespace KnowledgeManagementAPI.Controllers
         {
             if (postDTO == null)
                 throw new ArgumentNullException(nameof(postDTO));
-            await commandBus.Send(PostCommand.Create(Guid.NewGuid(), postDTO.PostTitle, postDTO.PostContent, postDTO.CategoryId, postDTO.UserID, postDTO.Tags));
+            await commandBus.Send(PostCommand.Create(Guid.NewGuid(), postDTO.PostTitle, postDTO.PostContent,
+                                                        postDTO.CategoryId, postDTO.UserID, postDTO.Tags));
             return Ok();
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Get([FromBody] GetPostDTO getPostDTO)
+        {
+            if (getPostDTO == null)
+                throw new ArgumentNullException(nameof(getPostDTO));
+            var response = await queryBus.Send<PagedViewModel<PostViewModel>, GetPostQuery>
+                                                                (new GetPostQuery( getPostDTO.PageNumber, getPostDTO.PageSize, getPostDTO.CategoryID,
+                                                                                    getPostDTO.PostTitle, getPostDTO.Tags, getPostDTO.SortOrder));
+
+            return Ok(JsonConvert.SerializeObject(response));
         }
     }
 }

@@ -20,5 +20,8 @@ namespace DataAccess.Repositories
             post.ClearEvents();
             dbContext.Posts.Add(post);
         }
+
+        public Post Find(Guid Id)
+        => dbContext.Posts.FirstOrDefault(c => c.Id == Id);
     }
 }

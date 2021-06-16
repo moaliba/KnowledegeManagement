@@ -14,8 +14,8 @@ namespace DomainModel
         [Obsolete]
         Tag(){ }
 
-        public static Tag DefineTag(Guid id, string title, Guid? categoryId, bool DefinedFormPost)
-        => new(id,title,categoryId, DefinedFormPost);
+        public static Tag DefineTag(Guid id, string title, Guid? categoryId, bool DefinedFromPost)
+        => new(id,title,categoryId, DefinedFromPost);
        
         Tag(Guid id, string title, Guid? categoryId, bool DefinedFormPost) :base(id)
         =>  RecordThat(new TagDefined(id, title, categoryId, DefinedFormPost));
