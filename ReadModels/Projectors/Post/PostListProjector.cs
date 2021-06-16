@@ -34,9 +34,11 @@ namespace ReadModels.Projectors.Post
             for (int i = 0; i < tagList.Length; i++)
             {
                 TagViewModel tag = readDbContext.TagViewModels.FirstOrDefault(c => c.Title == tagList[i] && c.CategoryId == e.CategoryId);
-                tag.UsedCount += 1;
                 if (tag != null)
+                {
+                    tag.UsedCount += 1;
                     readDbContext.TagViewModels.Update(tag);
+                }
             }
 
             return Task.CompletedTask;

@@ -8,7 +8,6 @@ namespace DataSource.Mapping
         protected override void Config(EntityTypeBuilder<PostAttachment> builder)
         {
             builder.Ignore(c => c.File);
-            Config(builder);
         }
     }
 }
