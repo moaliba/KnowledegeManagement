@@ -8,11 +8,9 @@ namespace UseCases.Reactors
 {
     public class TeamDefinedReactor : IHandleEvent<TeamDefined>
     {
-        readonly ICommandBus commandBus;
+        private readonly ICommandBus commandBus;
         public TeamDefinedReactor(ICommandBus commandBus)
-        {
-            this.commandBus = commandBus;
-        }
+        => this.commandBus = commandBus;
 
         public Task Handle(TeamDefined e)
         {

@@ -11,18 +11,17 @@ namespace ReadModels.QueryHandler.PostAttachment
     {
         private readonly IReadDbContext dbContext;
         public GetPostAllAttachmentsQueryHandler(IReadDbContext readDbContext)
-        {
-            this.dbContext = readDbContext;
-        }
+        => dbContext = readDbContext;
 
         public Task<PagedViewModel<UserPostAttachmentViewModel>> Handle(GetPostAllAttachmentsQuery query)
         {
-            var UserPostAttachmentViewModel = dbContext.PostAttachmentViewModels.Where(c => c.PostId == query.PostId).Select(c => new UserPostAttachmentViewModel()
-            {
-                FileName = c.FileName,
-                PostAttachmentId = c.PostAttachmentId,
-                PostAttachmentTitle = c.PostAttachmentTitle
-            });
+            var UserPostAttachmentViewModel =
+                dbContext.PostAttachmentViewModels.Where(c => c.PostId == query.PostId).Select(c => new UserPostAttachmentViewModel()
+                 {
+                     FileName = c.FileName,
+                     PostAttachmentId = c.PostAttachmentId,
+                     PostAttachmentTitle = c.PostAttachmentTitle
+                 });
             var result = PagingUtility.Paginate(query.PageNumber, query.PageSize, UserPostAttachmentViewModel);
             return Task.FromResult(result);
         }

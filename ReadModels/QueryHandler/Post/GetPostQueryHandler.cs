@@ -12,9 +12,7 @@ namespace ReadModels.QueryHandler.Post
     {
         private readonly IReadDbContext readDbContext;
         public GetPostQueryHandler(IReadDbContext readDbContext)
-        {
-            this.readDbContext = readDbContext;
-        }
+        => this.readDbContext = readDbContext;
 
         Task<PagedViewModel<PostViewModel>> IHandleQuery<GetPostQuery, PagedViewModel<PostViewModel>>.Handle(GetPostQuery query)
         {
@@ -22,12 +20,11 @@ namespace ReadModels.QueryHandler.Post
             var TotalItems = readDbContext.PostViewModels.Where(c => (c.PostContent.Contains(query.PostTitle) 
                         && c.CategoryID == query.CategoryId));
 
-            var pr = PredicateBuilder.False<PostViewModel>();
-            foreach (string item in Tags)
-            {
-                pr = pr.Or(x => x.Tags.Contains(item));
-            }
-            TotalItems.AsExpandable().Where(pr);
+            var predictQuery = PredicateBuilder.False<PostViewModel>();
+            foreach (string tag in Tags)
+                predictQuery = predictQuery.Or(x => x.Tags.Contains(tag));
+
+            TotalItems.AsExpandable().Where(predictQuery);
 
             switch (query.SortOrder)
             {
@@ -38,7 +35,6 @@ namespace ReadModels.QueryHandler.Post
                     TotalItems = TotalItems.OrderByDescending(t => t.PostTitle);
                     break;
                 default:
-                    //  TotalItems = TotalItems.OrderBy(t => t.Title);
                     break;
             }
 

@@ -24,12 +24,10 @@ namespace UseCases.Reactors
             string Posttags = e.Tags;
             string[] tagList = Posttags.Split(new char[] { ',' });
             for (int i = 0; i < tagList.Length ; i++)
-            {
                 if (!Tags.DoesExistInCategory(tagList[i], e.CategoryId))
                     CommandBus.Send(DefineTagCommand.Create(Guid.NewGuid(), tagList[i], e.CategoryId,true,true));
-            }
+
             return Task.CompletedTask;
-          
         }
     }
 }

@@ -14,9 +14,7 @@ namespace ReadModels.QueryHandler.PostAttachment
     {
         private readonly IReadDbContext readDbContext;
         public GetPostAttachmentFileQueryHandler(IReadDbContext readDbContext)
-        {
-            this.readDbContext = readDbContext;
-        }
+        => this.readDbContext = readDbContext;
 
         public Task<PostAttachmentFileViewModel> Handle(GetPostAttachmentFileQuery query)
         {
@@ -25,11 +23,11 @@ namespace ReadModels.QueryHandler.PostAttachment
 
             if (File == null)
                 throw new Exception("FileAttachment does not exist!!!");
-            SqlParameter param1 = new SqlParameter("path_locator", System.Data.SqlDbType.VarChar, 4000) { Value = File.FilePath };
-            DocumentView d = readDbContext.DocumentView.
-                                 FromSqlRaw("EXECUTE dbo.GetDocument @path_locator", param1)
-                                 .AsEnumerable().FirstOrDefault();
-            var result = new PostAttachmentFileViewModel()
+            SqlParameter param1 = new("path_locator", System.Data.SqlDbType.VarChar, 4000) { Value = File.FilePath };
+            DocumentView d = readDbContext.DocumentView
+                                .FromSqlRaw("EXECUTE dbo.GetDocument @path_locator", param1)
+                                .AsEnumerable().FirstOrDefault();
+            PostAttachmentFileViewModel result = new()
             {
                 PostAttachmentId = query.PostAttachmentId,
                 File = d.file_stream
