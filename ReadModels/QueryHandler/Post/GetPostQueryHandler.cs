@@ -16,8 +16,8 @@ namespace ReadModels.QueryHandler.Post
 
         Task<PagedViewModel<PostViewModel>> IHandleQuery<GetPostQuery, PagedViewModel<PostViewModel>>.Handle(GetPostQuery query)
         {
-            string[] Tags = query.Tags.Split(new char[',']);
-            var TotalItems = readDbContext.PostViewModels.Where(c => (c.PostContent.Contains(query.PostTitle) 
+            string[] Tags = (query.Tags ?? string.Empty).Split(new char[',']);
+            var TotalItems = readDbContext.PostViewModels.Where(c => (c.PostContent.Contains(query.PostTitle)
                         && c.CategoryID == query.CategoryId));
 
             var predictQuery = PredicateBuilder.False<PostViewModel>();

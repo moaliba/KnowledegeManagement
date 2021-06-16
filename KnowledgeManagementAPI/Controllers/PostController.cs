@@ -36,7 +36,7 @@ namespace KnowledgeManagementAPI.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get([FromBody] GetPostDTO getPostDTO)
+        public async Task<IActionResult> Get([FromQuery] GetPostDTO getPostDTO)
         {
             if (getPostDTO == null)
                 throw new ArgumentNullException(nameof(getPostDTO));
