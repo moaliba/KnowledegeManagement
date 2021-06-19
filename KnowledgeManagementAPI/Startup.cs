@@ -1,28 +1,11 @@
-using CommandHandlers.TeamHandlers;
-using CommandHandling.Abstractions;
-using CommandHandling.MediatRAdopter;
-using Commands.TeamCommands;
-using DataAccess;
-using DataAccess.Repositories;
 using DataSource;
-using KnowledgeManagementAPI.Filters;
-using MediatR;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using QueryHandling.MediatRAdopter;
-using ReadModels;
-using ReadModels.QueryHandler.TeamQueryHandler;
-using System;
-using UseCases.RepositoryContracts;
 
 
 namespace KnowledgeManagementAPI
@@ -75,6 +58,7 @@ namespace KnowledgeManagementAPI
                 config.RespectBrowserAcceptHeader = true;
                 config.ReturnHttpNotAcceptable = true;
                 config.Filters.Add<Filters.UnitOfWorkFilter>();
+               // config.Filters.Add(new HttpResponseExceptionFilter());
             });
 
             //.AddXmlDataContractSerializerFormatters();
@@ -93,7 +77,19 @@ namespace KnowledgeManagementAPI
                                      // app.UseDeveloperExceptionPage();
                 app.UseExceptionHandler("/error-local-development");
             else
+            {
                 app.UseExceptionHandler("/error");
+                app.UseHsts();
+            }
+
+            //app.UseExceptionHandler(c => c.Run(async context =>
+            //{
+            //    var exception = context.Features
+            //        .Get<IExceptionHandlerPathFeature>()
+            //        .Error;
+            //    var response = new { error = exception.Message , code=context.Response.StatusCode};
+            //    await context.Response.WriteAsJsonAsync(response);
+            //}));
 
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "KnowledgeManagementAPI v1"));
@@ -105,14 +101,7 @@ namespace KnowledgeManagementAPI
             app.UseCors();
             app.UseAuthorization();
 
-            //app.UseExceptionHandler(c => c.Run(async context =>
-            //{
-            //    var exception = context.Features
-            //        .Get<IExceptionHandlerPathFeature>()
-            //        .Error;
-            //    var response = new { error = exception.Message };
-            //    await context.Response.WriteAsJsonAsync(response);
-            //}));
+           
 
             app.UseEndpoints(endpoints =>
             {

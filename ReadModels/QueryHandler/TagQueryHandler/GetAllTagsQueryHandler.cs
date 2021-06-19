@@ -42,22 +42,7 @@ namespace ReadModels.QueryHandler.TagQueryHandler
 
                 var result = PagingUtility.Paginate(query.PageNumber, query.PageSize, TotalItems);
                 return Task.FromResult(result);
-           
-
-
-            // var totalRecords = await dbContext.TagViewModels.CountAsync(t => t.Title.Contains(query.Title ?? string.Empty) && t.IsActive == true && t.CategoryId == query.CategoryId);
-
-            //var result=TotalItems
-            //    .Skip((query.PageNumber - 1) * query.PageSize)
-            //    .Take(query.PageSize);
-            // var PageCounter = new PageCounter(query.PageNumber, query.PageSize, totalRecords);
-
-
-
-            // var result = new PagedViewModel<TagViewModel>(PageCounter, TotalItems);
-
-            //   var tagResult = new TagViewModelList() { TagViewModels = result.ItemsInThePage.AsEnumerable(), TotalCount = totalRecords };
-
+       
         }
 
 

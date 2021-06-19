@@ -1,8 +1,10 @@
 ﻿using CommandHandling.Abstractions;
-using System;
 using System.Threading.Tasks;
 using UseCases.Commands.TagCommands;
+using UseCases.Exceptions;
 using UseCases.RepositoryContracts;
+
+
 
 namespace UseCases.CommandHandlers.TagHandlers
 {
@@ -17,7 +19,7 @@ namespace UseCases.CommandHandlers.TagHandlers
         {
             var Tag = Tags.Find(command.Id);
             if (Tag == null)
-                throw new Exception("Tag is not found!!!");
+                throw new NotFoundException("Tag is not found!!!");
             Tag.Remove();
             Tags.Delete(Tag);
             return Task.CompletedTask;

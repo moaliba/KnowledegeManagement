@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UseCases.CommandHandlers.TagCommands;
+using UseCases.Exceptions;
 using UseCases.RepositoryContracts;
 
 namespace UseCases.CommandHandlers.TagHandlers
@@ -21,7 +22,7 @@ namespace UseCases.CommandHandlers.TagHandlers
         {
             Tag tag = Tags.Find(command.Id);
             if (tag == null)
-                throw new Exception("Tag is not found!!!");
+                throw new NotFoundException("Tag is not found!!!");
 
             tag.ChangeTagProperties(command.Id, command.Title,command.CategoryId,command.IsActive);
             Tags.Update(tag);
