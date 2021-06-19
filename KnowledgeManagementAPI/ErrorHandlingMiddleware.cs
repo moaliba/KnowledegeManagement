@@ -3,10 +3,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace KnowledgeManagementAPI
@@ -21,16 +17,15 @@ namespace KnowledgeManagementAPI
             _next = next;
         }
 
-        public async Task Invoke(HttpContext context  , IWebHostEnvironment env)
+        public async Task Invoke(HttpContext context, IWebHostEnvironment env)
         {
-
             try
             {
                 await _next(context);
             }
             catch (Exception ex)
             {
-               // await HandleExceptionAsync(context, ex, env);
+                // await HandleExceptionAsync(context, ex, env);
             }
         }
 
@@ -66,7 +61,6 @@ namespace KnowledgeManagementAPI
         //}
     }
 
-  
 
     // Extension method used to add the middleware to the HTTP request pipeline.
     public static class ExceptionHandlingMiddlewareExtensions

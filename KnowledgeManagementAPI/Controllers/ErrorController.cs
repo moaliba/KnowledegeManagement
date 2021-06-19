@@ -22,8 +22,6 @@ namespace KnowledgeManagementAPI.Controllers
             }
 
             var context = HttpContext.Features.Get<IExceptionHandlerFeature>();
-
-            var responseStatusCode = context.Error.GetType();
             var exception = context.Error;
             var code = 500;
             if (exception is NotFoundException) code = StatusCodes.Status404NotFound; // Not Found
@@ -39,15 +37,8 @@ namespace KnowledgeManagementAPI.Controllers
         [Route("/error")]
         public IActionResult Error([FromServices] IWebHostEnvironment webHostEnvironment)
         {
-            if (webHostEnvironment.EnvironmentName != "Development")
-            {
-                throw new InvalidOperationException(
-                    "This shouldn't be invoked in non-development environments.");
-            }
-
             var context = HttpContext.Features.Get<IExceptionHandlerFeature>();
 
-            var responseStatusCode = context.Error.GetType();
             var exception = context.Error;
             var code = 500;
             if (exception is NotFoundException) code = StatusCodes.Status404NotFound; // Not Found

@@ -1,28 +1,11 @@
-using CommandHandlers.TeamHandlers;
-using CommandHandling.Abstractions;
-using CommandHandling.MediatRAdopter;
-using Commands.TeamCommands;
-using DataAccess;
-using DataAccess.Repositories;
 using DataSource;
-using KnowledgeManagementAPI.Filters;
-using MediatR;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using QueryHandling.MediatRAdopter;
-using ReadModels;
-using ReadModels.QueryHandler.TeamQueryHandler;
-using System;
-using UseCases.RepositoryContracts;
 
 
 namespace KnowledgeManagementAPI
