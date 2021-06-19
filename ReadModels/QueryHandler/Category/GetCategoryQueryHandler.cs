@@ -17,7 +17,7 @@ namespace ReadModels.QueryHandler.Category
 
         public Task<CategoryViewModel> Handle(GetCategoryQuery query)
         {
-            CategoryViewModel category = dbContext.CategoryViewModels.FirstOrDefault(c => c.CategoryId == query.CategoryId);
+            CategoryViewModel category = dbContext.CategoryViewModels.FirstOrDefault(c => c.Id == query.CategoryId);
             if (category != null)
                 return Task.FromResult(category);
             throw new Exception("team does not exist.");

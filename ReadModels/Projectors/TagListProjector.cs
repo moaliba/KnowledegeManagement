@@ -16,7 +16,7 @@ namespace ReadModels.Projectors
         public Task Handle(TagDefined e)
         {
             var Category = dbContext.CategoryViewModels.Find(e.CategoryId);
-            string CategoryName = Category != null ? Category.CategoryTitle : string.Empty;
+            string CategoryName = Category != null ? Category.Title : string.Empty;
 
             dbContext.TagViewModels.Add(new TagViewModel
             {
@@ -61,7 +61,7 @@ namespace ReadModels.Projectors
             if (tagViewModel.CategoryId != e.CategoryId)
             {
                 var Category = dbContext.CategoryViewModels.Find(e.CategoryId);
-                string CategoryName = Category != null ? Category.CategoryTitle : string.Empty;
+                string CategoryName = Category != null ? Category.Title : string.Empty;
 
                 tagViewModel.CategoryId = e.CategoryId;
                 tagViewModel.CategoryName = CategoryName;

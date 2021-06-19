@@ -17,10 +17,10 @@ namespace ReadModels.Projectors.Category
 
         public Task Handle(CategoryPropertiesChanged e)
         {
-            CategoryViewModel category = dbContext.CategoryViewModels.FirstOrDefault(c => c.CategoryId == e.CategoryId);
+            CategoryViewModel category = dbContext.CategoryViewModels.FirstOrDefault(c => c.Id == e.CategoryId);
             if (category == null)
                 throw new Exception("Category Not Found.");
-            category.CategoryTitle = e.CategoryTitle;
+            category.Title = e.CategoryTitle;
             dbContext.CategoryViewModels.Update(category);
             return Task.CompletedTask;
         }
@@ -29,19 +29,19 @@ namespace ReadModels.Projectors.Category
         {
             dbContext.CategoryViewModels.Add(new CategoryViewModel()
             {
-                CategoryId = e.CategoryId,
-                CategoryTitle = e.CategoryTitle,
-                CategoryIsActive = e.CategotyIsActive
+                Id = e.CategoryId,
+                Title = e.CategoryTitle,
+                IsActive = e.CategotyIsActive
             });
             return Task.CompletedTask;
         }
 
         public Task Handle(CategoryStatusChanged e)
         {
-            CategoryViewModel category = dbContext.CategoryViewModels.FirstOrDefault(c => c.CategoryId == e.CategoryId);
+            CategoryViewModel category = dbContext.CategoryViewModels.FirstOrDefault(c => c.Id == e.CategoryId);
             if (category == null)
                 throw new Exception("Category Not Found.");
-            category.CategoryIsActive = e.IsActive;
+            category.IsActive = e.IsActive;
             dbContext.CategoryViewModels.Update(category);
             return Task.CompletedTask;
         }

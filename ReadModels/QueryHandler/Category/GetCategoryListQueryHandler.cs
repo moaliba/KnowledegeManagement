@@ -18,15 +18,15 @@ namespace ReadModels.QueryHandler.Category
         public  Task<PagedViewModel<CategoryViewModel>> Handle(GetCategoryListQuery query)
         {
             var TotalItems = dbContext.CategoryViewModels
-            .Where(t => t.CategoryTitle.StartsWith(query.CategoryTitle ?? string.Empty));
+            .Where(t => t.Title.StartsWith(query.CategoryTitle ?? string.Empty));
 
             switch (query.SortOrder)
             {
                 case "title":
-                    TotalItems = TotalItems.OrderBy(t => t.CategoryTitle);
+                    TotalItems = TotalItems.OrderBy(t => t.Title);
                     break;
                 case "title_desc":
-                    TotalItems = TotalItems.OrderByDescending(t => t.CategoryTitle);
+                    TotalItems = TotalItems.OrderByDescending(t => t.Title);
                     break;
                 default:
                     TotalItems = TotalItems.OrderBy(t => t.InsertDate);

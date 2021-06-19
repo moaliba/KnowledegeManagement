@@ -7,11 +7,11 @@ namespace ReadModels.ViewModel
     public class CategoryViewModel:IAmAViewModel
     {
         [Key]
-        public Guid CategoryId { get; set; }
+        public Guid Id { get; set; }
 
-        public string CategoryTitle { get; set; }
+        public string Title { get; set; }
 
-        public bool CategoryIsActive { get; set; }
+        public bool IsActive { get; set; }
 
         public DateTime InsertDate { get; set; } = DateTime.Now;
     }
