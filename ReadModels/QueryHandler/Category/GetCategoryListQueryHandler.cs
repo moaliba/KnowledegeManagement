@@ -15,10 +15,10 @@ namespace ReadModels.QueryHandler.Category
             this.dbContext = dbContext;
         }
 
-        public  Task<PagedViewModel<CategoryViewModel>> Handle(GetCategoryListQuery query)
+        public Task<PagedViewModel<CategoryViewModel>> Handle(GetCategoryListQuery query)
         {
             var TotalItems = dbContext.CategoryViewModels
-            .Where(t => t.Title.StartsWith(query.CategoryTitle ?? string.Empty));
+            .Where(t => t.Title.StartsWith(query.CategoryTitle ?? string.Empty) && t.IsActive == true);
 
             switch (query.SortOrder)
             {
@@ -39,6 +39,6 @@ namespace ReadModels.QueryHandler.Category
 
         }
 
-       
+
     }
 }
