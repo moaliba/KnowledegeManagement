@@ -9,11 +9,11 @@ namespace DomainModel
 
         public bool IsActive { get; set; } = true;
 
-        Category(Guid id, string title) : base(id)
-        => RecordThat(new Categorydefined(id, title));
+        Category(Guid id, string title, bool IsActive) : base(id)
+        => RecordThat(new Categorydefined(id, title, IsActive));
 
-        public static Category DefineCategory(Guid id, string title)
-        => new(id, title);
+        public static Category DefineCategory(Guid id, string title, bool IsActive)
+        => new(id, title, IsActive);
 
         public void ChangeStatus(Guid Id, bool isActive)
         => RecordThat(new CategoryStatusChanged(Id, isActive));
@@ -27,7 +27,10 @@ namespace DomainModel
         }
 
         void On(Categorydefined e)
-        => Title = e.CategoryTitle;
+        {
+            Title = e.CategoryTitle;
+            IsActive = e.CategotyIsActive;
+        }
 
         void On(CategoryPropertiesChanged e)
         {

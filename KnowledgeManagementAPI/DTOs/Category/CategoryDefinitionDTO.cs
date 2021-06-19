@@ -6,5 +6,7 @@ namespace KnowledgeManagementAPI.DTOs.Category
     {
         [Description("عنوان دسته بندی")]
         public string Title { get; set; }
+
+        public bool IsActive { get; set; }
     }
 }

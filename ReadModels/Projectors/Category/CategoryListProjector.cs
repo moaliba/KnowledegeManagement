@@ -30,7 +30,8 @@ namespace ReadModels.Projectors.Category
             dbContext.CategoryViewModels.Add(new CategoryViewModel()
             {
                 CategoryId = e.CategoryId,
-                CategoryTitle = e.CategoryTitle
+                CategoryTitle = e.CategoryTitle,
+                CategoryIsActive = e.CategotyIsActive
             });
             return Task.CompletedTask;
         }

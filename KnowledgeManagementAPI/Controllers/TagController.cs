@@ -23,7 +23,7 @@ namespace KnowledgeManagementAPI.Controllers
         public TagController(ICommandBus commandBus, IQueryBus queryBus)
         {
             CommandBus = commandBus;
-            QueryBus = queryBus;       
+            QueryBus = queryBus;
         }
 
         [HttpPost]
@@ -32,19 +32,19 @@ namespace KnowledgeManagementAPI.Controllers
         {
             if (tagDTO is null)
                 throw new ArgumentNullException(nameof(tagDTO));
-            await CommandBus.Send(DefineTagCommand.Create(Guid.NewGuid(), tagDTO.Title, tagDTO.CategoryId,tagDTO.IsActive, false));       
+            await CommandBus.Send(DefineTagCommand.Create(Guid.NewGuid(), tagDTO.Title, tagDTO.CategoryId, tagDTO.IsActive, false));
             return Ok();
         }
 
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Put(Guid id,[FromBody] ChangeTagPropertiesDTO changeTagPropertiesDTO)
+        public async Task<IActionResult> Put(Guid id, [FromBody] ChangeTagPropertiesDTO changeTagPropertiesDTO)
         {
             if (id == Guid.Empty)
                 throw new ArgumentNullException($"{nameof(id)}", $"{nameof(id)} cannot be null or empty.");
             if (changeTagPropertiesDTO is null)
                 throw new ArgumentNullException(nameof(changeTagPropertiesDTO));
-            await CommandBus.Send(ChangeTagPropertiesCommand.Create(id,changeTagPropertiesDTO.Title.ToPersianString(),changeTagPropertiesDTO.CategoryId,changeTagPropertiesDTO.IsActive));
+            await CommandBus.Send(ChangeTagPropertiesCommand.Create(id, changeTagPropertiesDTO.Title.ToPersianString(), changeTagPropertiesDTO.CategoryId, changeTagPropertiesDTO.IsActive));
             return Ok();
         }
 
@@ -54,7 +54,7 @@ namespace KnowledgeManagementAPI.Controllers
         [PersianConvertorFilter("TagFilter")]
         public async Task<IActionResult> GetByAdmin([FromQuery] TagFilterDTO TagFilter)
         {
-            var Response = await QueryBus.Send<PagedViewModel<TagViewModel>, GetAllTagsQuery>(new GetAllTagsQuery( TagFilter.PageNumber, TagFilter.PageSize,TagFilter.CategoryId, TagFilter.Title, TagFilter.SortOrder.NormalizedInput()));
+            var Response = await QueryBus.Send<PagedViewModel<TagViewModel>, GetAllTagsQuery>(new GetAllTagsQuery(TagFilter.PageNumber, TagFilter.PageSize, TagFilter.CategoryId, TagFilter.Title, TagFilter.SortOrder.NormalizedInput()));
             return Ok(JsonConvert.SerializeObject(Response));
         }
 
@@ -87,7 +87,7 @@ namespace KnowledgeManagementAPI.Controllers
         [HttpPatch("{id}")]
         public async Task<IActionResult> Patch(Guid id, [FromBody] ChangeStatusDTO changeStatusDTO)
         {
-            if (id == Guid.Empty) 
+            if (id == Guid.Empty)
                 throw new ArgumentNullException($"{nameof(id)}", $"{nameof(id)} cannot be null or empty.");
             if (changeStatusDTO is null)
                 throw new ArgumentNullException(nameof(changeStatusDTO));

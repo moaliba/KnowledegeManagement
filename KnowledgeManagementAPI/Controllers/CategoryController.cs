@@ -32,7 +32,7 @@ namespace KnowledgeManagementAPI.Controllers
         {
             if (CategoryDefinition == null)
                 throw new ArgumentNullException(nameof(CategoryDefinition));
-            await commandBus.Send(DefineCategoryCommand.Create(Guid.NewGuid(), CategoryDefinition.Title));
+            await commandBus.Send(DefineCategoryCommand.Create(Guid.NewGuid(), CategoryDefinition.Title, CategoryDefinition.IsActive));
             return Ok();
         }
 

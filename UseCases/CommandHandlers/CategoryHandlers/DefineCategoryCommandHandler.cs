@@ -18,7 +18,7 @@ namespace UseCases.CommandHandlers.CategoryHandlers
         {
             if (Categories.DeosExist(command.Title))
                 throw new Exception("Team is already exist!!!");
-            Categories.Create(Category.DefineCategory(command.Id, command.Title));
+            Categories.Create(Category.DefineCategory(command.Id, command.Title, command.IsActive));
             return Task.CompletedTask;
         }
     }
