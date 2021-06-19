@@ -10,6 +10,7 @@ using ReadModels.Query.Category;
 using Newtonsoft.Json;
 using ReadModels;
 using KnowledgeManagementAPI.Filters;
+using UseCases.Commands.CategoryCommands;
 
 namespace KnowledgeManagementAPI.Controllers
 {
@@ -36,18 +37,32 @@ namespace KnowledgeManagementAPI.Controllers
         }
 
         [HttpPut("{id}")]
-        [PersianConvertorFilter("CategoryChangeTitle")]
-        public async Task<ActionResult> Put([FromBody] CategoryChangeTitleDTO CategoryChangeTitle)
+        [PersianConvertorFilter("CategoryChangeProperties")]
+        public async Task<ActionResult> Put([FromBody] CategoryChangePropertiesDTO CategoryChangeProperties)
         {
-            if (CategoryChangeTitle == null)
-                throw new ArgumentNullException(nameof(CategoryChangeTitle));
-            await commandBus.Send(ChangeCategoryTitleCommand.Create(CategoryChangeTitle.CategoryId, CategoryChangeTitle.Title));
+            if (CategoryChangeProperties == null)
+                throw new ArgumentNullException(nameof(CategoryChangeProperties));
+            await commandBus.Send(ChangeCategoryPropertiesCommand.Create(CategoryChangeProperties.CategoryId, CategoryChangeProperties.Title,
+                                                                        CategoryChangeProperties.IsActive));
+            return Ok();
+        }
+
+        [HttpPatch("{id}")]
+        public async Task<IActionResult> Patch(Guid id, [FromBody] CategoryChangeStatusDTO categoryChangeStatus)
+        {
+            if (categoryChangeStatus == null)
+                throw new ArgumentNullException(nameof(categoryChangeStatus));
+            if (id == Guid.Empty)
+                throw new ArgumentNullException($"{nameof(id)}", $"{nameof(id)} cannot be null or empty.");
+            await commandBus.Send(new CategoryChangeStatusCommand(id, categoryChangeStatus.IsActive));
             return Ok();
         }
 
         [HttpGet("{id}")]
         public async Task<ActionResult<CategoryViewModel>> Get(Guid Id)
         {
+            if (Id == Guid.Empty)
+                throw new ArgumentNullException($"{nameof(Id)}", $"{nameof(Id)} cannot be null or empty.");
             var Response = await queryBus.Send<CategoryViewModel, GetCategoryQuery>(new GetCategoryQuery(Id));
             return Ok(JsonConvert.SerializeObject(Response));
         }
