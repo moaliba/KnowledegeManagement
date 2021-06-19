@@ -1,24 +1,26 @@
 ﻿using QueryHandling.Abstractions;
 using ReadModels.Query.Category;
 using ReadModels.ViewModel;
+using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace ReadModels.QueryHandler.Category
 {
-    public class GetCategoryListQueryHandler : IHandleQuery<GetCategoryListQuery, PagedViewModel<CategoryViewModel>>
+    public class UserGetCategoryListQueryHandler : IHandleQuery<UserGetCategoryListQuery, PagedViewModel<CategoryViewModel>>
     {
         private readonly IReadDbContext dbContext;
-
-        public GetCategoryListQueryHandler(IReadDbContext dbContext)
+        public UserGetCategoryListQueryHandler(IReadDbContext dbContext)
         {
             this.dbContext = dbContext;
         }
 
-        public Task<PagedViewModel<CategoryViewModel>> Handle(GetCategoryListQuery query)
+        public Task<PagedViewModel<CategoryViewModel>> Handle(UserGetCategoryListQuery query)
         {
             var TotalItems = dbContext.CategoryViewModels
-            .Where(t => t.Title.StartsWith(query.CategoryTitle ?? string.Empty) && (t.IsActive == query.IsActive || query.IsActive == null));
+            .Where(t => t.Title.StartsWith(query.CategoryTitle ?? string.Empty) && t.IsActive == true);
 
             switch (query.SortOrder)
             {
@@ -36,9 +38,6 @@ namespace ReadModels.QueryHandler.Category
             var totalRecords = TotalItems.Count();
             var result = PagingUtility.Paginate(query.PageNumber, query.PageSize, TotalItems);
             return Task.FromResult(result);
-
         }
-
-
     }
 }

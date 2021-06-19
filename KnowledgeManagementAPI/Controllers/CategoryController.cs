@@ -8,7 +8,6 @@ using QueryHandling.Abstractions;
 using ReadModels.ViewModel;
 using ReadModels.Query.Category;
 using Newtonsoft.Json;
-using ReadModels;
 using KnowledgeManagementAPI.Filters;
 using UseCases.Commands.CategoryCommands;
 
@@ -68,13 +67,25 @@ namespace KnowledgeManagementAPI.Controllers
         }
 
         [HttpGet]
+        [ActionName("GetByAdmin")]
+        [Route("GetByAdmin")]
         [PersianConvertorFilter("categoryList")]
-        public async Task<IActionResult> Get([FromQuery] GetCategoryListDTO categoryList)
+        public async Task<IActionResult> GetByAdmin([FromQuery] GetCategoryListDTO categoryList)
         {
             var Response = await queryBus.Send<PagedViewModel<CategoryViewModel>, GetCategoryListQuery>(new GetCategoryListQuery(
-                    Guid.NewGuid(), categoryList.PageNumber, categoryList.PageSize, categoryList.CategoryTitle, categoryList.SortOrder.NormalizedInput()));
+                    Guid.NewGuid(), categoryList.PageNumber, categoryList.PageSize, categoryList.CategoryTitle, categoryList.IsActive,
+                    categoryList.SortOrder.NormalizedInput()));
             return Ok(JsonConvert.SerializeObject(Response));
-            //  return Ok(JsonConvert.SerializeObject(new PagedResponse<IEnumerable<CategoryViewModel>>(Response.CategoryViewModels, Response.TotalCount)));
+        }
+
+        [HttpGet]
+        [PersianConvertorFilter("userGetCategoryList")]
+        public async Task<IActionResult> Get([FromQuery] UserGetCategoryListDTO userGetCategoryList)
+        {
+            var Response = await queryBus.Send<PagedViewModel<CategoryViewModel>, UserGetCategoryListQuery>(new UserGetCategoryListQuery(
+                    Guid.NewGuid(), userGetCategoryList.PageNumber, userGetCategoryList.PageSize, userGetCategoryList.CategoryTitle,
+                    userGetCategoryList.SortOrder.NormalizedInput()));
+            return Ok(JsonConvert.SerializeObject(Response));
         }
     }
 }
