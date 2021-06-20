@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using LinqKit;
 using ReadModels.ViewModel;
+//using Microsoft.EntityFrameworkCore;
 
 namespace ReadModels.QueryHandler.Post
 {
@@ -17,15 +18,18 @@ namespace ReadModels.QueryHandler.Post
         Task<PagedViewModel<PostViewModel>> IHandleQuery<GetPostQuery, PagedViewModel<PostViewModel>>.Handle(GetPostQuery query)
         {
             string[] Tags = (query.Tags ?? string.Empty).Split(new char[',']);
-            var TotalItems = readDbContext.PostViewModels.Where(c => (c.PostContent.Contains(query.PostTitle)
-                        && c.CategoryID == query.CategoryId));
+            IQueryable<PostViewModel> TotalItems = readDbContext.PostViewModels.AsQueryable();
+            if (!string.IsNullOrEmpty(query.PostTitle))
+                TotalItems = TotalItems.Where(c => c.PostContent.Contains(query.PostTitle));
+            if (query.CategoryId != null)
+                TotalItems = TotalItems.Where(c => c.CategoryID == query.CategoryId);
 
-            var predictQuery = PredicateBuilder.False<PostViewModel>();
+            var predicate = PredicateBuilder.New<PostViewModel>();
             foreach (string tag in Tags)
-                predictQuery = predictQuery.Or(x => x.Tags.Contains(tag));
+                predicate = predicate.Or(x => x.Tags.Contains(tag));
 
-            TotalItems.AsExpandable().Where(predictQuery);
-
+            TotalItems = TotalItems.Where(predicate);
+            //var sql = TotalItems.ToQueryString();
             switch (query.SortOrder)
             {
                 case "PostTitle":

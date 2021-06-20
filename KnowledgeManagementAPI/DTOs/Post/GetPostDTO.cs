@@ -6,7 +6,7 @@ namespace KnowledgeManagementAPI.DTOs.Post
     {
         public string PostTitle { get; set; }
 
-        public Guid CategoryID { get; set; }
+        public Guid? CategoryID { get; set; }
 
         public string Tags { get; set; }
     }
