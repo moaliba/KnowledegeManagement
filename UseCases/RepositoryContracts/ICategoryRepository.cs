@@ -11,6 +11,8 @@ namespace UseCases.RepositoryContracts
 
         void Update(Category category);
 
+        void Delete(Category category);
+
         Category Find(Guid Id);
     }
 }

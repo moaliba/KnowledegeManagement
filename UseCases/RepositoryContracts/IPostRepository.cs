@@ -7,6 +7,8 @@ namespace UseCases.RepositoryContracts
     {
         public void Add(Post post);
 
+        public int PostCount(Guid? categoryId);
+
         public Post Find(Guid Id);
     }
 }

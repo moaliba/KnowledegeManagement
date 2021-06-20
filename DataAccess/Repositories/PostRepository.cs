@@ -23,5 +23,8 @@ namespace DataAccess.Repositories
 
         public Post Find(Guid Id)
         => dbContext.Posts.FirstOrDefault(c => c.Id == Id);
+
+        public int PostCount(Guid? categoryId)
+       => dbContext.Posts.Count(c => c.CategoryId == categoryId || categoryId == null);
     }
 }

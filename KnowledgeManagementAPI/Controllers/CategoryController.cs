@@ -57,6 +57,15 @@ namespace KnowledgeManagementAPI.Controllers
             return Ok();
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(Guid id)
+        {
+            if (id == Guid.Empty)
+                throw new ArgumentNullException($"{nameof(id)}", $"{nameof(id)} can not be null or empty!!!");
+            await commandBus.Send(DeleteCategoryCommand.Create(id));
+            return Ok();
+        }
+
         [HttpGet("{id}")]
         public async Task<ActionResult<CategoryViewModel>> Get(Guid Id)
         {

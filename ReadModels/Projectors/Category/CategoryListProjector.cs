@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace ReadModels.Projectors.Category
 {
-    public class CategoryListProjector : IHandleEvent<Categorydefined>, IHandleEvent<CategoryPropertiesChanged>, IHandleEvent<CategoryStatusChanged>
+    public class CategoryListProjector : IHandleEvent<Categorydefined>, IHandleEvent<CategoryPropertiesChanged>,
+                                            IHandleEvent<CategoryStatusChanged>, IHandleEvent<CategoryDeleted>
     {
         private readonly IReadDbContext dbContext;
         public CategoryListProjector(IReadDbContext dbContext)
@@ -43,6 +44,13 @@ namespace ReadModels.Projectors.Category
                 throw new Exception("Category Not Found.");
             category.IsActive = e.IsActive;
             dbContext.CategoryViewModels.Update(category);
+            return Task.CompletedTask;
+        }
+
+        public Task Handle(CategoryDeleted e)
+        {
+            CategoryViewModel category = dbContext.CategoryViewModels.Find(e.Id);
+            dbContext.CategoryViewModels.Remove(category);
             return Task.CompletedTask;
         }
     }

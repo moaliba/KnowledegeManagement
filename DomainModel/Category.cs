@@ -21,6 +21,9 @@ namespace DomainModel
         public void ChangeProperties(Guid Id, string Title, bool IsActive)
         => RecordThat(new CategoryPropertiesChanged(Id, Title, IsActive));
 
+        public void DeleteCategory(Guid Id)
+        => RecordThat(new CategoryDeleted(Id));
+
         [Obsolete]
         Category()
         {
@@ -40,5 +43,7 @@ namespace DomainModel
 
         void On(CategoryStatusChanged e)
         => IsActive = e.IsActive;
+
+        void On(CategoryDeleted e) { }
     }
 }

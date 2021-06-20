@@ -22,6 +22,14 @@ namespace DataAccess.Repositories
             dbContext.Categories.Add(category);
         }
 
+        public void Delete(Category category)
+        {
+            foreach (AnEvent @event in category.Events)
+                eventBus.Publish(@event);
+            category.ClearEvents();
+            dbContext.Categories.Remove(category);
+        }
+
         public bool DeosExist(string title)
         => dbContext.Categories.FirstOrDefault(c => c.Title == title) != null;
 
