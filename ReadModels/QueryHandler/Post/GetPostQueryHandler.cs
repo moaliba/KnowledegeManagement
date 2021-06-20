@@ -20,13 +20,13 @@ namespace ReadModels.QueryHandler.Post
             string[] Tags = (query.Tags ?? string.Empty).Split(new char[',']);
             IQueryable<PostViewModel> TotalItems = readDbContext.PostViewModels.AsQueryable();
             if (!string.IsNullOrEmpty(query.PostTitle))
-                TotalItems = TotalItems.Where(c => c.PostContent.Contains(query.PostTitle));
+                TotalItems = TotalItems.Where(c => c.PostTitle.Contains(query.PostTitle) || c.PostContent.Contains(query.PostTitle));
             if (query.CategoryId != null)
                 TotalItems = TotalItems.Where(c => c.CategoryID == query.CategoryId);
 
             var predicate = PredicateBuilder.New<PostViewModel>();
             foreach (string tag in Tags)
-                predicate = predicate.Or(x => x.Tags.Contains(tag));
+                predicate = predicate.Or(x => x.Tags.Contains(tag.Trim()));
 
             TotalItems = TotalItems.Where(predicate);
             //var sql = TotalItems.ToQueryString();
