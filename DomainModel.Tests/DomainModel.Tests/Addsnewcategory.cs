@@ -14,9 +14,9 @@ namespace KnowledgeManagement
         public void AddsNewCategory(string title)
         {
             Guid id = Guid.NewGuid();
-            var category = Category.DefineCategory(id, title);
+            var category = Category.DefineCategory(id, title,true);
             category.Events.Should().ContainEquivalentOf(
-                    new Categorydefined(id, title)
+                    new Categorydefined(id, title,true)
                 );
         }
     }
