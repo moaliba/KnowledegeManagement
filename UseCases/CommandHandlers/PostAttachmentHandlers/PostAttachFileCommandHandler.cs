@@ -26,17 +26,24 @@ namespace UseCases.CommandHandlers.PostAttachmentHandlers
 
             if (command.UserId != post.UserId)
                 throw new Exception("User is not allowed to attach file!!!");
-
-            using (Stream stream = command.File.OpenReadStream())
+            try
             {
-                BinaryReader reader = new BinaryReader(stream);
-                byte[] file = reader.ReadBytes(Convert.ToInt32(command.File.Length));
-                string fileName = command.File.FileName;
-                long fileSize = command.File.Length;
-                string fileExtention = Path.GetExtension(command.File.FileName);
+                using (Stream stream = command.File.OpenReadStream())
+                {
+                    BinaryReader reader = new BinaryReader(stream);
+                    byte[] file = reader.ReadBytes(Convert.ToInt32(command.File.Length));
+                    string fileName = command.File.FileName;
+                    long fileSize = command.File.Length;
+                    string fileExtention = Path.GetExtension(command.File.FileName);
 
-                postAttachments.Add(PostAttachment.AttachFile(command.id, command.Title, command.PostId,
-                    command.UserId, fileName, fileExtention, fileSize, string.Empty, file));
+                    postAttachments.Add(PostAttachment.AttachFile(command.id, command.Title, command.PostId,
+                        command.UserId, fileName, fileExtention, fileSize, string.Empty, file));
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
 
             return Task.CompletedTask;

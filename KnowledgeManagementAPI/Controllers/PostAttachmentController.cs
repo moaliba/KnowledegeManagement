@@ -44,10 +44,12 @@ namespace KnowledgeManagementAPI.Controllers
             return Ok(JsonConvert.SerializeObject(Response));
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> Get(Guid PostId)
+        [HttpGet]
+        [ActionName("DownloadFile")]
+        [Route("DownloadFile/id")]
+        public async Task<IActionResult> DownloadFile(Guid id)
         {
-            var Response = await queryBus.Send<PostAttachmentFileViewModel, GetPostAttachmentFileQuery>(new GetPostAttachmentFileQuery(PostId));
+            var Response = await queryBus.Send<PostAttachmentFileViewModel, GetPostAttachmentFileQuery>(new GetPostAttachmentFileQuery(id));
             return Ok(JsonConvert.SerializeObject(Response));
         }
     }
