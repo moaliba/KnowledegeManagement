@@ -36,11 +36,11 @@ namespace DomainModel
         }
 
         public void AddFilePath(string filePath)
-        => this.FilePath = filePath;
+        => RecordThat(new PostFileAdded(Id, Title, PostId, UserId, FileName, FileType, FileSystemName, FileSize, filePath, File));
 
         public PostAttachment(Guid id, string Title, Guid PostId, Guid UserId, string FileName, string FileType, string FileSystemName,
             long FileSize, string FilePath, byte[] File) : base(id)
-        => RecordThat(new PostFileAttached(id, Title, PostId, UserId, FileName, FileType, FileSystemName, FileSize, FilePath));
+        => RecordThat(new PostFileAttached(id, Title, PostId, UserId, FileName, FileType, FileSystemName, FileSize, FilePath, File));
 
         void On(PostFileAttached e)
         {
@@ -52,6 +52,10 @@ namespace DomainModel
             UserId = e.UserId;
             FileSystemName = e.FileSystemName;
             FileType = e.FileType;
+            File = e.File;
         }
+
+        void On(PostFileAdded e)
+        => FilePath = e.FilePath;
     }
 }
