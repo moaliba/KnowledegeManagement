@@ -14,15 +14,12 @@ namespace ReadModels.ViewModel
 
         public PagedViewModel(PagingInfo info, IQueryable<T> allItems)
         {
-            //if (info == null)
-            //    Data = allItems.AsEnumerable();//throw new ArgumentNullException(nameof(info));
 
-            //{
                 PagingInfo = info ?? throw new ArgumentNullException(nameof(info));
                 Data = null == allItems
                                ? Array.Empty<T>().AsEnumerable()
                                : SlicePage(allItems, PagingInfo).AsEnumerable();
-          //  }
+
                
         }
 
