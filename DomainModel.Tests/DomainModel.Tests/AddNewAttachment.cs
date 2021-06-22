@@ -20,7 +20,7 @@ namespace KnowledgeManagement
             byte[] File = new byte[] { };
             PostAttachment postAttachment = PostAttachment.AttachFile(id, Title, PostId, UserId, FileName, FileType, FileSize, FilePath, File);
             postAttachment.Events.Should().ContainEquivalentOf(
-                    new PostFileAttached(id, Title, PostId, UserId, FileName, FileType, postAttachment.FileSystemName, FileSize, FilePath));
+                    new PostFileAttached(id, Title, PostId, UserId, FileName, FileType, postAttachment.FileSystemName, FileSize, FilePath, File));
         }
     }
 }

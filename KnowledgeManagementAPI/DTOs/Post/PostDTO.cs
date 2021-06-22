@@ -16,6 +16,6 @@ namespace KnowledgeManagementAPI.DTOs.Post
 
         public string Tags { get; set; }
 
-        //public List<PostAttachFileDTO> FileList { get; set; }
+        public List<PostAttachFileDTO> FileList { get; set; }
     }
 }

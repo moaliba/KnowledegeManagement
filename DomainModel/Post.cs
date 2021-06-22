@@ -1,5 +1,6 @@
 ﻿using DomainEvents.Post;
 using System;
+using System.Collections.Generic;
 
 namespace DomainModel
 {
@@ -10,6 +11,8 @@ namespace DomainModel
         public Guid CategoryId { get; private set; }
 
         public Guid UserId { get; private set; }
+
+        public List<PostAttachment> AttachmentList { get; set; }
 
         Post(Guid Id, string PostTitle, string PostContent, Guid CategoryId, Guid UserId, string Tags) : base(Id)
         {
