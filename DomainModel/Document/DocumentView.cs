@@ -22,7 +22,7 @@ namespace ReadModels.DomainModel.Document
 
         public DateTimeOffset creation_time { get; private set; }
 
-        public DateTimeOffset MyPropertylast_write_time { get; private set; }
+        public DateTimeOffset last_write_time { get; private set; }
 
         public DateTimeOffset last_access_time { get; private set; }
 

@@ -1,7 +1,6 @@
-﻿using System;
+﻿using KnowledgeManagementAPI.DTOs.PostAttachment;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace KnowledgeManagementAPI.DTOs.Post
 {
@@ -16,5 +15,7 @@ namespace KnowledgeManagementAPI.DTOs.Post
         public string PostContent { get; set; }
 
         public string Tags { get; set; }
+
+        public List<PostAttachFileDTO> FileList { get; set; }
     }
 }

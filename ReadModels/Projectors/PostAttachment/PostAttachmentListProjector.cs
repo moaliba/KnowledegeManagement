@@ -2,14 +2,12 @@
 using EventHandling.Abstractions;
 using ReadModels.ViewModel.PostAttachment;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace ReadModels.Projectors.PostAttachment
 {
-    public class PostAttachmentListProjector : IHandleEvent<PostFileAttached>
+    public class PostAttachmentListProjector : IHandleEvent<PostFileAdded>
     {
         private readonly IReadDbContext readDbContext;
         public PostAttachmentListProjector(IReadDbContext readDbContext)
@@ -17,7 +15,7 @@ namespace ReadModels.Projectors.PostAttachment
             this.readDbContext = readDbContext;
         }
 
-        public Task Handle(PostFileAttached e)
+        public Task Handle(PostFileAdded e)
         {
             readDbContext.PostAttachmentViewModels.Add(new PostAttachmentViewModel()
             {
@@ -32,7 +30,6 @@ namespace ReadModels.Projectors.PostAttachment
                 UserId = e.UserId,
                 InsertDate = DateTime.Now
             });
-
             return Task.CompletedTask;
         }
     }

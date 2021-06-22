@@ -4,7 +4,7 @@ using ReadModels.DomainModel.Document;
 using ReadModels.Query.PostAttachment;
 using ReadModels.ViewModel.PostAttachment;
 using System;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,9 +24,9 @@ namespace ReadModels.QueryHandler.PostAttachment
             if (File == null)
                 throw new Exception("FileAttachment does not exist!!!");
             SqlParameter param1 = new("path_locator", System.Data.SqlDbType.VarChar, 4000) { Value = File.FilePath };
-            DocumentView d = readDbContext.DocumentView
-                                .FromSqlRaw("EXECUTE dbo.GetDocument @path_locator", param1)
-                                .AsEnumerable().FirstOrDefault();
+            DocumentView d = readDbContext.DocumentView.Where(c => c.path_locator == File.FilePath).FirstOrDefault();
+                                //.FromSqlRaw("EXECUTE dbo.GetDocument @path_locator", param1)
+                                //.AsEnumerable().FirstOrDefault();
             PostAttachmentFileViewModel result = new()
             {
                 PostAttachmentId = query.PostAttachmentId,

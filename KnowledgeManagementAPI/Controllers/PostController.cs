@@ -1,5 +1,6 @@
 ﻿using CommandHandling.Abstractions;
 using KnowledgeManagementAPI.DTOs.Post;
+using KnowledgeManagementAPI.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using QueryHandling.Abstractions;
@@ -26,6 +27,7 @@ namespace KnowledgeManagementAPI.Controllers
         }
 
         [HttpPost]
+        [PersianConvertorFilter("postDTO")]
         public async Task<IActionResult> Post([FromBody] PostDTO postDTO)
         {
             if (postDTO == null)

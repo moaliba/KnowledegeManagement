@@ -25,7 +25,7 @@ namespace KnowledgeManagementAPI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] PostAttachFileDTO postAttachFileDTO)
+        public async Task<IActionResult> Post([FromForm] PostOnlyAttachFileDTO postAttachFileDTO)
         {
             if (postAttachFileDTO == null)
                 throw new ArgumentNullException(nameof(postAttachFileDTO));
