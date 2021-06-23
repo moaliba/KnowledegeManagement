@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace DataSource.Mapping
 {
-    public class PostAttachmentMapping : AggregateRootTypeConfig<PostAttachment>
+    public class PostAttachmentMapping 
     {
-        protected override void Config(EntityTypeBuilder<PostAttachment> builder)
+        protected void Config(EntityTypeBuilder<PostAttachment> builder)
         {
             builder.Ignore(c => c.File);
         }

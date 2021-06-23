@@ -1,5 +1,6 @@
 ﻿using CommandHandling.Abstractions;
 using KnowledgeManagementAPI.DTOs.Post;
+using KnowledgeManagementAPI.DTOs.PostAttachment;
 using KnowledgeManagementAPI.Filters;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -8,8 +9,10 @@ using ReadModels.Query.Post;
 using ReadModels.ViewModel;
 using ReadModels.ViewModel.Post;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using UseCases.Commands.Post;
+using UseCases.Commands.PostAttachment;
 
 namespace KnowledgeManagementAPI.Controllers
 {
@@ -28,12 +31,15 @@ namespace KnowledgeManagementAPI.Controllers
 
         [HttpPost]
         [PersianConvertorFilter("postDTO")]
-        public async Task<IActionResult> Post([FromBody] PostDTO postDTO)
+        public async Task<IActionResult> Post([FromForm] PostDTO postDTO)
         {
+            List<PostAttachmentFileDataStructure> FileList = new();
+            foreach (PostAttachFileDTO Attachment in postDTO.FileList)
+                FileList.Add(PostAttachmentFileDataStructure.Create(Attachment.Id ?? Guid.NewGuid(), Attachment.Title, Attachment.File));
             if (postDTO == null)
                 throw new ArgumentNullException(nameof(postDTO));
             await commandBus.Send(PostCommand.Create(Guid.NewGuid(), postDTO.PostTitle, postDTO.PostContent,
-                                                        postDTO.CategoryId, postDTO.UserID, postDTO.Tags));
+                                                        postDTO.CategoryId, postDTO.UserID, postDTO.Tags, FileList));
             return Ok();
         }
 

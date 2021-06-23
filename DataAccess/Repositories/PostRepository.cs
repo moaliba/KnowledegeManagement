@@ -9,16 +9,22 @@ namespace DataAccess.Repositories
     public class PostRepository : Repository, IPostRepository
     {
         private readonly IEventBus eventBus;
+        private readonly IPostAttachmentRepository postAttachmentRepository;
 
-        public PostRepository(IWriteDbContext dbContext, IEventBus eventBus) : base(dbContext)
+        public PostRepository(IWriteDbContext dbContext, IEventBus eventBus, IPostAttachmentRepository postAttachmentRepository) : base(dbContext)
         => this.eventBus = eventBus;
 
         public void Add(Post post)
         {
+            dbContext.Posts.Add(post);
+            foreach (PostAttachment attachment in post.AttachmentList)
+            {
+                string FilePath = postAttachmentRepository.Add(attachment);
+                post.AddFile(attachment.Id, FilePath);
+            }
             foreach (var @event in post.Events)
                 eventBus.Publish(@event);
             post.ClearEvents();
-            dbContext.Posts.Add(post);
         }
 
         public Post Find(Guid Id)
