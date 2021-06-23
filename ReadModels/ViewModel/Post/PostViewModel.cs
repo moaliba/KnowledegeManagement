@@ -15,6 +15,8 @@ namespace ReadModels.ViewModel.Post
 
         public Guid CategoryID { get; set; }
 
+        public string CategoryTitle { get; set; }
+
         public Guid UserID { get; set; }
 
         public string Tags { get; set; }
