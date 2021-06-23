@@ -50,6 +50,7 @@ namespace KnowledgeManagementAPI
                         builder.AllowAnyOrigin();
                         builder.AllowAnyHeader();
                         builder.AllowAnyMethod();
+                      //  builder.AllowCredentials();
                     });
             });
 
