@@ -49,7 +49,8 @@ namespace KnowledgeManagementAPI
                     {
                         builder.AllowAnyOrigin();
                         builder.AllowAnyHeader();
-                        builder.AllowAnyMethod();
+                        builder.WithMethods("GET", "POST", "PUT", "DELETE", "PATCH");
+
                       //  builder.AllowCredentials();
                     });
             });
