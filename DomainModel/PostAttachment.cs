@@ -1,10 +1,14 @@
 ﻿using DomainEvents.PostAttachment;
 using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace DomainModel
 {
-    public class PostAttachment : AggregateRoot
+    public class PostAttachment
     {
+        [Key]
+        public Guid Id { get; set; }
+
         public string Title { get; private set; }
 
         public Guid PostId { get; private set; }
@@ -36,26 +40,21 @@ namespace DomainModel
         }
 
         public void AddFilePath(string filePath)
-        => RecordThat(new PostFileAdded(Id, Title, PostId, UserId, FileName, FileType, FileSystemName, FileSize, filePath, File));
+        => FilePath = filePath;
 
-        public PostAttachment(Guid id, string Title, Guid PostId, Guid UserId, string FileName, string FileType, string FileSystemName,
-            long FileSize, string FilePath, byte[] File) : base(id)
-        => RecordThat(new PostFileAttached(id, Title, PostId, UserId, FileName, FileType, FileSystemName, FileSize, FilePath, File));
-
-        void On(PostFileAttached e)
+        public PostAttachment(Guid Id, string Title, Guid PostId, Guid UserId, string FileName, string FileType, string FileSystemName,
+            long FileSize, string FilePath, byte[] File)
         {
-            Title = e.Title;
-            FileName = e.FileName;
-            FilePath = e.FilePath;
-            FileSize = e.FileSize;
-            PostId = e.PostId;
-            UserId = e.UserId;
-            FileSystemName = e.FileSystemName;
-            FileType = e.FileType;
-            File = e.File;
+            this.Id = Id;
+            this.Title = Title;
+            this.FileName = FileName;
+            this.FilePath = FilePath;
+            this.FileSize = FileSize;
+            this.PostId = PostId;
+            this.UserId = UserId;
+            this.FileSystemName = FileSystemName;
+            this.FileType = FileType;
+            this.File = File;
         }
-
-        void On(PostFileAdded e)
-        => FilePath = e.FilePath;
     }
 }

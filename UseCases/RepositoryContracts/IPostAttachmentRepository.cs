@@ -4,6 +4,6 @@ namespace UseCases.RepositoryContracts
 {
     public interface IPostAttachmentRepository
     {
-        public void Add(PostAttachment postAttachment);
+        public string Add(PostAttachment postAttachment);
     }
 }

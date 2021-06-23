@@ -27,7 +27,7 @@ namespace DataSource
             modelBuilder.ApplyConfiguration(new CategoryMapping());
             modelBuilder.ApplyConfiguration(new TagMapping());
             modelBuilder.ApplyConfiguration(new PostMapping());
-            modelBuilder.ApplyConfiguration(new PostAttachmentMapping());
+            //modelBuilder.ApplyConfiguration(new PostAttachmentMapping());
         }
 
         /////////////////////////////////////////////////////////Aggregates

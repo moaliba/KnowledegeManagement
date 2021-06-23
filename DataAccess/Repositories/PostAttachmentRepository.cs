@@ -14,7 +14,7 @@ namespace DataAccess.Repositories
         public PostAttachmentRepository(IWriteDbContext dbContext, IEventBus eventBus) : base(dbContext)
         => this.eventBus = eventBus;
 
-        public void Add(PostAttachment postAttachment)
+        public string Add(PostAttachment postAttachment)
         {
             SqlParameter relativePath = new("relativePath", System.Data.SqlDbType.NVarChar, 255) { Value = DBNull.Value };
             SqlParameter fileName = new("name", System.Data.SqlDbType.NVarChar, 255) { Value = postAttachment.FileSystemName };
@@ -25,12 +25,13 @@ namespace DataAccess.Repositories
                     .AsEnumerable().FirstOrDefault().path_locator;
 
             postAttachment.AddFilePath(FilePath);
-            foreach (AnEvent @event in postAttachment.Events)
-            {
-                eventBus.Publish(@event);
-            }
-            postAttachment.ClearEvents();
+            //foreach (AnEvent @event in postAttachment.Events)
+            //{
+            //    eventBus.Publish(@event);
+            //}
+            //postAttachment.ClearEvents();
             dbContext.PostAttachments.Add(postAttachment);
+            return FilePath;
         }
     }
 }
