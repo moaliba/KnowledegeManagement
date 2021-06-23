@@ -8,8 +8,8 @@ namespace KnowledgeManagementAPI.DTOs.Category
         [Description("عنوان دسته بندی")]
         public string Title { get; set; }
 
-        [Description("شناسه دسته بندی")]
-        public Guid CategoryId { get; set; }
+        //[Description("شناسه دسته بندی")]
+        //public Guid CategoryId { get; set; }
 
         [Description("فعال")]
         public bool IsActive { get; set; }

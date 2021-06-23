@@ -37,11 +37,13 @@ namespace KnowledgeManagementAPI.Controllers
 
         [HttpPut("{id}")]
         [PersianConvertorFilter("CategoryChangeProperties")]
-        public async Task<ActionResult> Put([FromBody] CategoryChangePropertiesDTO CategoryChangeProperties)
+        public async Task<ActionResult> Put(Guid id, [FromBody] CategoryChangePropertiesDTO CategoryChangeProperties)
         {
+            if (id == Guid.Empty)
+                throw new ArgumentNullException($"{nameof(id)}", $"{nameof(id)} cannot be null or empty.");
             if (CategoryChangeProperties == null)
                 throw new ArgumentNullException(nameof(CategoryChangeProperties));
-            await commandBus.Send(ChangeCategoryPropertiesCommand.Create(CategoryChangeProperties.CategoryId, CategoryChangeProperties.Title,
+            await commandBus.Send(ChangeCategoryPropertiesCommand.Create(id, CategoryChangeProperties.Title,
                                                                         CategoryChangeProperties.IsActive));
             return Ok();
         }

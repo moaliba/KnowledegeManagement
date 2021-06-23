@@ -18,8 +18,8 @@ namespace UseCases.CommandHandlers.CategoryHandlers
             Category category = Categories.Find(command.Id);
             if (category == null)
                 throw new Exception("Category not found.");
-            if (Categories.DeosExist(command.Title))
-                throw new Exception("Title is alreay exist.");
+            //if (Categories.DeosExist(command.Title))
+            //    throw new Exception("Title is alreay exist.");
             category.ChangeProperties(command.Id, command.Title, command.IsActive);
             Categories.Update(category);
             return Task.CompletedTask;
