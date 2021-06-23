@@ -7,10 +7,10 @@ using UseCases.RepositoryContracts;
 
 namespace UseCases.CommandHandlers.CategoryHandlers
 {
-    public class ChangeCategoryTitleCommandHandler : IHandleCommand<ChangeCategoryPropertiesCommand>
+    public class ChangeCategoryPropertiesCommandHandler : IHandleCommand<ChangeCategoryPropertiesCommand>
     {
         readonly ICategoryRepository Categories;
-        public ChangeCategoryTitleCommandHandler(ICategoryRepository categoryRepository)
+        public ChangeCategoryPropertiesCommandHandler(ICategoryRepository categoryRepository)
         => Categories = categoryRepository;
 
         public Task Handle(ChangeCategoryPropertiesCommand command)

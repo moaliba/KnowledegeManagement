@@ -22,6 +22,7 @@ namespace ReadModels.Projectors.Category
             if (category == null)
                 throw new Exception("Category Not Found.");
             category.Title = e.CategoryTitle;
+            category.IsActive = e.IsActive;
             dbContext.CategoryViewModels.Update(category);
             return Task.CompletedTask;
         }

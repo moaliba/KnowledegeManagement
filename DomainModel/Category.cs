@@ -7,7 +7,7 @@ namespace DomainModel
     {
         public string Title { get; private set; }
 
-        public bool IsActive { get; set; } = true;
+        public bool IsActive { get; private set; } = true;
 
         Category(Guid id, string title, bool IsActive) : base(id)
         => RecordThat(new Categorydefined(id, title, IsActive));
