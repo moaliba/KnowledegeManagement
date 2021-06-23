@@ -12,7 +12,10 @@ namespace DataAccess.Repositories
         private readonly IPostAttachmentRepository postAttachmentRepository;
 
         public PostRepository(IWriteDbContext dbContext, IEventBus eventBus, IPostAttachmentRepository postAttachmentRepository) : base(dbContext)
-        => this.eventBus = eventBus;
+        {
+            this.eventBus = eventBus;
+            this.postAttachmentRepository = postAttachmentRepository;
+        }
 
         public void Add(Post post)
         {

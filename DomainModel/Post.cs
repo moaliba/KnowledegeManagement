@@ -64,8 +64,7 @@ namespace DomainModel
 
         void On(PostFileAdded e)
         {
-            PostAttachment postAttachment = AttachmentList.FirstOrDefault(c => c.Id == e.Id);
-            postAttachment.AddFilePath(e.FilePath);
+
         }
     }
 }
