@@ -1,49 +1,29 @@
 ﻿using QueryHandling.Abstractions;
 using ReadModels.Query.Post;
 using ReadModels.ViewModel.Post;
+using ReadModels.ViewModel.PostAttachment;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using LinqKit;
-using ReadModels.ViewModel;
-//using Microsoft.EntityFrameworkCore;
 
 namespace ReadModels.QueryHandler.Post
 {
-    public class GetPostQueryHandler : IHandleQuery<GetPostQuery, PagedViewModel<PostViewModel>>
+    public class GetPostQueryHandler : IHandleQuery<GetPostQuery, PostWithAttachmentViewModel>
     {
-        private readonly IReadDbContext readDbContext;
+        private readonly IReadDbContext dbContext;
         public GetPostQueryHandler(IReadDbContext readDbContext)
-        => this.readDbContext = readDbContext;
+        => dbContext = readDbContext;
 
-        Task<PagedViewModel<PostViewModel>> IHandleQuery<GetPostQuery, PagedViewModel<PostViewModel>>.Handle(GetPostQuery query)
+        public Task<PostWithAttachmentViewModel> Handle(GetPostQuery query)
         {
-            string[] Tags = (query.Tags ?? string.Empty).Split(new char[',']);
-            IQueryable<PostViewModel> TotalItems = readDbContext.PostViewModels.AsQueryable();
-            if (!string.IsNullOrEmpty(query.PostTitle))
-                TotalItems = TotalItems.Where(c => c.PostTitle.Contains(query.PostTitle) || c.PostContent.Contains(query.PostTitle));
-            if (query.CategoryId != null)
-                TotalItems = TotalItems.Where(c => c.CategoryID == query.CategoryId);
-
-            var predicate = PredicateBuilder.New<PostViewModel>();
-            foreach (string tag in Tags)
-                predicate = predicate.Or(x => x.Tags.Contains(tag.Trim()));
-
-            TotalItems = TotalItems.Where(predicate);
-            //var sql = TotalItems.ToQueryString();
-            switch (query.SortOrder)
+            PostWithAttachmentViewModel result = new();
+            PostViewModel post = dbContext.PostViewModels.FirstOrDefault(c => c.PostId == query.Id);
+            if (post != null)
             {
-                case "PostTitle":
-                    TotalItems = TotalItems.OrderBy(t => t.PostTitle);
-                    break;
-                case "PostTitle_desc":
-                    TotalItems = TotalItems.OrderByDescending(t => t.PostTitle);
-                    break;
-                default:
-                    break;
+                result.PostViewModel = post;
+                List<PostAttachmentViewModel> FileAttachments = dbContext.PostAttachmentViewModels.Where(c => c.PostId == query.Id).ToList();
+                result.FileAttachments = FileAttachments;
             }
-
-            var totalRecords = TotalItems.Count();
-            var result = PagingUtility.Paginate(query.PageNumber, query.PageSize, TotalItems);
             return Task.FromResult(result);
         }
     }

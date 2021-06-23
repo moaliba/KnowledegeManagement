@@ -1,10 +1,8 @@
 ﻿using QueryHandling.Abstractions;
-using ReadModels.ViewModel;
 using ReadModels.ViewModel.Post;
 using System;
 
 namespace ReadModels.Query.Post
 {
-    public record GetPostQuery(int PageNumber, int PageSize, Guid? CategoryId, string PostTitle,
-                                    string Tags, string SortOrder) : Query<PagedViewModel<PostViewModel>>;
+    public record GetPostQuery(Guid Id) : Query<PostWithAttachmentViewModel>;
 }
