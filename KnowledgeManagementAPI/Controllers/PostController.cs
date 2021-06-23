@@ -33,11 +33,13 @@ namespace KnowledgeManagementAPI.Controllers
         [PersianConvertorFilter("postDTO")]
         public async Task<IActionResult> Post([FromForm] PostDTO postDTO)
         {
+            if (postDTO == null)
+                throw new ArgumentNullException(nameof(postDTO));
+
             List<PostAttachmentFileDataStructure> FileList = new();
             foreach (PostAttachFileDTO Attachment in postDTO.FileList)
                 FileList.Add(PostAttachmentFileDataStructure.Create(Attachment.Id ?? Guid.NewGuid(), Attachment.Title, Attachment.File));
-            if (postDTO == null)
-                throw new ArgumentNullException(nameof(postDTO));
+
             await commandBus.Send(PostCommand.Create(Guid.NewGuid(), postDTO.PostTitle, postDTO.PostContent,
                                                         postDTO.CategoryId, postDTO.UserID, postDTO.Tags, FileList));
             return Ok();
@@ -49,7 +51,7 @@ namespace KnowledgeManagementAPI.Controllers
             if (getPostDTO == null)
                 throw new ArgumentNullException(nameof(getPostDTO));
             var response = await queryBus.Send<PagedViewModel<PostViewModel>, GetPostQuery>
-                                                                (new GetPostQuery( getPostDTO.PageNumber, getPostDTO.PageSize, getPostDTO.CategoryID,
+                                                                (new GetPostQuery(getPostDTO.PageNumber, getPostDTO.PageSize, getPostDTO.CategoryID,
                                                                                     getPostDTO.PostTitle, getPostDTO.Tags, getPostDTO.SortOrder));
 
             return Ok(JsonConvert.SerializeObject(response));

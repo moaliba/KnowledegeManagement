@@ -22,7 +22,8 @@ namespace UseCases.CommandHandlers.PostHandlers
         public Task Handle(PostCommand command)
         {
             if (Categories.Find(command.CategoryId) == null)
-                throw new System.Exception("Category does not exist!!");
+                throw new Exception("Category does not exist!!");
+
             Post post = Post.DefinePost(command.Id, command.PostTitle, command.PostContent, command.CategoryId, command.UserId, command.Tags);
             foreach (PostAttachmentFileDataStructure File in command.AttachmentList)
             {
