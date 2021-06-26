@@ -14,7 +14,7 @@ namespace DomainModel
 
         public Guid UserId { get; private set; }
 
-        public List<PostAttachment> AttachmentList { get; private set; }
+        public List<PostAttachment> AttachmentList { get; private set; } = new List<PostAttachment>();
 
         Post(Guid Id, string PostTitle, string PostContent, Guid CategoryId, Guid UserId, string Tags) : base(Id)
         => RecordThat(new PostCreated(Id, PostTitle, PostContent, CategoryId, UserId, Tags));
