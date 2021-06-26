@@ -41,7 +41,7 @@ namespace KnowledgeManagementAPI.Controllers
                 FileList.Add(PostAttachmentFileDataStructure.Create(Attachment.Id ?? Guid.NewGuid(), Attachment.Title, Attachment.File));
 
             await commandBus.Send(PostCommand.Create(Guid.NewGuid(), postDTO.PostTitle, postDTO.PostContent,
-                                                        postDTO.CategoryId, postDTO.UserID, postDTO.Tags, FileList));
+                                                        postDTO.CategoryId, new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa6"), postDTO.Tags, FileList));
             return Ok();
         }
 
