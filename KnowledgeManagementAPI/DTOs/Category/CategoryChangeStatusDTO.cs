@@ -5,7 +5,7 @@ namespace KnowledgeManagementAPI.DTOs.Category
 {
     public class CategoryChangeStatusDTO
     {
-        [Description("فعال")]
+        [Description("وضعیت")]
         public bool IsActive { get; set; }
     }
 }

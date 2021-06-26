@@ -8,7 +8,7 @@ namespace KnowledgeManagementAPI.DTOs.Category
         [Description("عنوان دسته بندی")]
         public string Title { get; set; }
 
-        [Description("فعال")]
+        [Description("وضعیت")]
         public bool IsActive { get; set; }
     }
 }
