@@ -49,7 +49,7 @@ namespace KnowledgeManagementAPI
                     {
                         builder.AllowAnyOrigin();
                         builder.AllowAnyHeader();
-                        builder.WithMethods("GET", "POST", "PUT", "DELETE", "PATCH");
+                        builder.AllowAnyMethod();
 
                       //  builder.AllowCredentials();
                     });
