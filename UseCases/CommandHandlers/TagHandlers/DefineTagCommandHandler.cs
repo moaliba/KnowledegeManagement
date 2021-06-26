@@ -3,6 +3,7 @@ using DomainModel;
 using System;
 using System.Threading.Tasks;
 using UseCases.Commands.TagCommands;
+using UseCases.Exceptions;
 using UseCases.RepositoryContracts;
 
 namespace UseCases.CommandHandlers.TagHandlers
@@ -24,9 +25,9 @@ namespace UseCases.CommandHandlers.TagHandlers
         {
             if(command.CategoryId != null)
                 if(Categories.Find(command.CategoryId.Value) == null)
-                    throw new Exception("Category does not exist");
+                    throw new BadRequestException("Category does not exist");
             if (Tags.DoesExistInCategory(command.Title,command.CategoryId))
-                throw new Exception("Tag already exists in this category");
+                throw new BadRequestException("Tag already exists in this category");
             Tags.Add(Tag.DefineTag(command.Id, command.Title, command.CategoryId,command.IsActive, command.DefinedFormPost));
             return Task.CompletedTask;
         }

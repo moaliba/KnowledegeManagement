@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using UseCases.CommandHandlers.TagCommands;
 using UseCases.Commands.TagCommands;
 using KnowledgeManagementAPI.Filters;
+using UseCases.Exceptions;
 
 namespace KnowledgeManagementAPI.Controllers
 {
@@ -31,7 +32,7 @@ namespace KnowledgeManagementAPI.Controllers
         public async Task<IActionResult> Post([FromBody] DefineTagDTO tagDTO)
         {
             if (tagDTO is null)
-                throw new ArgumentNullException(nameof(tagDTO));
+                throw new BadRequestException(nameof(tagDTO));
             await CommandBus.Send(DefineTagCommand.Create(Guid.NewGuid(), tagDTO.Title, tagDTO.CategoryId, tagDTO.IsActive, false));
             return Ok();
         }
