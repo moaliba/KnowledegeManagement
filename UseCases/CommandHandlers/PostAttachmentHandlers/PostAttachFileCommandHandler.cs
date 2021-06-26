@@ -4,6 +4,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using UseCases.Commands.PostAttachment;
+using UseCases.Exceptions;
 using UseCases.RepositoryContracts;
 
 namespace UseCases.CommandHandlers.PostAttachmentHandlers
@@ -22,7 +23,7 @@ namespace UseCases.CommandHandlers.PostAttachmentHandlers
         {
             Post post = posts.Find(command.PostId);
             if (post == null)
-                throw new Exception("Selected post does not exist!!!");
+                throw new NotFoundException("Selected post does not exist!!!");
 
             if (command.UserId != post.UserId)
                 throw new Exception("User is not allowed to attach file!!!");

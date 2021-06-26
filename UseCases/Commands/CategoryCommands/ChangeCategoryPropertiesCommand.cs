@@ -1,5 +1,6 @@
 ﻿using CommandHandling.Abstractions;
 using System;
+using UseCases.Exceptions;
 
 namespace Commands.CategoryCommands
 {
@@ -8,7 +9,7 @@ namespace Commands.CategoryCommands
         public static ChangeCategoryPropertiesCommand Create(Guid Id, string Title, bool IsActive)
         {
             if (string.IsNullOrWhiteSpace(Title))
-                throw new Exception("Title must be not null and empty.");
+                throw new BadRequestException("Title must be not null and empty!!!");
             return new ChangeCategoryPropertiesCommand(Id, Title, IsActive);
         }
     }

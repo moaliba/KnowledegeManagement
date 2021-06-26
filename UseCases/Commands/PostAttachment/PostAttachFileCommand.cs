@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Net.Http.Headers;
+using UseCases.Exceptions;
 
 namespace UseCases.Commands.PostAttachment
 {
@@ -10,18 +11,18 @@ namespace UseCases.Commands.PostAttachment
         public static PostAttachFileCommand Create(Guid id, string Title, Guid PostId, Guid UserId, IFormFile File)
         {
             if (string.IsNullOrWhiteSpace(Title))
-                throw new ArgumentNullException(nameof(Title));
+                throw new BadRequestException("Title must be not null and empty!!!");
 
             if (File == null)
-                throw new ArgumentNullException(nameof(File));
+                throw new BadRequestException("File must be not null and empty!!!");
 
             if (File.Length == 0)
-                throw new ArgumentNullException(nameof(File));
+                throw new BadRequestException("File must be not null and empty!!!");
 
             string filename = ContentDispositionHeaderValue.Parse(File.ContentDisposition).FileName.ToString().Trim('"');
 
             if (string.IsNullOrWhiteSpace(filename))
-                throw new ArgumentNullException(nameof(filename));
+                throw new BadRequestException("FileName must be not null and empty!!!");
 
             return new PostAttachFileCommand(id, Title, PostId, UserId, File);
         }

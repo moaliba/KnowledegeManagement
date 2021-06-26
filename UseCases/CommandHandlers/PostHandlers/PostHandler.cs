@@ -5,6 +5,7 @@ using System.IO;
 using System.Threading.Tasks;
 using UseCases.Commands.Post;
 using UseCases.Commands.PostAttachment;
+using UseCases.Exceptions;
 using UseCases.RepositoryContracts;
 
 namespace UseCases.CommandHandlers.PostHandlers
@@ -22,7 +23,7 @@ namespace UseCases.CommandHandlers.PostHandlers
         public Task Handle(PostCommand command)
         {
             if (Categories.Find(command.CategoryId) == null)
-                throw new Exception("Category does not exist!!");
+                throw new NotFoundException("Category does not exist!!");
 
             Post post = Post.DefinePost(command.Id, command.PostTitle, command.PostContent, command.CategoryId, command.UserId, command.Tags);
             foreach (PostAttachmentFileDataStructure File in command.AttachmentList)
