@@ -24,8 +24,8 @@ namespace UseCases.CommandHandlers.PostHandlers
         {
             if (Categories.Find(command.CategoryId) == null)
                 throw new NotFoundException("Category does not exist!!");
-            try
-            {
+            //try
+            //{
 
                 Post post = Post.DefinePost(command.Id, command.PostTitle, command.PostContent, command.CategoryId, command.UserId, command.Tags);
                 foreach (PostAttachmentFileDataStructure File in command.AttachmentList)
@@ -37,24 +37,24 @@ namespace UseCases.CommandHandlers.PostHandlers
                         string fileName = File.File.FileName;
                         long fileSize = File.File.Length;
                         string fileExtention = Path.GetExtension(File.File.FileName);
-                        try
-                        {
+                        //try
+                        //{
 
                             post.AttachFile(File.Id, File.Title, command.Id,
                                 command.UserId, fileName, fileExtention, fileSize, string.Empty, file);
-                        }
-                        catch (Exception ex)
-                        {
-                            throw new Exception("Error2:" + ex.Message);
-                        }
+                        //}
+                        //catch (Exception ex)
+                        //{
+                        //    throw new Exception("Error2:" + ex.Message);
+                        //}
                     }
                 }
                 posts.Add(post);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error1:" + ex.Message);
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw new Exception("Error1:" + ex.Message);
+            //}
             return Task.CompletedTask;
         }
     }
