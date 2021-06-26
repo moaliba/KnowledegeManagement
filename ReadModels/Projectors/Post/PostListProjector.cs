@@ -18,9 +18,11 @@ namespace ReadModels.Projectors.Post
 
         public Task Handle(PostCreated e)
         {
+            string CategoryTitle = readDbContext.CategoryViewModels.FirstOrDefault(c => c.Id == e.CategoryId).Title;
             readDbContext.PostViewModels.Add(new PostViewModel()
             {
                 CategoryID = e.CategoryId,
+                CategoryTitle = CategoryTitle,
                 PostContent = e.PostContent,
                 PostId = e.PostId,
                 PostTitle = e.PostTitle,

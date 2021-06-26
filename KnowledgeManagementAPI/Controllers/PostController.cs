@@ -50,10 +50,20 @@ namespace KnowledgeManagementAPI.Controllers
         {
             if (getPostDTO == null)
                 throw new ArgumentNullException(nameof(getPostDTO));
-            var response = await queryBus.Send<PagedViewModel<PostViewModel>, GetPostQuery>
-                                                                (new GetPostQuery(getPostDTO.PageNumber, getPostDTO.PageSize, getPostDTO.CategoryID,
+            var response = await queryBus.Send<PagedViewModel<PostViewModel>, GetPostListQuery>
+                                                                (new GetPostListQuery(getPostDTO.PageNumber, getPostDTO.PageSize, getPostDTO.CategoryID,
                                                                                     getPostDTO.PostTitle, getPostDTO.Tags, getPostDTO.SortOrder));
 
+            return Ok(JsonConvert.SerializeObject(response));
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> Get(Guid id)
+        {
+            if (id == Guid.Empty)
+                throw new ArgumentNullException($"{nameof(id)}", $"{nameof(id)} cannot be null or empty.");
+
+            var response = await queryBus.Send<PostWithAttachmentViewModel, GetPostQuery>(new GetPostQuery(id));
             return Ok(JsonConvert.SerializeObject(response));
         }
     }
