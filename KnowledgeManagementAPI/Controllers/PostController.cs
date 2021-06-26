@@ -39,9 +39,16 @@ namespace KnowledgeManagementAPI.Controllers
             List<PostAttachmentFileDataStructure> FileList = new();
             foreach (PostAttachFileDTO Attachment in postDTO.FileList)
                 FileList.Add(PostAttachmentFileDataStructure.Create(Guid.NewGuid(), Attachment.Title, Attachment.File));
+            try
+            {
 
             await commandBus.Send(PostCommand.Create(Guid.NewGuid(), postDTO.PostTitle, postDTO.PostContent,
                                                         postDTO.CategoryId, new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa6"), postDTO.Tags, FileList));
+            }
+            catch (Exception ex)
+            {
+                return Ok(ex.Message);
+            }
             return Ok();
         }
 

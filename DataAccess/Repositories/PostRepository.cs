@@ -19,27 +19,27 @@ namespace DataAccess.Repositories
 
         public void Add(Post post)
         {
-            try
-            {
+            //try
+            //{
 
                 dbContext.Posts.Add(post);
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("RepError1:" + ex.Message);
-            }
+            //}
+            //catch (Exception ex)
+            //{
+            //    throw new Exception("RepError1:" + ex.Message);
+            //}
             foreach (PostAttachment attachment in post.AttachmentList)
             {
                 string FilePath = postAttachmentRepository.Add(attachment);
-                try
-                {
+                //try
+                //{
 
                     post.AddFile(attachment.Id, FilePath);
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("RepError2:" + ex.Message);
-                }
+                //}
+                //catch (Exception ex)
+                //{
+                //    throw new Exception("RepError2:" + ex.Message);
+                //}
             }
             foreach (var @event in post.Events)
                 eventBus.Publish(@event);
